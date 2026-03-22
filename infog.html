@@ -1027,19 +1027,20 @@ NEXT →
 </div>
 <script>
 
+
+/* =========================
+   DROPDOWN MENU
+========================= */
 const bookButtons = document.querySelectorAll('.book-btn');
 
 bookButtons.forEach(button => {
-
   const dropdown = button.nextElementSibling;
 
   button.addEventListener('click', (e) => {
     e.stopPropagation();
-
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
-
 });
 
 document.addEventListener('click', () => {
@@ -1049,8 +1050,9 @@ document.addEventListener('click', () => {
 });
 
 
-/* BOOK POPUP */
-
+/* =========================
+   BOOK SYSTEM
+========================= */
 const openBook = document.getElementById("openBook");
 const popup = document.getElementById("bookPopup");
 const closeBook = document.getElementById("closeBook");
@@ -1066,6 +1068,9 @@ const rightPage = document.getElementById("rightPage");
 const next = document.getElementById("nextPage");
 const prev = document.getElementById("prevPage");
 
+const bookSpread = document.querySelector(".book-spread"); // ✅ FIX
+const lens = document.getElementById("lens"); // ✅ FIX
+
 const pages = [
 "infog/1.png",
 "infog/2.png",
@@ -1078,228 +1083,181 @@ const pages = [
 ];
 
 let current = 0;
+let zoomActive = false;
 
 
-/* OPEN BOOK */
+/* =========================
+   OPEN / CLOSE
+========================= */
+openBook.addEventListener("click", () => {
+  popup.style.display = "flex";
+  showPages();
+});
 
-openBook.addEventListener("click", function(e){
-e.preventDefault();
-popup.style.display = "flex";
-showPages();
+closeBook.addEventListener("click", () => {
+  popup.style.display = "none";
 });
 
 
-/* CLOSE BOOK */
-
-closeBook.addEventListener("click", ()=>{
-popup.style.display = "none";
-});
-
-
-/* SHOW TWO PAGES */
-
+/* =========================
+   SHOW PAGES
+========================= */
 function showPages(){
 
-leftFront.src = pages[current];
-rightFront.src = pages[current+1] || "";
+  leftFront.src = pages[current];
+  rightFront.src = pages[current+1] || "";
 
-leftBack.src = pages[current-1] || "";
-rightBack.src = pages[current+2] || "";
+  leftBack.src = pages[current-1] || "";
+  rightBack.src = pages[current+2] || "";
 
-/* HIDE / SHOW NEXT BUTTON */
-if(current + 2 >= pages.length){
-next.style.display = "none";
-}else{
-next.style.display = "block";
-}
-
-/* HIDE / SHOW PREV BUTTON */
-if(current === 0){
-prev.style.display = "none";
-}else{
-prev.style.display = "block";
-}
-
+  next.style.display = (current + 2 >= pages.length) ? "none" : "block";
+  prev.style.display = (current === 0) ? "none" : "block";
 }
 
 
-next.addEventListener("click", ()=>{
+/* =========================
+   NEXT PAGE
+========================= */
+next.addEventListener("click", () => {
 
-if(current + 2 >= pages.length) return; // stop if no more pages
+  if(current + 2 >= pages.length) return;
 
-rightPage.classList.add("flip");
+  rightPage.classList.add("flip");
 
-setTimeout(()=>{
-
-rightPage.style.transition = "none";
-current += 2;
-rightPage.classList.remove("flip");
-showPages();
-
-rightPage.offsetHeight;
-
-rightPage.style.transition = "transform 1s ease";
-
-},1000);
+  setTimeout(() => {
+    rightPage.style.transition = "none";
+    current += 2;
+    rightPage.classList.remove("flip");
+    showPages();
+    rightPage.offsetHeight;
+    rightPage.style.transition = "transform 1s ease";
+  }, 1000);
 
 });
 
-/* PREVIOUS */
 
-prev.addEventListener("click", ()=>{
+/* =========================
+   PREV PAGE
+========================= */
+prev.addEventListener("click", () => {
 
-if(current - 2 >= 0){
+  if(current - 2 < 0) return;
 
-showPages();
+  leftPage.classList.add("flip-back");
 
-leftPage.classList.add("flip-back");
-
-setTimeout(()=>{
-
-leftPage.style.transition = "none";
-current -= 2;
-leftPage.classList.remove("flip-back");
-showPages();
-
-leftPage.offsetHeight;
-
-leftPage.style.transition = "transform 1s ease";
-
-},1000);
-
-}
+  setTimeout(() => {
+    leftPage.style.transition = "none";
+    current -= 2;
+    leftPage.classList.remove("flip-back");
+    showPages();
+    leftPage.offsetHeight;
+    leftPage.style.transition = "transform 1s ease";
+  }, 1000);
 
 });
 
-/* MAGNIFY SYSTEM */
 
-function updateLens(clientX, clientY){
-
-if(!zoomActive) return;
-
-const rect = bookSpread.getBoundingClientRect();
-
-let x = clientX - rect.left;
-let y = clientY - rect.top;
-
-lens.style.left = (x - lens.offsetWidth/2) + "px";
-lens.style.top = (y - lens.offsetHeight/2) + "px";
-
-let targetImg = null;
-
-const images = [
-leftFront,
-rightFront
-];
-
-images.forEach(img=>{
-const r = img.getBoundingClientRect();
-if(clientX >= r.left && clientX <= r.right &&
-   clientY >= r.top && clientY <= r.bottom){
-targetImg = img;
-}
-});
-
-if(targetImg){
-
-lens.style.backgroundImage = `url(${targetImg.src})`;
-
-let imgRect = targetImg.getBoundingClientRect();
-
-let posX = ((clientX - imgRect.left) / imgRect.width) * 100;
-let posY = ((clientY - imgRect.top) / imgRect.height) * 100;
-
-lens.style.backgroundPosition = posX + "% " + posY + "%";
-
-}
-}
-
-/* DESKTOP */
-bookSpread.addEventListener("mousemove", e=>{
-updateLens(e.clientX, e.clientY);
-});
-
-/* MOBILE 🔥 */
-bookSpread.addEventListener("touchmove", e=>{
-const touch = e.touches[0];
-updateLens(touch.clientX, touch.clientY);
-});
-
-let targetImg = null;
-
-const images = [
-document.getElementById("leftFront"),
-document.getElementById("rightFront")
-];
-
-images.forEach(img=>{
-const r = img.getBoundingClientRect();
-if(e.clientX >= r.left && e.clientX <= r.right &&
-   e.clientY >= r.top && e.clientY <= r.bottom){
-targetImg = img;
-}
-});
-
-if(targetImg){
-
-lens.style.backgroundImage = `url(${targetImg.src})`;
-
-let imgRect = targetImg.getBoundingClientRect();
-
-let posX = ((e.clientX - imgRect.left) / imgRect.width) * 100;
-let posY = ((e.clientY - imgRect.top) / imgRect.height) * 100;
-
-lens.style.backgroundPosition = posX + "% " + posY + "%";
-
-}
-
-});
-
-/* TOC CLICK -> OPEN BOOK PAGE */
-
+/* =========================
+   TOC CLICK (FIXED MOBILE)
+========================= */
 const tocItems = document.querySelectorAll(".toc-item");
 
 tocItems.forEach(item => {
 
-item.addEventListener("click", () => {
+  const openFromTOC = () => {
+    const pageIndex = parseInt(item.dataset.page);
 
-const pageIndex = parseInt(item.dataset.page);
+    popup.style.display = "flex";
+    current = pageIndex;
 
-popup.style.display = "flex";
+    if(current % 2 !== 0){
+      current = current - 1;
+    }
 
-/* make sure it starts on the correct spread */
-current = pageIndex;
+    showPages();
+  };
 
-/* adjust so pages open in pairs */
-if(current % 2 !== 0){
-current = current - 1;
-}
-
-showPages();
-
+  item.addEventListener("click", openFromTOC);
+  item.addEventListener("touchstart", openFromTOC); // ✅ mobile fix
 });
 
-});
+
+/* =========================
+   SWIPE (MOBILE)
+========================= */
 let startX = 0;
 
 bookSpread.addEventListener("touchstart", (e)=>{
-startX = e.touches[0].clientX;
+  startX = e.touches[0].clientX;
 });
 
 bookSpread.addEventListener("touchend", (e)=>{
-let endX = e.changedTouches[0].clientX;
-let diff = startX - endX;
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
 
-/* swipe left → next */
-if(diff > 50){
-next.click();
-}
-
-/* swipe right → prev */
-if(diff < -50){
-prev.click();
-}
+  if(diff > 50) next.click();     // swipe left
+  if(diff < -50) prev.click();    // swipe right
 });
+
+
+/* =========================
+   MAGNIFIER
+========================= */
+function updateLens(clientX, clientY){
+
+  if(!zoomActive) return;
+
+  const rect = bookSpread.getBoundingClientRect();
+
+  let x = clientX - rect.left;
+  let y = clientY - rect.top;
+
+  lens.style.left = (x - lens.offsetWidth/2) + "px";
+  lens.style.top = (y - lens.offsetHeight/2) + "px";
+
+  let targetImg = null;
+
+  [leftFront, rightFront].forEach(img=>{
+    const r = img.getBoundingClientRect();
+    if(clientX >= r.left && clientX <= r.right &&
+       clientY >= r.top && clientY <= r.bottom){
+      targetImg = img;
+    }
+  });
+
+  if(targetImg){
+    lens.style.display = "block";
+    lens.style.backgroundImage = `url(${targetImg.src})`;
+
+    let imgRect = targetImg.getBoundingClientRect();
+
+    let posX = ((clientX - imgRect.left) / imgRect.width) * 100;
+    let posY = ((clientY - imgRect.top) / imgRect.height) * 100;
+
+    lens.style.backgroundPosition = posX + "% " + posY + "%";
+  }
+}
+
+
+/* DESKTOP */
+bookSpread.addEventListener("mousemove", e=>{
+  updateLens(e.clientX, e.clientY);
+});
+
+/* MOBILE */
+bookSpread.addEventListener("touchmove", e=>{
+  e.preventDefault();
+  const touch = e.touches[0];
+  updateLens(touch.clientX, touch.clientY);
+}, { passive: false });
+
+
+/* TOGGLE ZOOM */
+document.getElementById("magnifyBtn").addEventListener("click", ()=>{
+  zoomActive = !zoomActive;
+  lens.style.display = zoomActive ? "block" : "none";
+});
+
 </script>
 </body>
 </html>
