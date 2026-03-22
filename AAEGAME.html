@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After Effects Assessment</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background: linear-gradient(135deg,#0f1226,#1a1f4d,#2b2f77);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+.quiz-container{
+  width:90%;
+  max-width:600px;
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  position:relative;
+  z-index:2;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.timer{
+  text-align:center;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+
+.question{
+  font-size:18px;
+  margin-bottom:15px;
+}
+
+.options button{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#2b2f77;
+  color:white;
+}
+
+.next-btn, .retry-btn{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#00c3ff;
+  color:black;
+  cursor:pointer;
+}
+
+.result{
+  text-align:center;
+}
+
+/* CONFETTI */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:8px;
+  top:-10px;
+  animation:fall linear forwards;
+  z-index:1;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(100vh) rotate(720deg);
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1>After Effects Quiz</h1>
+  <div class="timer" id="timer">Time: 10</div>
+
+  <div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <div class="result" id="result" style="display:none;"></div>
+</div>
+
+<script>
+let questions = [
+  {question:"What is Adobe After Effects mainly used for?", options:["Photo editing","Video compositing & motion graphics","Audio recording","3D modeling"], answer:1},
+  {question:"Which panel displays layers?", options:["Effects Panel","Timeline Panel","Tools Panel","Preview Panel"], answer:1},
+  {question:"What is a keyframe?", options:["A file format","A change over time marker","A tool","An effect"], answer:1},
+  {question:"Which tool selects objects?", options:["Pen Tool","Selection Tool","Zoom Tool","Text Tool"], answer:1},
+  {question:"Opacity controls?", options:["Speed","Transparency","Size","Rotation"], answer:1},
+  {question:"What does the Timeline control?", options:["Audio only","Layer timing","Colors","Export"], answer:1},
+  {question:"Which file format is common for video output?", options:[".mp4",".jpg",".png",".txt"], answer:0},
+  {question:"What is a composition?", options:["A folder","A project workspace","An effect","A render"], answer:1},
+  {question:"Which tool draws shapes?", options:["Brush Tool","Shape Tool","Move Tool","Cut Tool"], answer:1},
+  {question:"What does RAM preview do?", options:["Exports video","Previews playback","Deletes layers","Adds effects"], answer:1},
+  {question:"Which property rotates an object?", options:["Scale","Rotation","Opacity","Position"], answer:1},
+  {question:"What does Scale change?", options:["Color","Size","Speed","Opacity"], answer:1},
+  {question:"Which panel applies effects?", options:["Timeline","Effects & Presets","Preview","Project"], answer:1},
+  {question:"What does Position control?", options:["Transparency","Location","Rotation","Color"], answer:1},
+  {question:"What is rendering?", options:["Editing","Exporting final video","Drawing shapes","Adding layers"], answer:1}
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timeLeft = 10;
+let timer;
+
+/* SHUFFLE */
+function shuffle(array){
+  for(let i = array.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* Shuffle questions */
+shuffle(questions);
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const resultEl = document.getElementById("result");
+const timerEl = document.getElementById("timer");
+
+function loadQuestion(){
+  clearInterval(timer);
+  timeLeft = 10;
+  timerEl.textContent = "Time: " + timeLeft;
+
+  timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = "Time: " + timeLeft;
+
+    if(timeLeft <= 0){
+      nextQuestion(null); // no answer
+    }
+  },1000);
+
+  let q = questions[currentQuestion];
+  questionEl.textContent = q.question;
+
+  // shuffle options
+  let options = q.options.map((opt, i)=>({opt, i}));
+  shuffle(options);
+
+  optionsEl.innerHTML = "";
+
+  options.forEach(item=>{
+    let btn = document.createElement("button");
+    btn.textContent = item.opt;
+
+    btn.onclick = ()=>{
+      nextQuestion(item.i);
+    };
+
+    optionsEl.appendChild(btn);
+  });
+}
+
+function nextQuestion(selected){
+  clearInterval(timer);
+
+  if(selected === questions[currentQuestion].answer){
+    score++;
+  }
+
+  currentQuestion++;
+
+  if(currentQuestion < questions.length){
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  document.getElementById("quiz").style.display = "none";
+  timerEl.style.display = "none";
+  resultEl.style.display = "block";
+
+  resultEl.innerHTML = `
+    <h2>Your Score: ${score}/${questions.length}</h2>
+    <p>${score >= 12 ? "Excellent work!" : "Keep practicing!"}</p>
+    <button class="retry-btn" onclick="restartQuiz()">Try Again</button>
+  `;
+
+  if(score >= 12){
+    launchConfetti();
+  }
+}
+
+function restartQuiz(){
+  currentQuestion = 0;
+  score = 0;
+  shuffle(questions);
+
+  resultEl.style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  timerEl.style.display = "block";
+
+  loadQuestion();
+}
+
+/* CONFETTI */
+function launchConfetti(){
+  for(let i=0;i<100;i++){
+    let confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+
+    confetti.style.left = Math.random()*100 + "vw";
+    confetti.style.backgroundColor = getRandomColor();
+    confetti.style.animationDuration = (Math.random()*3+2) + "s";
+
+    document.body.appendChild(confetti);
+    setTimeout(()=>confetti.remove(),5000);
+  }
+}
+
+function getRandomColor(){
+  const colors = ["#ff0","#0ff","#f0f","#0f0","#f00","#00f"];
+  return colors[Math.floor(Math.random()*colors.length)];
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

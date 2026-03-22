@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Photoshop Drag & Drop Assessment</title>
+
+<style>
+body{
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg,#0f1226,#1a1f4d,#2b2f77);
+  color:#e6e9ff;
+}
+
+/* HEADER */
+h1{
+  text-align:center;
+  margin-top:20px;
+  font-weight:700;
+  letter-spacing:1px;
+  background: linear-gradient(90deg,#8ec5ff,#d4a5ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* INSTRUCTIONS */
+.instructions{
+  max-width:900px;
+  margin:20px auto;
+  border-radius:16px;
+  overflow:hidden;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.08);
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+.instruction-header{
+  background: linear-gradient(135deg,#7c86ff,#b388ff);
+  color:white;
+  padding:15px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.instruction-content{
+  padding:20px;
+}
+
+/* MAIN */
+.container{
+  display:grid;
+  grid-template-columns: 250px 1fr;
+  gap:20px;
+  padding:20px;
+}
+
+/* TOOLS */
+.tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.tool{
+  border:1px solid rgba(255,255,255,0.2);
+  padding:10px;
+  border-radius:12px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  cursor:grab;
+  font-size:13px;
+  text-align:center;
+  flex:1 1 45%;
+  transition:0.25s;
+  color:#fff;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+.tool:hover{
+  transform: translateY(-3px) scale(1.03);
+  background: linear-gradient(135deg,#7c86ff,#d4a5ff);
+}
+
+.tool:active{
+  cursor:grabbing;
+  transform:scale(1.08);
+}
+
+.tool.dragging{
+  opacity:0.5;
+}
+.tool.used{
+  opacity:0.4;
+  pointer-events:none;
+}
+
+/* TARGETS */
+.targets{
+  display:grid;
+  gap:15px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+
+.label{
+  background: rgba(255,255,255,0.08);
+  padding:15px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+}
+
+.target{
+  background: rgba(255,255,255,0.05);
+  border:2px dashed rgba(180,200,255,0.4);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:50px;
+  transition:0.25s;
+}
+
+.target.drag-over{
+  background: rgba(124,134,255,0.2);
+  border-color:#7c86ff;
+}
+
+.target.answered{
+  background: rgba(140,160,255,0.25);
+  border:2px solid #9fa8ff;
+  transform:scale(1.03);
+}
+
+/* BUTTON */
+.main-btn{
+  display:block;
+  margin:25px auto;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  background: linear-gradient(135deg,#7c86ff,#d4a5ff);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(124,134,255,0.6);
+  transition:0.25s;
+}
+
+.main-btn:hover{
+  transform: scale(1.08);
+  box-shadow:0 0 25px rgba(180,150,255,0.9);
+}
+
+/* MODAL */
+.result-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(10,10,30,0.8);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
+}
+
+.result-modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.result-box{
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  padding:30px;
+  text-align:center;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+.correct{ background:#7ef29a !important; color:#0f5132; }
+.wrong{ background:#ff8c8c !important; color:#7a0000; }
+
+/* ========================= */
+/* 📱 RESPONSIVE FIX (ASSESSMENT) */
+/* ========================= */
+
+@media (max-width: 900px){
+
+/* STACK LAYOUT */
+.container{
+grid-template-columns:1fr;
+}
+
+/* TOOLS GRID CLEAN */
+.tools{
+justify-content:center;
+}
+
+.tool{
+flex:1 1 30%;
+font-size:12px;
+padding:8px;
+}
+
+/* TARGET ROWS */
+.row{
+grid-template-columns:1fr;
+}
+
+.label{
+font-size:14px;
+}
+
+.target{
+min-height:45px;
+}
+
+/* BUTTON */
+.main-btn{
+width:80%;
+}
+
+}
+
+
+/* MOBILE */
+@media (max-width: 600px){
+
+h1{
+font-size:20px;
+}
+
+.tool{
+flex:1 1 45%;
+font-size:11px;
+padding:6px;
+}
+
+.instructions{
+margin:10px;
+}
+
+.container{
+padding:10px;
+}
+
+.label{
+font-size:13px;
+}
+
+.target{
+min-height:40px;
+}
+
+.main-btn{
+width:90%;
+font-size:14px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<h1>Adobe Photoshop Tool Assessment</h1>
+
+<div class="instructions">
+  <div class="instruction-header" onclick="toggleInstructions()">
+    📘 Instructions
+  </div>
+  <div class="instruction-content" id="instructionContent">
+    Drag tools to the correct description. Answers will be checked AFTER you click submit.
+  </div>
+</div>
+
+<div class="container">
+
+<!-- TOOLS -->
+<div class="tools" id="toolsContainer">
+  <div class="tool" draggable="true" data-id="move">Move Tool</div>
+  <div class="tool" draggable="true" data-id="brush">Brush Tool</div>
+  <div class="tool" draggable="true" data-id="eraser">Eraser Tool</div>
+  <div class="tool" draggable="true" data-id="lasso">Lasso Tool</div>
+  <div class="tool" draggable="true" data-id="crop">Crop Tool</div>
+  <div class="tool" draggable="true" data-id="eyedropper">Eyedropper Tool</div>
+  <div class="tool" draggable="true" data-id="gradient">Gradient Tool</div>
+  <div class="tool" draggable="true" data-id="clone">Clone Stamp Tool</div>
+  <div class="tool" draggable="true" data-id="text">Type Tool</div>
+  <div class="tool" draggable="true" data-id="zoom">Zoom Tool</div>
+  <div class="tool" draggable="true" data-id="hand">Hand Tool</div>
+  <div class="tool" draggable="true" data-id="pen">Pen Tool</div>
+  <div class="tool" draggable="true" data-id="blur">Blur Tool</div>
+  <div class="tool" draggable="true" data-id="dodge">Dodge Tool</div>
+  <div class="tool" draggable="true" data-id="burn">Burn Tool</div>
+</div>
+
+<!-- TARGETS -->
+<div class="targets">
+
+<div class="row"><div class="label">Moves layers or objects</div><div class="target" data-match="move"></div></div>
+<div class="row"><div class="label">Paints with color</div><div class="target" data-match="brush"></div></div>
+<div class="row"><div class="label">Removes pixels</div><div class="target" data-match="eraser"></div></div>
+<div class="row"><div class="label">Selects freehand areas</div><div class="target" data-match="lasso"></div></div>
+<div class="row"><div class="label">Cuts image size</div><div class="target" data-match="crop"></div></div>
+<div class="row"><div class="label">Picks color from image</div><div class="target" data-match="eyedropper"></div></div>
+<div class="row"><div class="label">Creates color blends</div><div class="target" data-match="gradient"></div></div>
+<div class="row"><div class="label">Copies part of image</div><div class="target" data-match="clone"></div></div>
+<div class="row"><div class="label">Adds text</div><div class="target" data-match="text"></div></div>
+<div class="row"><div class="label">Zooms in/out</div><div class="target" data-match="zoom"></div></div>
+<div class="row"><div class="label">Moves canvas view</div><div class="target" data-match="hand"></div></div>
+<div class="row"><div class="label">Creates paths/shapes</div><div class="target" data-match="pen"></div></div>
+<div class="row"><div class="label">Softens image</div><div class="target" data-match="blur"></div></div>
+<div class="row"><div class="label">Lightens areas</div><div class="target" data-match="dodge"></div></div>
+<div class="row"><div class="label">Darkens areas</div><div class="target" data-match="burn"></div></div>
+
+</div>
+</div>
+
+<button class="main-btn" onclick="submitQuiz()">Submit</button>
+
+<!-- MODAL -->
+<div class="result-modal" id="resultModal">
+  <div class="result-box">
+    <h2 id="scoreText"></h2>
+    <button class="main-btn" onclick="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+let current = null;
+
+document.querySelectorAll('.tool').forEach(tool => {
+
+  tool.addEventListener('pointerdown', (e) => {
+    current = tool;
+
+    tool.style.position = 'absolute';
+    tool.style.zIndex = 1000;
+    tool.style.pointerEvents = 'none';
+
+    moveAt(e.clientX, e.clientY);
+
+    function moveAt(x, y){
+      tool.style.left = x - tool.offsetWidth/2 + 'px';
+      tool.style.top = y - tool.offsetHeight/2 + 'px';
+    }
+
+    function onMove(e){
+      moveAt(e.clientX, e.clientY);
+    }
+
+    document.addEventListener('pointermove', onMove);
+
+    document.addEventListener('pointerup', function drop(e){
+
+      document.removeEventListener('pointermove', onMove);
+
+      let dropped = false;
+
+      document.querySelectorAll('.target').forEach(target=>{
+        const rect = target.getBoundingClientRect();
+
+        if(
+          e.clientX > rect.left &&
+          e.clientX < rect.right &&
+          e.clientY > rect.top &&
+          e.clientY < rect.bottom
+        ){
+          if(target.firstChild){
+            document.getElementById('toolsContainer').appendChild(target.firstChild);
+          }
+
+          target.innerHTML = "";
+          target.appendChild(tool);
+
+          tool.style.position = 'static';
+          tool.style.pointerEvents = 'auto';
+
+          target.classList.add('answered');
+          dropped = true;
+        }
+      });
+
+      if(!dropped){
+        document.getElementById('toolsContainer').appendChild(tool);
+        tool.style.position = 'static';
+        tool.style.pointerEvents = 'auto';
+      }
+
+      current = null;
+
+    }, { once:true });
+
+  });
+
+});
+
+function submitQuiz(){
+  let score = 0;
+
+  document.querySelectorAll('.target').forEach(target=>{
+    const correct = target.dataset.match;
+    const placed = target.firstChild?.dataset.id;
+
+    if(placed === correct){
+      score++;
+      target.classList.add('correct');
+    }else{
+      target.classList.add('wrong');
+    }
+  });
+
+  document.getElementById('scoreText').innerText = "Score: " + score + "/15";
+  document.getElementById('resultModal').classList.add('active');
+}
+
+function resetQuiz(){
+  const toolsContainer = document.getElementById('toolsContainer');
+
+  document.querySelectorAll('.tool').forEach(tool=>{
+    toolsContainer.appendChild(tool);
+  });
+
+  document.querySelectorAll('.target').forEach(t=>{
+    t.innerHTML = "";
+    t.classList.remove('answered','correct','wrong');
+  });
+
+  document.getElementById('resultModal').classList.remove('active');
+}
+document.addEventListener("dragover", function(e) {
+  const scrollSpeed = 20;
+  const threshold = 100; // distance from edge
+
+  const y = e.clientY;
+  const height = window.innerHeight;
+
+  if (y < threshold) {
+    window.scrollBy(0, -scrollSpeed);
+  } else if (y > height - threshold) {
+    window.scrollBy(0, scrollSpeed);
+  }
+});
+</script>
+
+</body>
+</html>

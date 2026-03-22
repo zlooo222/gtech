@@ -1,0 +1,475 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic Photography Game</title>  
+<style>  
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: white;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.active { display: flex; }
+
+.container {
+  background: rgba(0,0,0,0.7);
+  padding: 25px;
+  border-radius: 15px;
+  width: 95%;
+  max-width: 900px;
+  text-align: center;
+}
+
+h1, h2 {
+  font-size: clamp(22px, 4vw, 32px);
+}
+
+input {
+  font-size: 16px;
+}
+
+button {
+  margin: 8px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  font-size: clamp(14px, 2.5vw, 18px);
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+.choice-btn {
+  background: #1e3a5f;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 400px;
+}
+
+.choice-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.choice-btn.selected {
+  transform: scale(1.1);
+  background: #2e7d32;
+}
+
+.back-btn { background: #4527a0; }
+.next-btn { background: #1565c0; }
+.quit-btn { background: #c62828; }
+
+.reveal-btn { background: #ef6c00; }
+.clear-btn { background: #6d4c41; }
+
+.container button:not(.choice-btn):not(.back-btn):not(.next-btn):not(.quit-btn):not(.reveal-btn):not(.clear-btn) {
+  background: #37474f;
+}
+
+img {
+  width: 100%;
+  height: clamp(200px, 30vw, 320px);
+  object-fit: contain;
+  background: black;
+  border-radius: 10px;
+}
+
+#resultContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.result-item {
+  padding: 12px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+
+.result-item img {
+  height: 180px;
+}
+
+.score-text {
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: bold;
+}
+
+.leader-item {
+  background: rgba(255,255,255,0.2);
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 18px);
+}
+
+.top-bar {
+  width: 100%;
+  text-align: right;
+  font-weight: bold;
+  font-size: clamp(14px, 2.5vw, 18px);
+} 
+@media (max-width: 500px) {
+  .choice-btn {
+    width: 100%;
+  }
+
+  .container {
+    padding: 15px;
+  }
+}
+/* Instructions Screen - cohesive with main design */
+#instructions {
+  background: linear-gradient(135deg, #141e30, #243b55); /* same as body */
+  color: #ffffff; /* white text for readability */
+}
+
+#instructions .container {
+  background: rgba(50, 50, 50, 0.85); /* slightly lighter than default containers */
+  color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  width: 95%;
+  max-width: 900px;
+  text-align: left; /* left-align text for instructions */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4); /* subtle shadow */
+}
+
+#instructions h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: clamp(22px, 4vw, 32px);
+}
+
+#instructions h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: clamp(18px, 3vw, 24px);
+}
+
+#instructions ul {
+  list-style: disc inside;
+  margin-bottom: 20px;
+}
+
+#instructions li {
+  margin: 6px 0;
+  line-height: 1.5;
+  font-size: clamp(14px, 2.3vw, 18px);
+}
+
+#instructions button {
+  background: #1e3a5f;  /* matches choice buttons */
+  color: #ffffff;
+  margin: 8px 5px;
+  padding: 12px 18px;
+  font-size: clamp(14px, 2.5vw, 16px);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+#instructions button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+</style>  
+</head>  
+<body>  <!-- HOME -->  
+<div id="home" class="screen active">  
+  <div class="container">  
+    <h1>📸 Basic Photography</h1>  <input id="playerName" placeholder="Enter your name" style="padding:10px;width:90%;">  
+<br><br>  
+
+<button onclick="show('instructions')">🎮 Play</button>  
+<button onclick="showLeaderboard()">🏆 Leaderboard</button>
+<!-- INSTRUCTIONS -->
+  </div>  
+</div>  
+<div id="instructions" class="screen">
+  <div class="container">
+    <h2>📖 Game Instructions</h2>
+
+    <h3>Mechanics:</h3>
+    <ul style="text-align:left; padding-left: 20px;">
+      <li>Enter your name and click Play to start.</li>
+      <li>The game contains 7 questions, each showing one image.</li>
+      <li>Choose the correct photography concept based on the image.</li>
+      <li>You have 10 seconds to answer each question.</li>
+      <li>The game will automatically proceed after answering or when time runs out.</li>
+      <li>Use Next, Back, or Quit to control the game.</li>
+      <li>After finishing, click View Score to see your results.</li>
+      <li>Your score will be saved in the Leaderboard.</li>
+    </ul>
+
+    <h3>Rules:</h3>
+    <ul style="text-align:left; padding-left: 20px;">
+      <li>Only one answer is allowed per question.</li>
+      <li>Unanswered questions will be marked as “No Answer.”</li>
+      <li>Skipped questions will not earn points.</li>
+      <li>Final score is based on correct answers out of 7.</li>
+      <li>Try to get the highest score and rank on the leaderboard.</li>
+    </ul>
+
+    <br>
+
+    <button onclick="beginGame()">▶ Start Game</button>
+    <button onclick="goHome()">⬅ Back</button>
+  </div>
+</div>
+<!-- GAME -->  
+<div id="game" class="screen">  
+  <div class="container">  <div class="top-bar">⏱ <span id="timer">10</span></div>  
+
+<img id="photo">  
+<div id="choices"></div>  
+
+<button class="back-btn" onclick="prev()">⬅ Back</button>  
+<button class="next-btn" onclick="next()">➡ Next</button>  
+<button class="quit-btn" onclick="quitGame()">❌ Quit</button>
+
+  </div>  
+</div>  <!-- FINISH -->  <div id="finish" class="screen">  
+  <div class="container">  
+    <h2>✔ Finished!</h2>  <button class="reveal-btn" onclick="revealScore()">🎯 View Score</button>  
+<button onclick="showLeaderboard()">🏆 Leaderboard</button>
+
+  </div>  
+</div>  <!-- RESULT -->  <div id="result" class="screen">  
+  <div class="container">  <div id="finalScore" class="score-text"></div>  
+
+<div id="resultContent"></div>  
+
+<button onclick="showLeaderboard()">🏆 Leaderboard</button>  
+<button onclick="goHome()">🏠 Home</button>
+
+  </div>  
+</div>  <!-- LEADERBOARD -->  <div id="leaderboard" class="screen">  
+  <div class="container">  
+    <h2>🏆 Leaderboard</h2>  <div id="leaderboardList"></div>  
+
+<button onclick="goHome()">🏠 Home</button>  
+<button class="clear-btn" onclick="clearLeaderboard()">🗑 Clear</button>
+
+  </div>  
+</div>  <script>  
+  
+let current = 0;  
+let timer;  
+let timeLeft = 10;  
+let results = [];  
+let score = 0;  
+let scores = JSON.parse(localStorage.getItem("scores")) || [];  
+  
+let questions = [
+  {
+    img: "basicphoto/angle.jpg",
+    correct: "Angle",
+    choices: ["Angle","Lighting","Framing","Depth"]
+  },
+  {
+    img: "basicphoto/depth.jpg",
+    correct: "Depth",
+    choices: ["Depth","Symmetry","Rule of Thirds","Lighting"]
+  },
+  {
+    img: "basicphoto/framing.jpg",
+    correct: "Framing",
+    choices: ["Framing","Leading Lines","Angle","Depth"]
+  },
+  {
+    img: "basicphoto/lines.jpg",
+    correct: "Leading Lines",
+    choices: ["Leading Lines","Symmetry","Lighting","Framing"]
+  },
+  {
+    img: "basicphoto/light.jpg",
+    correct: "Lighting",
+    choices: ["Lighting","Depth","Angle","Rule of Thirds"]
+  },
+  {
+    img: "basicphoto/thirds.jpg",
+    correct: "Rule of Thirds",
+    choices: ["Rule of Thirds","Framing","Symmetry","Depth"]
+  },
+  {
+    img: "basicphoto/symmetry.jpg",
+    correct: "Symmetry",
+    choices: ["Symmetry","Lighting","Angle","Leading Lines"]
+  }
+];
+  
+function show(id){  
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));  
+  document.getElementById(id).classList.add("active");  
+}  
+  
+function goHome(){ show("home"); }  
+  
+function beginGame(){
+  current = 0;
+  score = 0;
+  results = [];
+  show("game");
+  load();
+}
+ 
+  function shuffleArray(arr){
+  let shuffled = [...arr]; // copy array (important!)
+  for(let i = shuffled.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function load(){
+  if(current === questions.length){
+    show("finish");
+    return;
+  }
+
+  let q = questions[current];
+
+  document.getElementById("photo").src = q.img;
+
+  let c = document.getElementById("choices");
+  c.innerHTML = "";
+
+  let shuffledChoices = shuffleArray(q.choices);
+
+shuffledChoices.forEach(ch=>{
+    let btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.innerText = ch;
+
+    btn.onclick = ()=>{
+      document.querySelectorAll(".choice-btn").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+      setTimeout(()=>answer(ch),200);
+    };
+
+    c.appendChild(btn);
+  });
+
+  startTimer();
+}
+  
+function startTimer(){  
+  clearInterval(timer);  
+  timeLeft = 10;  
+  
+  timer = setInterval(()=>{  
+    document.getElementById("timer").innerText = timeLeft;  
+  
+    if(timeLeft <= 0){  
+      clearInterval(timer);  
+      answer("No Answer");  
+    }  
+  
+    timeLeft--;  
+  },1000);  
+}  
+  
+function answer(ans){
+  let correct = questions[current].correct;
+
+  if(ans === correct) score++;
+
+  results.push({
+    img: questions[current].img,
+    ans: ans,
+    correct: correct
+  });
+
+  current++;
+  load();
+}
+  
+function next(){ answer("Skipped"); }  
+  
+function prev(){  
+  if(current > 0){  
+    current--;  
+    load();  
+  }  
+}  
+  
+function quitGame(){  
+  goHome();  
+}  
+  
+function revealScore(){  
+  show("result");  
+  
+  document.getElementById("finalScore").innerText =  
+    "🎯 Score: " + score + "/" + questions.length;  
+  
+  let html = "";  
+  
+  results.forEach(r=>{  
+    if(r.ans === r.correct){  
+      html += `<div class="result-item">  
+        <img src="${r.img}">  
+        <p>✔ Correct</p>  
+      </div>`;  
+    } else {  
+      html += `<div class="result-item">  
+        <img src="${r.img}">  
+        <p>❌ Your Answer: ${r.ans}</p>  
+        <p>✔ Correct Answer: ${r.correct}</p>  
+      </div>`;  
+    }  
+  });  
+  
+  document.getElementById("resultContent").innerHTML = html;  
+  
+  let name = document.getElementById("playerName").value || "Anonymous";  
+  scores.push({name, score});  
+  localStorage.setItem("scores", JSON.stringify(scores));  
+}  
+  
+/* LEADERBOARD */  
+function showLeaderboard(){  
+  show("leaderboard");  
+  
+  let list = document.getElementById("leaderboardList");  
+  list.innerHTML = "";  
+  
+  scores.sort((a,b)=>b.score - a.score);  
+  
+  scores.forEach((s,i)=>{  
+    list.innerHTML += `  
+      <div class="leader-item">  
+        <b>#${i+1}</b> 👤 ${s.name} — ${s.score}/7  
+      </div>  
+    `;  
+  });  
+}  
+  
+/* CLEAR */  
+function clearLeaderboard(){  
+  localStorage.removeItem("scores");  
+  scores = [];  
+  showLeaderboard();  
+}  
+  
+</script>  </body>  
+</html>

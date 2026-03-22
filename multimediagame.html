@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Challenge Yourself Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+      color: #2e004f;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 70%;
+      height: 80%;
+      background: rgba(255,255,255,0.9);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      overflow-y: auto;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .intro {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    #nicknameInput {
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #7e57c2;
+    }
+
+    #startBtn {
+      background: #9b59b6;
+      color: white;
+      border: none;
+      padding: 15px 35px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      border-radius: 40px;
+      box-shadow: 0 6px 12px rgba(155, 89, 182, 0.3);
+      transition: 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    #startBtn:hover {
+      background: #884ea0;
+      transform: scale(1.05);
+    }
+
+    #startBtn:hover::before,
+    #startBtn:hover::after {
+      background: #884ea0;
+    }
+
+    .question {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #7e57c2;
+      color: white;
+    }
+
+    .choices button:hover {
+      background: #9575cd;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    #nextBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #ff80ab;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    #scoreboard {
+      margin-top: 25px;
+      font-size: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Challenge Yourself Quiz</h1>
+    <div class="intro">Push your limits! Test your knowledge of multimedia systems and prove your mastery.</div>
+
+    <input type="text" id="nicknameInput" placeholder="Enter your nickname" />
+    <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
+
+    <div id="quizArea" style="display:none;">
+      <div class="question" id="questionText"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div id="scoreboard"></div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. Multimedia integrates which elements?",
+        choices: [
+          "Only text",
+          "Text, images, audio, video, and animation",
+          "Only video",
+          "Only sound"
+        ],
+        answer: 1,
+        explanation: "Multimedia combines multiple forms of media."
+      },
+      {
+        question: "2. Which of the following is an example of multimedia?",
+        choices: [
+          "A plain printed book",
+          "A chalkboard lesson only",
+          "An interactive learning app with audio and video",
+          "A handwritten note"
+        ],
+        answer: 2,
+        explanation: "Interactive apps that combine media are examples of multimedia."
+      },
+      {
+        question: "3. What does hypertext allow users to do?",
+        choices: [
+          "Jump from one linked text to another",
+          "Play music only",
+          "Print pages automatically",
+          "Record videos"
+        ],
+        answer: 0,
+        explanation: "Hypertext uses links that connect one text or page to another."
+      },
+      {
+        question: "4. Which best describes hypermedia?",
+        choices: [
+          "Text only",
+          "Printed images only",
+          "Linked multimedia elements like text, audio, video, and images",
+          "A single audio file"
+        ],
+        answer: 2,
+        explanation: "Hypermedia extends hypertext by including multiple forms of media."
+      },
+      {
+        question: "5. Which is NOT a component of multimedia?",
+        choices: [
+          "Audio",
+          "Video",
+          "Animation",
+          "Concrete"
+        ],
+        answer: 3,
+        explanation: "Concrete is not a multimedia element."
+      },
+      {
+        question: "6. Why is synchronization important in multimedia?",
+        choices: [
+          "To make files larger",
+          "To match media elements like audio and video at the correct time",
+          "To delete old files",
+          "To reduce screen brightness"
+        ],
+        answer: 1,
+        explanation: "Synchronization keeps audio, video, and other media aligned."
+      },
+      {
+        question: "7. Which challenge is common in multimedia systems?",
+        choices: [
+          "Bandwidth limitations",
+          "Paper shortage",
+          "Ink fading",
+          "Broken pencils"
+        ],
+        answer: 0,
+        explanation: "Multimedia often needs enough bandwidth for smooth delivery."
+      },
+      {
+        question: "8. What does scalability mean in multimedia?",
+        choices: [
+          "Making media heavier",
+          "Adapting content for different devices or network conditions",
+          "Using only one platform",
+          "Printing more copies"
+        ],
+        answer: 1,
+        explanation: "Scalability means the content can adjust across devices and systems."
+      },
+      {
+        question: "9. Which multimedia element is mainly responsible for movement effects?",
+        choices: [
+          "Animation",
+          "Text",
+          "Spreadsheet",
+          "Table"
+        ],
+        answer: 0,
+        explanation: "Animation creates the effect of movement."
+      },
+      {
+        question: "10. Which device is commonly used to capture audio for multimedia projects?",
+        choices: [
+          "Monitor",
+          "Keyboard",
+          "Microphone",
+          "Printer"
+        ],
+        answer: 2,
+        explanation: "A microphone is used to capture sound."
+      },
+      {
+        question: "11. Situation: A student clicks a hyperlink in an e-learning module to open another lesson page. This is an example of hypertext.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "Hypertext allows navigation through clickable links."
+      },
+      {
+        question: "12. Situation: Watching a lecture video with synchronized narration and slides is an example of multimedia.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "It combines video, audio, and visual presentation."
+      },
+      {
+        question: "13. Situation: Reading a printed textbook with no audio, video, or links is multimedia.",
+        choices: ["True", "False"],
+        answer: 1,
+        explanation: "A plain printed textbook alone is not multimedia."
+      },
+      {
+        question: "14. Situation: A video call requires proper timing between voice and image. This shows the importance of synchronization.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "Synchronization keeps voice and video matched."
+      },
+      {
+        question: "15. Situation: A learning website works well on phones, tablets, and computers. This shows scalability.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "Scalability means adapting to different platforms or conditions."
+      },
+      {
+        question: "16. Situation: Listening to music without any links, images, or video is considered hypermedia.",
+        choices: ["True", "False"],
+        answer: 1,
+        explanation: "Hypermedia involves linked multimedia elements, not audio alone."
+      },
+      {
+        question: "17. Situation: A slow internet connection can affect the quality of a streamed educational video. This is a bandwidth issue.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "Streaming quality depends heavily on available bandwidth."
+      },
+      {
+        question: "18. Situation: An app uses text, pictures, narration, and animation in one lesson. This is multimedia integration.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "That is exactly what multimedia integration means."
+      },
+      {
+        question: "19. Situation: Clicking a play button to hear narration in a digital storybook uses audio as a multimedia element.",
+        choices: ["True", "False"],
+        answer: 0,
+        explanation: "Narration is an example of audio in multimedia."
+      },
+      {
+        question: "20. Situation: A system that only shows static text on screen with no sound, video, or interaction is a rich multimedia system.",
+        choices: ["True", "False"],
+        answer: 1,
+        explanation: "Static text alone does not make a rich multimedia system."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let nickname = "";
+    let players = [];
+
+    function startQuiz() {
+      nickname = document.getElementById("nicknameInput").value || "Player";
+      document.getElementById("quizArea").style.display = "block";
+      document.getElementById("startBtn").style.display = "none";
+      document.getElementById("nicknameInput").style.display = "none";
+      document.getElementById("scoreboard").innerHTML = "";
+      currentQuestion = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("questionText").innerText = q.question;
+
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = "";
+
+      q.choices.forEach((choice, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = String.fromCharCode(65 + index) + ". " + choice;
+        btn.onclick = () => checkAnswer(index);
+        choicesDiv.appendChild(btn);
+      });
+
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("nextBtn").style.display = "none";
+    }
+
+    function checkAnswer(selected) {
+      const q = quizData[currentQuestion];
+      const buttons = document.querySelectorAll("#choices button");
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (selected === q.answer) {
+        score++;
+        document.getElementById("feedback").innerText = "✅ Correct! " + q.explanation;
+      } else {
+        document.getElementById("feedback").innerText = "❌ Wrong! " + q.explanation;
+      }
+
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        endQuiz();
+      }
+    }
+
+   function endQuiz() {
+  players.push({ name: nickname, score: score });
+  players.sort((a, b) => b.score - a.score);
+
+  document.getElementById("quizArea").style.display = "none";
+
+  let scoreboardHTML = `<h2>🏆 Final Scoreboard</h2>`;
+  scoreboardHTML += `<p><strong>${nickname}</strong>, your score is ${score}/${quizData.length}</p><hr>`;
+
+  players.forEach((p, i) => {
+    scoreboardHTML += `<p>${i + 1}. ${p.name} — ${p.score}/${quizData.length}</p>`;
+  });
+
+  document.getElementById("scoreboard").innerHTML = scoreboardHTML;
+  launchConfetti();
+}
+
+    function launchConfetti() {
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      for (let i = 0; i < 150; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 6 + 4,
+          speed: Math.random() * 3 + 2
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+ctx.fillStyle = `hsl(${Math.random() * 360},100%,50%)`;
+          ctx.fill();
+          p.y += p.speed;
+          if (p.y > canvas.height) p.y = 0;
+        });
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    }
+  </script>
+</body>
+</html>

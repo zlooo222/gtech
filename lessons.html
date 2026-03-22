@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LESSONS</title>
+
+<style>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+color:white;
+background:black;
+}
+
+/* HERO SECTION */
+
+.hero{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0; /* controls header height */
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+}
+
+/* NAVBAR */
+
+.navbar{
+position:absolute;
+top:30px;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:0 80px;
+align-items:center;
+z-index:5;
+}
+
+.logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+}
+
+/* HERO CONTENT */
+
+.hero-content{
+position:absolute;
+top:160px;
+left:80px;
+z-index:5;
+}
+
+.hero-title{
+font-size:140px;
+font-weight:700;
+letter-spacing:10px;
+opacity:.35;
+}
+
+/* CARDS */
+
+.card-row{
+position:absolute;
+bottom:120px;
+left:80px;
+display:flex;
+gap:20px;
+z-index:5;
+}
+
+.info-card{
+width:140px;
+height:170px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(5px);
+border-radius:12px;
+padding:10px;
+display:flex;
+align-items:flex-end;
+font-size:14px;
+}
+
+/* BOOK BUTTON */
+
+.hero-book{
+position:absolute;
+bottom:140px;
+right:120px;
+background:white;
+color:black;
+border:none;
+padding:10px 50px;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+z-index:5;
+}
+
+/* SECTION */
+
+.section{
+padding:120px 80px;
+background:black;
+}
+
+.section-title{
+font-size:36px;
+letter-spacing:2px;
+margin-bottom:50px;
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.section-title:before,
+.section-title:after{
+content:"";
+flex:1;
+height:1px;
+background:#777;
+}
+
+/* POPULAR HOUSES */
+
+.houses{
+background:#f3f3f3;
+color:#111;
+padding:100px 80px;
+}
+
+.houses-title{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  margin-bottom:50px;
+  position:relative;
+}
+
+.houses-title h2{
+  font-size:42px;
+  letter-spacing:8px;
+  font-weight:700;
+  color:#111;
+  position:relative;
+  z-index:2;
+}
+
+/* glowing background text (subtle like hero) */
+.houses-title h2::before{
+  content:"LESSONS";
+  position:absolute;
+  top:-20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:80px;
+  letter-spacing:12px;
+  color:rgba(0,0,0,0.05);
+  z-index:-1;
+  white-space:nowrap;
+}
+
+/* lines */
+.houses-title .line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(to right, transparent, #999, transparent);
+  max-width:150px;
+}
+
+.houses-container{
+  display:flex;
+  gap:50px;
+  align-items:center; /* keeps it centered vertically */
+  max-width:1200px;
+  margin:auto;
+}
+
+.house-list{
+  flex: 1; /* cards area */
+}
+
+.house-feature{
+  flex: 1.3; /* 🔥 makes it wider than cards */
+}
+
+/* FEATURE CARD */
+
+.house-feature{
+  flex:1.3;
+  min-height:500px;
+
+  border-radius:16px;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.house-feature img{
+  width:100%;
+  height:100%;
+
+  object-fit:contain;  /* 🔥 NO CROPPING */
+  border-radius:16px;
+}
+/* SMALL CARDS */
+
+.house-list{
+display:flex;
+flex-direction:column;
+gap:40px;
+}
+
+.house-card{
+display:flex;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+min-height:120px; /* minimum height but can grow */
+}
+
+.house-card-image{
+width:180px;
+min-height:120px;
+flex-shrink:0;
+}
+
+.house-card-image img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.house-card-title{
+font-size:16px;
+font-weight:600;
+margin-bottom:6px;
+text-align:center;   /* centers only the title */
+}
+
+.house-card-content{
+display:flex;
+flex-direction:column;
+align-items:center;   /* centers horizontally */
+text-align:center;    /* centers the text */
+padding:15px;
+}
+
+.house-card-description{
+font-size:12px;
+color:#555;
+margin-top:4px;
+line-height:1.4;
+}
+
+.card-link{
+text-decoration:none;
+color:inherit;
+display:block;
+}
+
+.house-card{
+cursor:pointer;
+transition:0.3s;
+}
+
+.house-card:hover{
+transform:scale(1.03);
+}
+
+/* BOTTOM CONTROLS */
+
+.house-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+}
+
+.dots{
+display:flex;
+gap:6px;
+}
+
+.dot{
+width:8px;
+height:8px;
+background:#ccc;
+border-radius:50%;
+}
+
+.dot.active{
+background:#111;
+}
+
+.view-btn{
+background:#3f7d54;
+color:white;
+border:none;
+padding:8px 18px;
+border-radius:20px;
+cursor:pointer;
+font-size:13px;
+}
+
+/* BOOK DROPDOWN */
+
+.book-dropdown{
+position:relative;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+background:transparent;
+color:white;
+cursor:pointer;
+}
+
+/* Dropdown menu */
+
+.dropdown-content{
+display:none;
+position:absolute;
+top:35px;
+right:0;
+background:rgba(0,0,0,0.9);
+border-radius:8px;
+min-width:150px;
+overflow:hidden;
+}
+
+.dropdown-content a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:white;
+font-size:14px;
+}
+
+.dropdown-content a:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10; /* ensure it’s on top */
+}
+
+/* FOOTER */
+
+.footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:30px 80px;
+background:black;
+}
+
+.footer-links{
+display:flex;
+gap:25px;
+}
+
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+.footer .dropdown-content{
+top:auto;
+bottom:35px; /* opens upward */
+}
+
+/* ========================= */
+/* 📱 RESPONSIVE FIX */
+/* ========================= */
+
+@media (max-width: 900px){
+
+/* NAVBAR stays horizontal but tighter */
+.navbar{
+padding: 0 20px;
+}
+
+.nav-links{
+gap:15px;
+font-size:14px;
+}
+
+/* HERO adjustments */
+.hero-content{
+left:20px;
+top:120px;
+}
+
+.hero-title{
+font-size:60px;
+letter-spacing:5px;
+}
+
+/* SECTION padding fix */
+.section{
+padding:80px 20px;
+}
+
+/* HOUSES SECTION */
+.houses{
+padding:60px 20px;
+}
+
+/* STACK layout */
+.houses-container{
+flex-direction:column;
+align-items:stretch;
+gap:30px;
+}
+
+/* MAKE FEATURE GO BOTTOM */
+.house-feature{
+order:2;
+width:100%;
+height:300px;
+}
+
+/* CARD LIST ON TOP */
+.house-list{
+order:1;
+gap:20px;
+}
+
+/* STACK EACH CARD NICELY */
+.house-card{
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.house-card-image{
+width:100%;
+height:180px;
+}
+
+.house-card-image img{
+height:100%;
+}
+
+/* FIX TEXT SPACING */
+.house-card-content{
+padding:15px;
+}
+
+/* FOOTER FIX */
+.footer-content,
+.footer .navbar{
+flex-direction:row;
+padding:0 20px;
+}
+
+/* PREVENT OVERFLOW (fix black side issue) */
+body, html{
+overflow-x:hidden;
+}
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- HERO -->
+<!-- HERO -->
+<div class="hero">
+
+<div class="overlay"></div>
+
+<div class="navbar">
+  <a href="home.html">
+    <div class="logo">GTECH</div>
+  </a>
+
+  <div class="nav-links">
+    <a href="home.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="manual.html">Manual</a>
+  </div>
+
+  <div class="book-dropdown">
+    <button class="book-btn">Book</button>
+    <div class="dropdown-content">
+      <a href="lessons.html">Lesson</a>
+      <a href="infog.html">Infographics</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- POPULAR HOUSES -->
+<section class="houses">
+
+<div class="houses-title">
+  <span class="line"></span>
+  <h2>LESSONS</h2>
+  <span class="line"></span>
+</div>
+
+<div class="houses-container">
+
+
+<div class="house-list">
+
+<a href="prelim.html" class="card-link">
+<div class="house-card">
+
+<div class="house-card-image">
+<img src="lessons/PRELIM.png">
+</div>
+
+<div class="house-card-content">
+<div class="house-card-title"><b>PRELIM</b></div>
+<div class="house-card-description">
+<p>It introduced to the principles of visual media and design throughout this period. It gives students the fundamental knowledge and abilities to produce and modify visual content and emphasis on developing a solid foundation in digital creation and comprehending how visual components successfully convey ideas.
+ </p>
+</div>
+
+</div>
+
+</div>
+</a>
+<a href="midterm.html" class="card-link">
+<div class="house-card">
+
+<div class="house-card-image">
+<img src="lessons/MIDTERM.png">
+</div>
+
+<div class="house-card-content">
+<div class="house-card-title"><b>MIDTERM</b></div>
+
+<div class="house-card-description">
+<p>Students develop their abilities in dynamic media at this stage. In order to prepare students for more complex multimedia production, the objective is to help them comprehend how audio and motion enhance digital projects.</p>
+</div>
+
+</div>
+
+</div>
+</a>
+<a href="finals.html" class="card-link">
+<div class="house-card">
+
+<div class="house-card-image">
+<img src="lessons/FINALS.png">
+</div>
+
+<div class="house-card-content">
+<div class="house-card-title"><b>FINALS</b></div>
+
+<div class="house-card-description">
+<p>This phase emphasizes technical expertise, creativity, and the capacity to create polished multimedia productions appropriate for practical uses.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</a>
+<!-- FEATURE HOUSE -->
+<div class="house-feature">
+  <img src="lessons/USS.png" alt="Feature">
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<!-- FOOTER -->
+<div class="footer">
+
+<div class="footer-overlay"></div>
+
+<div class="navbar">
+
+  <a href="home.html">
+    <div class="footer-logo">GTECH</div>
+  </a>
+
+  <div class="footer-links">
+    <a href="home.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="manual.html">Manual</a>
+  </div>
+
+  <div class="book-dropdown">
+    <button class="book-btn">Book</button>
+    <div class="dropdown-content">
+      <a href="lessons.html">Lesson</a>
+      <a href="infog.html">Infographics</a>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+
+</body>
+<script>
+const bookButtons = document.querySelectorAll('.book-btn');
+
+bookButtons.forEach(button => {
+
+  const dropdown = button.nextElementSibling;
+
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    dropdown.style.display =
+      dropdown.style.display === 'block' ? 'none' : 'block';
+  });
+
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
+  });
+});
+</script>
+</html>

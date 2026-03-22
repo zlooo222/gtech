@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFOGRAPHIC</title>
+
+<style>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+color:white;
+background:black;
+}
+
+/* HERO SECTION */
+
+.hero{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0; /* controls header height */
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+}
+
+/* NAVBAR */
+
+.navbar{
+position:absolute;
+top:30px;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:0 80px;
+align-items:center;
+z-index:5;
+}
+
+.logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+}
+
+/* HERO CONTENT */
+
+.hero-content{
+position:absolute;
+top:160px;
+left:80px;
+z-index:5;
+}
+
+.hero-title{
+font-size:140px;
+font-weight:700;
+letter-spacing:10px;
+opacity:.35;
+}
+
+/* CARDS */
+
+.card-row{
+position:absolute;
+bottom:120px;
+left:80px;
+display:flex;
+gap:20px;
+z-index:5;
+}
+
+.info-card{
+width:140px;
+height:170px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(5px);
+border-radius:12px;
+padding:10px;
+display:flex;
+align-items:flex-end;
+font-size:14px;
+}
+
+/* BOOK BUTTON */
+
+.hero-book{
+position:absolute;
+bottom:140px;
+right:120px;
+background:white;
+color:black;
+border:none;
+padding:10px 50px;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+z-index:5;
+}
+
+/* SECTION */
+
+.section{
+padding:120px 80px;
+background:black;
+}
+
+.section-title{
+font-size:36px;
+letter-spacing:2px;
+margin-bottom:50px;
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.section-title:before,
+.section-title:after{
+content:"";
+flex:1;
+height:1px;
+background:#777;
+}
+
+/* POPULAR HOUSES */
+
+.houses{
+background:#f3f3f3;
+color:#111;
+padding:100px 80px;
+}
+
+.houses-title{
+font-size:28px;
+letter-spacing:3px;
+margin-bottom:30px;
+font-weight:600;
+position:relative;
+padding-left:15px;
+}
+
+.houses-title:before{
+content:"";
+position:absolute;
+left:0;
+top:6px;
+height:50px;
+width:3px;
+background:#3f7d54;
+border-radius:2px;
+}
+
+.houses-title span{
+font-size:18px;
+color:#777;
+margin-right:10px;
+}
+
+.houses-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:80px;
+align-items:start;
+justify-content:center; /* centers the layout */
+max-width:1100px;
+margin:auto; /* center horizontally */
+}
+
+/* FEATURE CARD */
+
+.house-feature{
+height:450px;
+border-radius:16px;
+background:url("bgninabueno.jpg") center/cover no-repeat;
+position:relative;
+overflow:hidden;
+}
+
+.house-feature-info{
+position:absolute;
+bottom:15px;
+left:15px;
+color:white;
+}
+
+.house-feature-info h3{
+font-size:18px;
+margin-bottom:4px;
+}
+
+/* SMALL CARDS */
+.house-list{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:16px;
+padding:40px;
+backdrop-filter:blur(8px);
+width:420px;
+}
+
+.description{
+font-size:14px;
+color:#555;
+line-height:1.5;
+max-width:400px;
+}
+
+.house-feature{
+height:820px;
+border-radius:16px;
+background:url("infog/1.png") center/cover no-repeat;
+position:relative;
+overflow:hidden;
+cursor:pointer;
+transition:transform .3s ease;
+display:block;
+}
+
+.house-feature:hover{
+transform:scale(1.03);
+}
+
+/* TOC ITEM */
+
+.toc-item{
+display:flex;
+align-items:center;
+font-size:16px;
+margin-bottom:18px;
+color:#000;
+transition:all .25s ease;
+cursor:pointer;
+}
+
+/* hover effect */
+
+.toc-item:hover{
+color:#ddd;
+transform:translateX(6px);
+}
+
+/* text */
+
+.toc-text{
+white-space:nowrap;
+font-weight:500;
+}
+
+/* dotted line */
+
+.toc-dots{
+flex:1;
+border-bottom:1px dotted rgba(255,255,255,0.35);
+margin:0 12px;
+}
+
+/* page number */
+
+.toc-page{
+white-space:nowrap;
+font-size:14px;
+opacity:.7;
+}
+
+/* BOTTOM CONTROLS */
+
+.house-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+}
+
+.dots{
+display:flex;
+gap:6px;
+}
+
+.dot{
+width:8px;
+height:8px;
+background:#ccc;
+border-radius:50%;
+}
+
+.dot.active{
+background:#111;
+}
+
+.view-btn{
+background:#3f7d54;
+color:white;
+border:none;
+padding:8px 18px;
+border-radius:20px;
+cursor:pointer;
+font-size:13px;
+}
+
+/* BOOK POPUP */
+
+.book-popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+/* BOOK CONTAINER */
+
+.book-wrapper{
+position:relative;
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+/* BOOK SPREAD */
+
+.book-spread{
+display:flex;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 20px 50px rgba(0,0,0,0.5);
+perspective:1500px;
+position:relative;
+
+width:700px;     /* book width */
+height:700px;    /* book height */
+}
+
+.page{
+position:absolute;
+top:0;
+width:50%;
+height:100%;
+transform-style:preserve-3d;
+transition:transform 1s ease;
+z-index:1;
+}
+
+
+#leftPage{
+left:0;
+transform-origin:right;
+}
+
+#rightPage{
+left:50%;
+transform-origin:left;
+}
+
+.front, .back{
+position:absolute;
+width:100%;
+height:100%;
+backface-visibility:hidden;
+}
+
+.front img,
+.back img{
+width:100%;
+height:100%;
+object-fit:contain; /* keeps full image visible */
+display:block;
+}
+
+.back{
+transform:rotateY(180deg);
+}
+
+.flip{
+transform:rotateY(-180deg);
+z-index:10;
+}
+
+.flip-back{
+transform:rotateY(180deg);
+z-index:10;
+}
+
+
+/* NAV BUTTONS */
+.nav-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#ffffff;
+border:3px solid black;
+font-size:18px;
+font-weight:bold;
+padding:12px 28px;
+cursor:pointer;
+border-radius:14px;
+letter-spacing:2px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:1000; /* add this */
+}
+
+.nav-btn.left{
+left:-140px;
+}
+
+.nav-btn.right{
+right:-140px;
+}
+
+/* CLOSE BUTTON */
+
+.close-book{
+position:absolute;
+top:30px;
+right:40px;
+font-size:18px;
+background:white;
+border:none;
+padding:5px 9px;
+cursor:pointer;
+border-radius:5px;
+}
+/* MAGNIFY BUTTON */
+
+.magnify-btn{
+position:absolute;
+left:-250px;
+top:50%;
+transform:translateY(-50%);
+font-size:26px;
+background:white;
+border:none;
+padding:12px 16px;
+border-radius:10px;
+cursor:pointer;
+z-index:1000;
+}
+
+
+/* MAGNIFIER LENS */
+
+.magnifier-lens{
+position:absolute;
+width:300px;
+height:300px;
+border-radius:50%;
+border:4px solid white;
+display:none;
+pointer-events:none;
+background-repeat:no-repeat;
+background-size:2000px 2000px;
+z-index:999;
+}
+
+/* BOOK DROPDOWN */
+
+.book-dropdown{
+position:relative;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+background:transparent;
+color:white;
+cursor:pointer;
+}
+
+/* Dropdown menu */
+
+.dropdown-content a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:white;
+font-size:14px;
+}
+
+.dropdown-content a:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10; /* ensure it’s on top */
+}
+
+/* FOOTER */
+
+.footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:30px 80px;
+background:black;
+}
+
+.footer-links{
+display:flex;
+gap:25px;
+}
+
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+.footer .dropdown-content{
+top:auto;
+bottom:35px; /* opens upward */
+}
+
+/* ---------------- RESPONSIVE FIX ---------------- */
+
+@media (max-width:1100px){
+
+/* reduce side padding */
+
+.navbar,
+.footer-content,
+.section,
+.contact,
+.houses{
+padding-left:40px;
+padding-right:40px;
+}
+
+/* houses layout becomes flexible */
+
+.houses-container{
+grid-template-columns:1fr;
+gap:40px;
+}
+
+/* remove fixed width */
+
+.house-list{
+width:100%;
+}
+
+/* feature image height smaller */
+
+.house-feature{
+height:500px;
+}
+
+}
+
+/* MOBILE */
+
+@media (max-width:700px){
+
+/* navbar stack */
+
+.navbar{
+flex-direction:row;
+flex-wrap:wrap;
+}
+
+/* smaller spacing */
+
+.houses{
+padding:60px 20px;
+}
+
+/* book popup resize */
+
+.book-spread{
+width:90vw;
+height:90vw;
+}
+
+.nav-btn.left{
+left:-60px;
+}
+
+.nav-btn.right{
+right:-60px;
+}
+
+.magnify-btn{
+left:-80px;
+}
+
+}
+/* ========================= */
+/* 📱 FINAL RESPONSIVE FIX (INFOG) */
+/* ========================= */
+
+@media (max-width: 1000px){
+
+/* NAVBAR KEEP HORIZONTAL */
+.navbar{
+padding:0 20px;
+}
+
+.nav-links{
+gap:15px;
+font-size:14px;
+}
+
+/* REMOVE ABSOLUTE CARD OVERFLOW */
+.card-row{
+position:static;
+margin-top:20px;
+left:auto;
+bottom:auto;
+flex-wrap:wrap;
+}
+
+/* HERO FIX */
+.hero{
+padding:100px 0;
+}
+
+.hero-content{
+left:20px;
+top:120px;
+}
+
+.hero-title{
+font-size:70px;
+letter-spacing:6px;
+}
+
+/* SECTION */
+.houses{
+padding:60px 20px;
+}
+
+/* STACK LAYOUT */
+.houses-container{
+grid-template-columns:1fr;
+gap:30px;
+}
+
+/* REMOVE FIXED WIDTH */
+.house-list{
+width:100%;
+}
+
+/* FEATURE IMAGE */
+.house-feature{
+height:400px;
+}
+
+/* BOOK POPUP SCALE */
+.book-spread{
+width:90vw;
+height:70vw;
+}
+
+/* BUTTONS MOVE INSIDE */
+.nav-btn.left{
+left:10px;
+}
+
+.nav-btn.right{
+right:10px;
+}
+
+.magnify-btn{
+left:10px;
+top:10px;
+transform:none;
+}
+
+/* LENS SMALLER */
+.magnifier-lens{
+width:180px;
+height:180px;
+}
+
+/* FOOTER */
+.footer-content,
+.footer .navbar{
+padding:0 20px;
+}
+
+/* NO SIDE SCROLL */
+body, html{
+overflow-x:hidden;
+}
+
+}
+
+
+/* MOBILE */
+@media (max-width: 600px){
+
+/* HERO TITLE */
+.hero-title{
+font-size:45px;
+letter-spacing:4px;
+}
+
+/* NAVBAR TIGHT BUT HORIZONTAL */
+.nav-links{
+gap:10px;
+font-size:12px;
+}
+
+.book-btn{
+padding:5px 12px;
+font-size:12px;
+}
+
+/* BOOK FULLSCREEN FEEL */
+.book-spread{
+width:95vw;
+height:80vw;
+}
+
+/* BUTTONS SMALL */
+.nav-btn{
+font-size:12px;
+padding:8px 12px;
+}
+
+.close-book{
+top:15px;
+right:15px;
+font-size:16px;
+}
+
+/* MAGNIFY BUTTON */
+.magnify-btn{
+font-size:18px;
+padding:8px 10px;
+}
+
+/* LENS SMALL */
+.magnifier-lens{
+width:120px;
+height:120px;
+}
+
+}
+
+@media (max-width:600px){
+
+.nav-btn{
+position:fixed;
+bottom:20px;
+top:auto;
+transform:none;
+}
+
+.nav-btn.left{
+left:15px;
+}
+
+.nav-btn.right{
+right:15px;
+}
+
+/* make tap easier */
+.nav-btn{
+padding:10px 16px;
+font-size:13px;
+}
+
+/* magnify top corner */
+.magnify-btn{
+left:15px;
+top:15px;
+transform:none;
+}
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- HERO -->
+<div class="hero">
+
+<div class="overlay"></div>
+
+<a href="home.html">
+<div class="navbar">
+<div class="logo">GTECH</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About Us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+
+
+<!-- POPULAR HOUSES -->
+<section class="houses">
+<div class="houses-container">
+
+<div class="house-list">
+
+<div class="houses-title">
+TABLE OF CONTENTS
+</div>
+
+<div class="toc-item" data-page="0">
+<span class="toc-text">Title Page</span>
+<span class="toc-dots"></span>
+<span class="toc-page"></span>
+</div>
+
+<div class="toc-item" data-page="0">
+<span class="toc-text">Multimedia Board</span>
+<span class="toc-dots"></span>
+<span class="toc-page">2</span>
+</div>
+
+<div class="toc-item" data-page="1">
+<span class="toc-text">Color Theory</span>
+<span class="toc-dots"></span>
+<span class="toc-page">3</span>
+</div>
+
+<div class="toc-item" data-page="2">
+<span class="toc-text">Basic Photography</span>
+<span class="toc-dots"></span>
+<span class="toc-page">4</span>
+</div>
+
+<div class="toc-item" data-page="3">
+<span class="toc-text">Adobe Photoshop</span>
+<span class="toc-dots"></span>
+<span class="toc-page">5</span>
+</div>
+
+<div class="toc-item" data-page="4">
+<span class="toc-text">Digital Audio</span>
+<span class="toc-dots"></span>
+<span class="toc-page">6</span>
+</div>
+
+<div class="toc-item" data-page="5">
+<span class="toc-text">Animation Board</span>
+<span class="toc-dots"></span>
+<span class="toc-page">7</span>
+</div>
+
+<div class="toc-item" data-page="6">
+<span class="toc-text">Adobe After Effects</span>
+<span class="toc-dots"></span>
+<span class="toc-page">8</span>
+</div>
+
+</div>
+
+<!-- IMAGE CARD (OUTSIDE house-list) -->
+<div class="house-feature" id="openBook">
+<div class="house-feature-info">
+<h3>Forest house</h3>
+<p>Japan</p>
+</div>
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+<div class="footer">
+
+<div class="footer-overlay"></div>
+
+<div class="footer-content">
+
+<a href="home.html">
+<div class="logo">GTECH
+</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About Us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+</div>
+
+</div>
+
+<!-- BOOK POPUP -->
+<div class="book-popup" id="bookPopup">
+
+  <button class="close-book" id="closeBook">✕</button>
+
+  <div class="book-wrapper">
+
+<button class="magnify-btn" id="magnifyBtn">🔍</button>
+
+<button class="nav-btn left" id="prevPage">
+← PREV
+</button>
+
+    <div class="book-spread">
+
+<div class="magnifier-lens" id="lens"></div>
+
+<div class="page" id="leftPage">
+
+  <div class="front"><img id="leftFront"></div>
+  <div class="back"><img id="leftBack"></div>
+</div>
+
+<div class="page" id="rightPage">
+  <div class="front"><img id="rightFront"></div>
+  <div class="back"><img id="rightBack"></div>
+</div>
+
+</div>
+
+    <button class="nav-btn right" id="nextPage">
+NEXT →
+</button>
+
+  </div>
+
+</div>
+<script>
+
+const bookButtons = document.querySelectorAll('.book-btn');
+
+bookButtons.forEach(button => {
+
+  const dropdown = button.nextElementSibling;
+
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    dropdown.style.display =
+      dropdown.style.display === 'block' ? 'none' : 'block';
+  });
+
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
+  });
+});
+
+
+/* BOOK POPUP */
+
+const openBook = document.getElementById("openBook");
+const popup = document.getElementById("bookPopup");
+const closeBook = document.getElementById("closeBook");
+
+const leftFront = document.getElementById("leftFront");
+const leftBack = document.getElementById("leftBack");
+const rightFront = document.getElementById("rightFront");
+const rightBack = document.getElementById("rightBack");
+
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
+
+const next = document.getElementById("nextPage");
+const prev = document.getElementById("prevPage");
+
+const pages = [
+"infog/1.png",
+"infog/2.png",
+"infog/3.png",
+"infog/4.png",
+"infog/5.png",
+"infog/6.png",
+"infog/7.png",
+"infog/8.png",
+];
+
+let current = 0;
+
+
+/* OPEN BOOK */
+
+openBook.addEventListener("click", function(e){
+e.preventDefault();
+popup.style.display = "flex";
+showPages();
+});
+
+
+/* CLOSE BOOK */
+
+closeBook.addEventListener("click", ()=>{
+popup.style.display = "none";
+});
+
+
+/* SHOW TWO PAGES */
+
+function showPages(){
+
+leftFront.src = pages[current];
+rightFront.src = pages[current+1] || "";
+
+leftBack.src = pages[current-1] || "";
+rightBack.src = pages[current+2] || "";
+
+/* HIDE / SHOW NEXT BUTTON */
+if(current + 2 >= pages.length){
+next.style.display = "none";
+}else{
+next.style.display = "block";
+}
+
+/* HIDE / SHOW PREV BUTTON */
+if(current === 0){
+prev.style.display = "none";
+}else{
+prev.style.display = "block";
+}
+
+}
+
+
+next.addEventListener("click", ()=>{
+
+if(current + 2 >= pages.length) return; // stop if no more pages
+
+rightPage.classList.add("flip");
+
+setTimeout(()=>{
+
+rightPage.style.transition = "none";
+current += 2;
+rightPage.classList.remove("flip");
+showPages();
+
+rightPage.offsetHeight;
+
+rightPage.style.transition = "transform 1s ease";
+
+},1000);
+
+});
+
+/* PREVIOUS */
+
+prev.addEventListener("click", ()=>{
+
+if(current - 2 >= 0){
+
+showPages();
+
+leftPage.classList.add("flip-back");
+
+setTimeout(()=>{
+
+leftPage.style.transition = "none";
+current -= 2;
+leftPage.classList.remove("flip-back");
+showPages();
+
+leftPage.offsetHeight;
+
+leftPage.style.transition = "transform 1s ease";
+
+},1000);
+
+}
+
+});
+
+/* MAGNIFY SYSTEM */
+
+function updateLens(clientX, clientY){
+
+if(!zoomActive) return;
+
+const rect = bookSpread.getBoundingClientRect();
+
+let x = clientX - rect.left;
+let y = clientY - rect.top;
+
+lens.style.left = (x - lens.offsetWidth/2) + "px";
+lens.style.top = (y - lens.offsetHeight/2) + "px";
+
+let targetImg = null;
+
+const images = [
+leftFront,
+rightFront
+];
+
+images.forEach(img=>{
+const r = img.getBoundingClientRect();
+if(clientX >= r.left && clientX <= r.right &&
+   clientY >= r.top && clientY <= r.bottom){
+targetImg = img;
+}
+});
+
+if(targetImg){
+
+lens.style.backgroundImage = `url(${targetImg.src})`;
+
+let imgRect = targetImg.getBoundingClientRect();
+
+let posX = ((clientX - imgRect.left) / imgRect.width) * 100;
+let posY = ((clientY - imgRect.top) / imgRect.height) * 100;
+
+lens.style.backgroundPosition = posX + "% " + posY + "%";
+
+}
+}
+
+/* DESKTOP */
+bookSpread.addEventListener("mousemove", e=>{
+updateLens(e.clientX, e.clientY);
+});
+
+/* MOBILE 🔥 */
+bookSpread.addEventListener("touchmove", e=>{
+const touch = e.touches[0];
+updateLens(touch.clientX, touch.clientY);
+});
+
+let targetImg = null;
+
+const images = [
+document.getElementById("leftFront"),
+document.getElementById("rightFront")
+];
+
+images.forEach(img=>{
+const r = img.getBoundingClientRect();
+if(e.clientX >= r.left && e.clientX <= r.right &&
+   e.clientY >= r.top && e.clientY <= r.bottom){
+targetImg = img;
+}
+});
+
+if(targetImg){
+
+lens.style.backgroundImage = `url(${targetImg.src})`;
+
+let imgRect = targetImg.getBoundingClientRect();
+
+let posX = ((e.clientX - imgRect.left) / imgRect.width) * 100;
+let posY = ((e.clientY - imgRect.top) / imgRect.height) * 100;
+
+lens.style.backgroundPosition = posX + "% " + posY + "%";
+
+}
+
+});
+
+/* TOC CLICK -> OPEN BOOK PAGE */
+
+const tocItems = document.querySelectorAll(".toc-item");
+
+tocItems.forEach(item => {
+
+item.addEventListener("click", () => {
+
+const pageIndex = parseInt(item.dataset.page);
+
+popup.style.display = "flex";
+
+/* make sure it starts on the correct spread */
+current = pageIndex;
+
+/* adjust so pages open in pairs */
+if(current % 2 !== 0){
+current = current - 1;
+}
+
+showPages();
+
+});
+
+});
+let startX = 0;
+
+bookSpread.addEventListener("touchstart", (e)=>{
+startX = e.touches[0].clientX;
+});
+
+bookSpread.addEventListener("touchend", (e)=>{
+let endX = e.changedTouches[0].clientX;
+let diff = startX - endX;
+
+/* swipe left → next */
+if(diff > 50){
+next.click();
+}
+
+/* swipe right → prev */
+if(diff < -50){
+prev.click();
+}
+});
+</script>
+</body>
+</html>

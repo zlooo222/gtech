@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us</title>
+
+<style>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+color:white;
+background:black;
+}
+
+/* HERO */
+
+.hero{
+height:70vh;
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.85));
+}
+
+/* NAVBAR */
+
+.navbar{
+position:absolute;
+top:30px;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:0 80px;
+align-items:center;
+z-index:5;
+}
+
+.logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+}
+
+/* HERO TITLE */
+
+.hero-content{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:5;
+text-align:center;
+}
+
+.hero-title{
+font-size:110px;
+letter-spacing:10px;
+opacity:.35;
+}
+
+/* SECTION */
+
+.section{
+padding:120px 80px;
+}
+
+.section-title{
+font-size:36px;
+letter-spacing:2px;
+margin-bottom:50px;
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.section-title:before,
+.section-title:after{
+content:"";
+flex:1;
+height:1px;
+background:#777;
+}
+
+/* ABOUT GRID */
+
+.about-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:60px;
+align-items:center;
+}
+
+.about-text{
+color:#ccc;
+line-height:1.7;
+font-size:17px;
+}
+
+/* TEAM */
+
+.team-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+margin-top:50px;
+}
+
+.team-card{
+background:rgba(255,255,255,0.08);
+border-radius:14px;
+padding:35px;
+text-align:center;
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.15);
+transition:0.4s;
+position:relative;
+overflow:hidden;
+}
+
+.team-card img{
+width:95px;
+height:95px;
+border-radius:50%;
+margin-bottom:15px;
+border:2px solid rgba(255,255,255,0.4);
+object-fit:cover;
+}
+
+.team-card h3{
+margin-bottom:5px;
+font-size:18px;
+}
+
+.team-card p{
+color:#bbb;
+font-size:14px;
+}
+
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+.footer .dropdown-content{
+top:auto;
+bottom:35px; /* opens upward */
+}
+
+/* BOOK DROPDOWN */
+
+.book-dropdown{
+position:relative;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+background:transparent;
+color:white;
+cursor:pointer;
+}
+
+/* Dropdown menu */
+
+.dropdown-content{
+display:none;
+position:absolute;
+top:35px;
+right:0;
+background:rgba(0,0,0,0.9);
+border-radius:8px;
+min-width:150px;
+overflow:hidden;
+}
+
+.dropdown-content a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:white;
+font-size:14px;
+}
+
+.dropdown-content a:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10; /* ensure it’s on top */
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.about-grid{
+grid-template-columns:1fr;
+}
+
+.team-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.mission{
+grid-template-columns:1fr;
+}
+
+.hero-title{
+font-size:70px;
+}
+
+}
+
+@media(max-width:600px){
+
+.team-grid{
+grid-template-columns:1fr;
+}
+
+.navbar{
+padding:0 30px;
+}
+
+.section{
+padding:80px 30px;
+}
+
+}
+
+/* ========================= */
+/* 📱 RESPONSIVE FIX (ABOUT) */
+/* ========================= */
+
+@media (max-width: 900px){
+
+/* NAVBAR stays horizontal */
+.navbar{
+padding:0 20px;
+}
+
+.nav-links{
+gap:15px;
+font-size:14px;
+}
+
+/* HERO FIX */
+.hero{
+height:60vh;
+}
+
+/* HERO TITLE */
+.hero-title{
+font-size:55px;
+letter-spacing:5px;
+}
+
+/* SECTION SPACING */
+.section{
+padding:80px 20px;
+}
+
+/* ABOUT GRID STACK */
+.about-grid{
+grid-template-columns:1fr;
+gap:30px;
+}
+
+/* TEXT SIZE */
+.about-text{
+font-size:15px;
+}
+
+/* TEAM GRID (2 per row) */
+.team-grid{
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+/* TEAM CARD ADJUST */
+.team-card{
+padding:25px;
+}
+
+/* FOOTER FIX */
+.footer-content{
+padding:0 20px;
+flex-direction:row;
+}
+
+/* PREVENT SIDE SCROLL */
+body, html{
+overflow-x:hidden;
+}
+
+}
+
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 500px){
+
+/* HERO TITLE SMALLER */
+.hero-title{
+font-size:38px;
+letter-spacing:3px;
+}
+
+/* TEAM → SINGLE COLUMN */
+.team-grid{
+grid-template-columns:1fr;
+}
+
+/* NAVBAR TIGHTER */
+.nav-links{
+gap:10px;
+font-size:12px;
+}
+
+.book-btn{
+padding:5px 12px;
+font-size:12px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="overlay"></div>
+
+<a href="home.html">
+<div class="navbar">
+<div class="logo">GTECH</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About Us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+</div>
+
+<div class="hero-content">
+<div class="hero-title">ABOUT US</div>
+</div>
+
+</div>
+
+
+<!-- ABOUT SECTION -->
+
+<section class="section">
+
+<div class="section-title">
+WHO WE ARE
+</div>
+
+<div class="about-grid">
+
+<div class="about-text">
+<p>
+" " is a digital platform designed to make learning
+about illustration, multimedia, and animation simple and engaging.
+</p>
+
+<br>
+
+<p>
+Our website provides structured lessons, visual guides,
+and interactive infographic materials that help learners
+understand complex digital concepts easily.
+</p>
+
+<br>
+
+<p>
+Whether you are a beginner exploring drawing tools or
+a student learning animation techniques,
+our goal is to guide you step-by-step in your creative journey.
+</p>
+
+</div>
+
+<div class="about-text">
+<p>
+We believe that creativity and technology should work together.
+Through this platform, learners can explore multimedia,
+audio production, color theory, and professional tools
+like Adobe Photoshop and After Effects.
+</p>
+
+<br>
+
+<p>
+Our mission is to make ICT learning more visual,
+engaging, and accessible for everyone.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TEAM -->
+
+<section class="section">
+
+<div class="section-title">
+AUTHORS
+</div>
+
+<div class="team-grid">
+
+<div class="team-card">
+<img src="aboutus/abbang.jpg">
+<h3>Cristela Rose Abbang</h3>
+<p>Project Leader</p>
+</div>
+
+<div class="team-card">
+<img src="aboutus/BUENO.png">
+<h3>Janelle Bueno</h3>
+<p>UI / UX Designer</p>
+</div>
+
+<div class="team-card">
+<img src="aboutus/Gonzaless.jpg">
+<h3>Aiza D.U. Gonzales</h3>
+<p>Content Researcher</p>
+</div>
+
+<div class="team-card">
+<img src="aboutus/Villaruel.jpg">
+<h3>Mikaila R. Villaruel</h3>
+<p>Graphic Designer</p>
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-overlay"></div>
+
+<div class="navbar">
+
+<a href="home.html">
+<div class="logo">GTECH
+</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About Us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+</body>
+<script>
+const bookButtons = document.querySelectorAll('.book-btn');
+
+bookButtons.forEach(button => {
+
+  const dropdown = button.nextElementSibling;
+
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    dropdown.style.display =
+      dropdown.style.display === 'block' ? 'none' : 'block';
+  });
+
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
+  });
+});
+
+</script>
+</html>

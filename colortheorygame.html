@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Quest!</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+html, body {margin:0; padding:0; height:100%; width:100%; overflow:hidden; font-family:'Helvetica', sans-serif;}
+body {background: linear-gradient(135deg, #f6f8ff, #fff0f5); display:flex; justify-content:center; align-items:center; transition: background 0.2s;}
+#game-container {position:absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background-color: rgba(255,255,255,0.95);}
+
+/* Title */
+h1 {font-family:'Pacifico'; font-size:5rem; color:#ff477e; text-shadow:3px 3px 8px rgba(0,0,0,0.3); animation:titleBounce 1.5s infinite alternate;}
+@keyframes titleBounce {to{transform:translateY(-15px);}}
+#signin-tagline {font-size:2rem; color:#6a1b9a; margin-bottom:30px; font-weight:bold;}
+
+/* Input & Buttons */
+#signin-screen input {padding:15px; margin:15px; border-radius:10px; border:3px solid #6a1b9a; font-size:1.8rem; width:300px; max-width:90%;}
+
+/* Start Button */
+#start-game {padding:18px 45px; font-size:1.8rem; border-radius:50px; border:none; background:linear-gradient(135deg,#ff477e,#ff85a1); color:white; cursor:pointer; font-weight:bold; box-shadow:0 8px 20px rgba(255,71,126,0.4); animation:pulse 1.5s infinite;}
+#start-game:hover {transform:scale(1.05);}
+#start-game:active {transform:scale(0.95);}
+@keyframes pulse {0%{box-shadow:0 0 0 0 rgba(255,71,126,.6);}70%{box-shadow:0 0 0 20px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+
+/* Quiz */
+.question {font-size:2.5rem; margin:20px;}
+.options button {display:block; width:300px; margin:10px auto; padding:15px; border-radius:12px; border:3px solid #6a1b9a; background:#f3e5f5; font-size:1.8rem; cursor:pointer; transition:.3s;}
+.options button:hover {background:#6a1b9a;color:white;}
+
+/* Dashboard */
+.dashboard {position:absolute; top:20px; display:flex; gap:30px; font-size:1.5rem; color:#6a1b9a; font-weight:bold;}
+
+/* End Screen */
+.end-screen {display:none; text-align:center;}
+.end-screen button {
+margin: 10px; padding: 15px 40px; font-size: 1.8rem; border-radius: 50px;
+border: none; background: linear-gradient(135deg, #ff477e, #ff85a1); color:white; font-weight:bold; cursor:pointer;
+box-shadow: 0 8px 20px rgba(255,71,126,0.4); transition: transform 0.2s, box-shadow 0.2s;
+}
+.end-screen button:hover {transform:scale(1.05); box-shadow: 0 12px 25px rgba(255,71,126,0.6);}
+.end-screen button:active {transform:scale(0.95);}
+
+/* Level popup & Time up */
+.level-popup, .time-up {position:absolute; top:40%; font-size:3rem; font-weight:bold; animation:pop 2s forwards; z-index: 10;}
+.level-popup {color:#6a1b9a;}
+.time-up {color:red;}
+@keyframes pop {0%{opacity:0; transform:scale(.5);}50%{opacity:1;}100%{opacity:0; transform:scale(1.5);}}
+
+canvas {position:fixed; top:0; left:0; pointer-events:none; z-index:5;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<div id="game-container">
+<div id="signin-screen">
+<h1>🎨 Color Quest!</h1>
+<div id="signin-tagline">Test your knowledge!</div>
+<input type="text" id="player-name" placeholder="Enter your name">
+<button id="start-game">🚀 Start Game</button>
+</div>
+
+<div class="dashboard" style="display:none;">
+<div class="score">Score: 0</div>
+<div class="timer">Time: 60s</div>
+<div class="level">Level: 1</div>
+</div>
+
+<div class="quiz" style="display:none;">
+<div class="question"></div>
+<div class="options"></div>
+</div>
+
+<div class="end-screen">
+<h2>🎉 Game Over!</h2>
+<p class="score-summary"></p>
+<button class="restart">Restart</button>
+<button class="quit">Quit</button>
+</div>
+</div>
+
+<script>
+// ---------- Game Data ----------
+const levels=[
+{level:1,questions:[
+{question:"Which are primary colors?",options:["Red, Blue, Yellow","Green, Purple, Orange","Red, Green, Blue","Yellow, Purple, Pink"],answer:"Red, Blue, Yellow"},
+{question:"Red + Blue = ?",options:["Purple","Green","Orange","Brown"],answer:"Purple"},
+{question:"Blue + Yellow = ?",options:["Green","Purple","Red","Pink"],answer:"Green"},
+{question:"Warm color example?",options:["Red","Blue","Green","Purple"],answer:"Red"},
+{question:"Cool color example?",options:["Blue","Red","Yellow","Orange"],answer:"Blue"}]},
+{level:2,questions:[
+{question:"Complementary color of Red?",options:["Green","Blue","Yellow","Purple"],answer:"Green"},
+{question:"Analogous colors example?",options:["Red, Orange, Yellow","Blue, Green, Red","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Red, Orange, Yellow"},
+{question:"Primary + Secondary color?",options:["Tertiary","Primary","Secondary","None"],answer:"Tertiary"},
+{question:"Neutral color example?",options:["Black","Red","Blue","Green"],answer:"Black"},
+{question:"Color scheme for calm effect?",options:["Cool colors","Warm colors","Bright colors","None"],answer:"Cool colors"}]},
+{level:3,questions:[
+{question:"All primary colors mixed?",options:["Black/Brown","White","Gray","Pink"],answer:"Black/Brown"},
+{question:"Best complementary pair?",options:["Blue & Orange","Red & Yellow","Green & Blue","Purple & Red"],answer:"Blue & Orange"},
+{question:"Tertiary color example?",options:["Red-Orange","Blue","Yellow","Green"],answer:"Red-Orange"},
+{question:"Color scheme for contrast?",options:["Complementary","Analogous","Monochromatic","Neutral"],answer:"Complementary"},
+{question:"Analogous colors example?",options:["Blue, Green, Teal","Red, Green, Blue","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Blue, Green, Teal"}]}
+];
+
+let currentLevel=0,currentQuestion=0,score=0,time=60,timerInterval;
+const qEl=document.querySelector('.question');
+const optEl=document.querySelector('.options');
+const scoreEl=document.querySelector('.score');
+const timerEl=document.querySelector('.timer');
+
+// ---------- Start ----------
+document.getElementById('start-game').onclick=()=>{
+document.getElementById('signin-screen').style.display="none";
+document.querySelector('.quiz').style.display="block";
+document.querySelector('.dashboard').style.display="flex";
+loadQuestion(); startTimer();
+};
+
+// ---------- Load ----------
+function loadQuestion(){
+const data=levels[currentLevel].questions[currentQuestion];
+qEl.textContent=data.question;
+optEl.innerHTML="";
+data.options.sort(()=>Math.random()-0.5).forEach(opt=>{
+let btn=document.createElement('button');
+btn.textContent=opt;
+btn.onclick=()=>checkAnswer(opt);
+optEl.appendChild(btn);
+});
+}
+
+// ---------- Check Answer ----------
+function checkAnswer(ans){
+const correct=levels[currentLevel].questions[currentQuestion].answer;
+
+if(ans===correct){
+score+=10;
+launchConfetti(); // Bonggang confetti
+}else{
+flashRed();
+if(navigator.vibrate){navigator.vibrate(150);} // light vibration
+}
+
+scoreEl.textContent="Score: "+score;
+currentQuestion++;
+setTimeout(()=>{
+if(currentQuestion>=levels[currentLevel].questions.length){
+currentLevel++; currentQuestion=0;
+if(currentLevel>=levels.length){endGame(); return;}
+// Level unlock popup
+let pop=document.createElement("div");
+pop.className="level-popup";
+pop.textContent="LEVEL "+levels[currentLevel].level+" UNLOCKED!";
+document.body.appendChild(pop);
+setTimeout(()=>pop.remove(),2000);
+document.querySelector('.level').textContent="Level: "+levels[currentLevel].level;
+}
+loadQuestion();
+},800);
+}
+
+// ---------- Red flash ----------
+function flashRed(){
+let flash=document.createElement("div");
+flash.style.position="fixed";
+flash.style.top=0; flash.style.left=0;
+flash.style.width="100%"; flash.style.height="100%";
+flash.style.background="rgba(255,0,0,0.7)";
+flash.style.zIndex=20;
+document.body.appendChild(flash);
+setTimeout(()=>flash.remove(),300);
+}
+
+// ---------- Timer ----------
+function startTimer(){
+timerInterval=setInterval(()=>{
+time--;
+timerEl.textContent="Time: "+time+"s";
+if(time<=0){clearInterval(timerInterval);
+// Time up popup
+let pop=document.createElement("div");
+pop.className="time-up";
+pop.textContent="⏰ TIME'S UP!";
+document.body.appendChild(pop);
+setTimeout(()=>pop.remove(),2000);
+setTimeout(endGame,1500);
+}
+},1000);
+}
+
+// ---------- End Game ----------
+function endGame(){
+document.querySelector('.quiz').style.display="none";
+document.querySelector('.end-screen').style.display="block";
+document.querySelector('.score-summary').textContent=score/10+" / 15";
+}
+
+// ---------- Buttons ----------
+document.querySelector('.restart').onclick=()=>location.reload();
+document.querySelector('.quit').onclick=()=>location.reload();
+
+// ---------- Confetti ----------
+const canvas=document.getElementById('confetti');
+const ctx=canvas.getContext('2d');
+canvas.width=innerWidth; canvas.height=innerHeight;
+let particles=[];
+function launchConfetti(){
+for(let i=0;i<500;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*-50,
+size:5+Math.random()*15,
+color:`hsl(${Math.random()*360},100%,70%)`,
+speed:Math.random()*7+3,
+tilt:Math.random()*15-7
+});
+}
+}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+ctx.fillStyle=p.color;
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p.x+p.tilt+p.size/2,p.y+p.size);
+ctx.lineTo(p.x+p.tilt,p.y+p.size);
+ctx.closePath();
+ctx.fill();
+p.y+=p.speed;
+p.x+=Math.sin(p.y*0.05)*2;
+if(p.y>canvas.height) particles.splice(i,1);
+});
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

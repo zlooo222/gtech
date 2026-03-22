@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USER MANUAL</title>
+
+<style>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+color:white;
+background:black;
+}
+
+/* HERO */
+
+.hero{
+height:70vh;
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.85));
+}
+
+/* NAVBAR */
+
+.navbar{
+position:absolute;
+top:30px;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:0 80px;
+align-items:center;
+z-index:5;
+}
+
+.logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+}
+
+/* HERO TITLE */
+
+.hero-content{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:5;
+text-align:center;
+}
+
+.hero-title{
+font-size:110px;
+letter-spacing:10px;
+opacity:.35;
+}
+
+/* SEARCH BAR */
+
+.search-bar{
+margin-top:60px;
+display:flex;
+justify-content:center;
+}
+
+.search-box{
+position:relative;
+width:420px;
+}
+
+.search-box input{
+width:100%;
+padding:14px 20px 14px 50px;
+border-radius:40px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(8px);
+color:white;
+font-size:15px;
+outline:none;
+transition:all .3s ease;
+}
+
+/* Placeholder */
+
+.search-box input::placeholder{
+color:rgba(255,255,255,0.6);
+}
+
+/* Hover */
+
+.search-box input:hover{
+background:rgba(255,255,255,0.12);
+}
+
+/* Focus animation */
+
+.search-box input:focus{
+border:1px solid rgba(255,255,255,0.6);
+box-shadow:0 0 12px rgba(255,255,255,0.25);
+}
+
+/* Icon */
+
+.search-icon{
+position:absolute;
+left:18px;
+top:50%;
+transform:translateY(-50%);
+font-size:16px;
+color:rgba(255,255,255,0.7);
+pointer-events:none;
+}
+
+.history-item{
+display:inline-block;
+margin:5px;
+padding:5px 12px;
+border-radius:15px;
+background:rgba(255,255,255,0.1);
+cursor:pointer;
+transition:.2s;
+}
+
+.history-item:hover{
+background:rgba(255,255,255,0.25);
+}
+
+/* SEARCH RESULT CONTAINER */
+
+.search-results{
+max-width:1000px;
+margin:10px auto;
+padding:10px 30px;
+background:#050505;
+border-radius:10px;
+text-align:center;
+}
+
+.search-results #noResults{
+margin-bottom:20px;
+color:#aaa;
+font-size:16px;
+}
+
+.search-results #searchHistory{
+margin-top:10px;
+color:#ccc;
+font-size:14px;
+}
+
+.highlight{
+background:rgba(255,255,255,0.25);
+color:white;
+padding:2px 6px;
+border-radius:6px;
+box-shadow:0 0 8px rgba(255,255,255,0.3);
+}
+
+/* MANUAL SECTION */
+
+.manual{
+max-width:1000px;
+margin:auto;
+padding:60px 30px;
+line-height:1.7;
+}
+
+.manual-section{
+margin-bottom:60px;
+}
+
+.manual-section h2{
+font-size:28px;
+margin-bottom:15px;
+letter-spacing:1px;
+}
+
+.manual-section p{
+color:#ccc;
+margin-bottom:15px;
+}
+
+.manual-section ul{
+margin-left:20px;
+color:#ccc;
+}
+
+.manual-section li{
+margin-bottom:8px;
+}
+
+/* DIVIDER */
+
+.divider{
+height:1px;
+background:#555;
+margin:40px 0;
+}
+
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+.footer .dropdown-content{
+top:auto;
+bottom:35px; /* opens upward */
+}
+
+/* BOOK DROPDOWN */
+
+.book-dropdown{
+position:relative;
+}
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+background:transparent;
+color:white;
+cursor:pointer;
+}
+
+/* Dropdown menu */
+
+.dropdown-content{
+display:none;
+position:absolute;
+top:35px;
+right:0;
+background:rgba(0,0,0,0.9);
+border-radius:8px;
+min-width:150px;
+overflow:hidden;
+}
+
+.dropdown-content a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:white;
+font-size:14px;
+}
+
+.dropdown-content a:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10; /* ensure it’s on top */
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px){
+
+.navbar{
+padding:20px;
+}
+
+.hero h1{
+font-size:40px;
+}
+
+.manual{
+padding:40px 20px;
+}
+
+}
+
+/* ========================= */
+/* 📱 RESPONSIVE FIX (MANUAL) */
+/* ========================= */
+
+@media (max-width: 900px){
+
+/* NAVBAR stays horizontal */
+.navbar{
+padding:0 20px;
+}
+
+.nav-links{
+gap:15px;
+font-size:14px;
+}
+
+/* HERO HEIGHT FIX */
+.hero{
+height:60vh;
+}
+
+/* HERO TITLE SCALE DOWN */
+.hero-title{
+font-size:55px;
+letter-spacing:5px;
+}
+
+/* CENTER CONTENT BETTER */
+.hero-content{
+width:100%;
+padding:0 20px;
+}
+
+/* SEARCH BAR FIX */
+.search-box{
+width:100%;
+max-width:320px;
+}
+
+.search-box input{
+padding:12px 15px 12px 45px;
+font-size:14px;
+}
+
+/* SEARCH RESULTS */
+.search-results{
+margin:10px 15px;
+padding:15px;
+}
+
+/* MANUAL CONTENT */
+.manual{
+padding:40px 20px;
+}
+
+.manual-section h2{
+font-size:22px;
+}
+
+.manual-section p,
+.manual-section li{
+font-size:14px;
+}
+
+/* FOOTER FIX */
+.footer-content{
+padding:0 20px;
+flex-direction:row;
+}
+
+/* PREVENT SIDE SCROLL */
+body, html{
+overflow-x:hidden;
+}
+
+}
+
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 480px){
+
+.hero-title{
+font-size:40px;
+letter-spacing:3px;
+}
+
+.search-box{
+max-width:280px;
+}
+
+.nav-links{
+gap:10px;
+font-size:12px;
+}
+
+.book-btn{
+padding:5px 12px;
+font-size:12px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="hero">
+
+<div class="overlay"></div>
+
+<a href="home.html">
+<div class="navbar">
+<div class="logo">GTECH</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+</div>
+
+<div class="hero-content">
+
+<div class="hero-title">USER MANUAL</div>
+
+<div class="search-bar">
+
+<div class="search-box">
+
+<span class="search-icon">🔍</span>
+
+<input type="text"
+id="manualSearch"
+placeholder="Search manual..."
+onkeyup="searchManual()">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MANUAL CONTENT -->
+
+<div class="manual">
+
+<div class="search-results">
+
+<div id="noResults" style="display:none;">
+No results found.
+</div>
+
+<div id="searchHistory">
+</div>
+
+</div>
+
+<div class="manual-section">
+
+<h2>1. Introduction</h2>
+
+<p>
+The GTECH is an educational platform designed to provide
+interactive learning materials related to multimedia and digital design.
+The website allows users to explore lessons, view infographics,
+and access educational content easily through a simple navigation system.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>2. Website Navigation</h2>
+
+<p>
+The navigation bar located at the top of the website allows users
+to easily move between different pages.
+</p>
+
+<ul>
+<li><b>Home</b> – Returns the user to the main page.</li>
+<li><b>About Us</b> – Shows information about the website.</li>
+<li><b>Manual</b> – Displays the user manual page.</li>
+<li><b>Book</b> – Opens a dropdown menu containing lessons and infographics.</li>
+</ul>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>3. Learning Cards</h2>
+
+<p>
+The homepage contains interactive cards that represent different
+learning topics available on the website.
+</p>
+
+<ul>
+<li>Multimedia</li>
+<li>Audio</li>
+<li>Color Theory</li>
+<li>Adobe Photoshop</li>
+<li>Adobe After Effects</li>
+</ul>
+
+<p>
+When a user clicks a card, the system will redirect them to
+the corresponding lesson page.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>4. Lessons and Infographics</h2>
+
+<p>
+Users can access lessons and infographic materials through the
+Book dropdown menu or by selecting a learning card.
+These materials contain step-by-step explanations
+and visual learning guides.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>5. Contact Form</h2>
+
+<p>
+The website provides a contact form where users can send questions
+or inquiries to the administrator.
+</p>
+
+<ul>
+<li>Enter your name</li>
+<li>Enter your phone number</li>
+<li>Write your message</li>
+<li>Click the Send button</li>
+</ul>
+
+<p>
+The system checks if all fields are filled before sending the message.
+If any field is empty, the form will show a warning message.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>6. Responsive Design</h2>
+
+<p>
+The website is designed to work on different screen sizes including
+desktop computers, tablets, and mobile phones.
+The layout automatically adjusts to provide a better viewing experience.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+
+<div class="manual-section">
+
+<h2>7. Conclusion</h2>
+
+<p>
+The GTECH is a learning website provides a simple and organized
+platform where users can access multimedia learning materials,
+interactive visuals, and educational resources.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-overlay"></div>
+
+<div class="navbar">
+
+<a href="home.html">
+<div class="logo">GTECH
+</div>
+</a>
+
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="aboutus.html">About Us</a>
+<a href="manual.html">Manual</a>
+</div>
+
+<div class="book-dropdown">
+  <button class="book-btn">Book</button>
+  <div class="dropdown-content">
+    <a href="lessons.html">Lesson</a>
+    <a href="infog.html">Infographics</a>
+  </div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</body>
+<script>
+const bookButtons = document.querySelectorAll('.book-btn');
+
+bookButtons.forEach(button => {
+
+  const dropdown = button.nextElementSibling;
+
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    dropdown.style.display =
+      dropdown.style.display === 'block' ? 'none' : 'block';
+  });
+
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
+  });
+});
+
+let historyList = [];
+
+function searchManual(){
+
+let input = document.getElementById("manualSearch").value.toLowerCase();
+let sections = document.querySelectorAll(".manual-section");
+let dividers = document.querySelectorAll(".divider");
+let found = false;
+
+sections.forEach((section,index) => {
+
+let originalHTML = section.innerHTML;
+let text = section.innerText.toLowerCase();
+
+/* remove old highlight */
+section.innerHTML = originalHTML.replace(/<span class="highlight">(.*?)<\/span>/g,"$1");
+
+if(input === ""){
+section.style.display="block";
+if(dividers[index]) dividers[index].style.display="block";
+document.getElementById("noResults").style.display="none";
+return;
+}
+
+if(text.includes(input)){
+
+section.style.display="block";
+if(dividers[index]) dividers[index].style.display="block";
+found=true;
+
+let regex = new RegExp("(" + input + ")", "gi");
+
+section.innerHTML = section.innerHTML.replace(regex, function(match){
+if(match.startsWith("<") || match.endsWith(">")) return match;
+return `<span class="highlight">${match}</span>`;
+});
+
+}else{
+
+section.style.display="none";
+if(dividers[index]) dividers[index].style.display="none";
+
+}
+
+});
+
+/* show no results */
+document.getElementById("noResults").style.display = found ? "none" : "block";
+
+/* save history */
+if(input && !historyList.includes(input)){
+historyList.unshift(input);
+if(historyList.length > 6) historyList.pop();
+displayHistory();
+}
+
+}
+
+/* display history */
+
+function displayHistory(){
+
+let historyContainer = document.getElementById("searchHistory");
+
+historyContainer.innerHTML = "<b>Recent Searches:</b><br>";
+
+historyList.forEach(item => {
+
+historyContainer.innerHTML +=
+`<span class="history-item" onclick="searchFromHistory('${item}')">${item}</span>`;
+
+});
+
+}
+
+/* click history */
+
+function searchFromHistory(word){
+
+document.getElementById("manualSearch").value = word;
+searchManual();
+
+}
+
+</script>
+</html>
