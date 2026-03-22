@@ -372,13 +372,18 @@ bottom:35px; /* opens upward */
 position:relative;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
-background:transparent;
-color:white;
-cursor:pointer;
+.nav-book-btn{
+  border:1px solid white;
+  padding:6px 18px;
+  border-radius:20px;
+  background:transparent;
+  background-color: transparent !important;
+  color:white;
+  cursor:pointer;
+}
+
+.book-dropdown button:focus{
+  outline:none;
 }
 
 /* Dropdown menu */
@@ -637,10 +642,8 @@ font-size:22px;
 <div class="overlay"></div>
 
 
-<a href="index.html">
 <div class="navbar">
-<div class="logo">GTECH</div>
-</a>
+  <a href="index.html" class="logo">GTECH</a>
 
 <div class="nav-links">
 <a href="index.html">Home</a>
@@ -649,7 +652,7 @@ font-size:22px;
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+<button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
