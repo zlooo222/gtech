@@ -129,25 +129,6 @@ transform:translateY(-5px);
 background:rgba(255,255,255,0.25);
 }
 
-/* HERO BOOK BUTTON */
-
-.hero-book{
-  position:absolute;
-  bottom:140px;
-  right:120px;
-  background:#ffffff;
-  color:#000000;
-  border:none;
-  padding:10px 50px;
-  border-radius:5px;
-  font-size:16px;
-  cursor:pointer;
-  z-index:5;
-  display:inline-block; /* IMPORTANT */
-  text-align:center;
-}
-
-
 /* SECTION */
 
 .section{
@@ -366,11 +347,22 @@ top:auto;
 bottom:35px; /* opens upward */
 }
 
-/* DROPDOWN */
+/* BOOK DROPDOWN */
 
 .book-dropdown{
 position:relative;
 }
+
+.book-btn{
+border:1px solid white;
+padding:6px 18px;
+border-radius:20px;
+background:transparent;
+color:white;
+cursor:pointer;
+}
+
+/* Dropdown menu */
 
 .dropdown-content{
 display:none;
@@ -381,18 +373,32 @@ background:rgba(0,0,0,0.9);
 border-radius:8px;
 min-width:150px;
 overflow:hidden;
-z-index:10;
 }
 
 .dropdown-content a{
 display:block;
 padding:10px 15px;
+text-decoration:none;
 color:white;
 font-size:14px;
 }
 
 .dropdown-content a:hover{
 background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10; /* ensure it’s on top */
 }
 
 /* ========================= */
