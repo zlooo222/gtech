@@ -22,11 +22,12 @@ color:white;
 background:black;
 }
 
+/* HERO SECTION */
 
 .hero{
 background:url("lol.jpg") center/cover no-repeat;
 position:relative;
-padding:150px 0; 
+padding:150px 0; /* controls header height */
 }
 
 .overlay{
@@ -38,6 +39,7 @@ height:100%;
 background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
 }
 
+/* NAVBAR */
 
 .navbar{
 position:absolute;
@@ -72,6 +74,7 @@ padding:6px 18px;
 border-radius:20px;
 }
 
+/* HERO CONTENT */
 
 .hero-content{
 position:absolute;
@@ -87,6 +90,7 @@ letter-spacing:10px;
 opacity:.35;
 }
 
+/* BOOK BUTTON */
 
 .hero-book{
 position:absolute;
@@ -102,6 +106,7 @@ cursor:pointer;
 z-index:5;
 }
 
+/* FOOTER */
 
 .footer{
 display:flex;
@@ -116,6 +121,7 @@ display:flex;
 gap:25px;
 }
 
+/* POPULAR HOUSES */
 
 .houses{
 background:#f3f3f3;
@@ -151,6 +157,7 @@ max-width:1200px;
 margin:auto;
 }
 
+/* LESSON SLIDER */
 
 .lesson-slider{
 display:flex;
@@ -190,6 +197,7 @@ height:100%;
 object-fit:cover;
 }
 
+/* ARROWS */
 
 .prev,
 .next{
@@ -202,6 +210,7 @@ cursor:pointer;
 border-radius:50%;
 }
 
+/* BOTTOM CONTROLS */
 
 .house-bottom{
 display:flex;
@@ -236,6 +245,7 @@ cursor:pointer;
 font-size:13px;
 }
 
+/* BOOK DROPDOWN */
 
 .book-dropdown{
 position:relative;
@@ -250,6 +260,7 @@ color:white;
 cursor:pointer;
 }
 
+/* Dropdown menu */
 
 .dropdown-content{
 display:none;
@@ -274,6 +285,7 @@ font-size:14px;
 background:rgba(255,255,255,0.15);
 }
 
+/* Show dropdown */
 
 .dropdown-content {
   display: none;
@@ -284,8 +296,9 @@ background:rgba(255,255,255,0.15);
   border-radius: 8px;
   min-width: 150px;
   overflow: hidden;
-  z-index: 10; 
+  z-index: 10; /* ensure it’s on top */
 }
+/* FOOTER SECTION */
 
 .footer{
 background:url("lol.jpg") center/cover no-repeat;
@@ -328,8 +341,9 @@ opacity:.8;
 }
 .footer .dropdown-content{
 top:auto;
-bottom:35px; 
+bottom:35px; /* opens upward */
 }
+/* FULLSCREEN IMAGE VIEW */
 
 .fullscreen-view{
 position:fixed;
@@ -384,6 +398,7 @@ right:30px;
 .full-next:hover{
 background:rgba(255,255,255,0.4);
 }
+/* FINISH POPUP */
 
 .finish-popup{
 position:fixed;
@@ -421,9 +436,13 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
+/* ========================= */
+/* 📱 RESPONSIVE FIX (SLIDER PAGE) */
+/* ========================= */
 
 @media (max-width: 1000px){
 
+/* NAVBAR */
 .navbar{
 padding:0 20px;
 }
@@ -433,6 +452,7 @@ gap:15px;
 font-size:14px;
 }
 
+/* HERO */
 .hero{
 padding:120px 0;
 }
@@ -447,10 +467,12 @@ font-size:70px;
 letter-spacing:6px;
 }
 
+/* SECTION */
 .houses{
 padding:60px 20px;
 }
 
+/* SLIDER SIZE */
 .lesson-slider{
 flex-direction:column;
 gap:20px;
@@ -461,33 +483,39 @@ width:100%;
 height:400px;
 }
 
+/* ARROWS SMALLER */
 .prev,
 .next{
 font-size:22px;
 padding:8px 14px;
 }
 
+/* FULLSCREEN BUTTONS */
 .full-prev,
 .full-next{
 font-size:30px;
 padding:8px 14px;
 }
 
+/* CLOSE BUTTON */
 .close-full{
 font-size:30px;
 top:20px;
 right:20px;
 }
 
+/* POPUP */
 .finish-box{
 padding:30px 25px;
 }
 
+/* FOOTER */
 .footer-content,
 .footer .navbar{
 padding:0 20px;
 }
 
+/* NO SIDE SCROLL */
 body, html{
 overflow-x:hidden;
 }
@@ -495,28 +523,34 @@ overflow-x:hidden;
 }
 
 
+/* MOBILE */
 @media (max-width: 600px){
 
+/* HERO TITLE */
 .hero-title{
 font-size:45px;
 letter-spacing:4px;
 }
 
+/* SLIDER HEIGHT SMALLER */
 .slides{
 height:250px;
 }
 
+/* BUTTONS SMALL */
 .prev,
 .next{
 font-size:18px;
 padding:6px 10px;
 }
 
+/* FULLSCREEN NAV */
 .full-prev,
 .full-next{
 font-size:24px;
 }
 
+/* NAVBAR TIGHT */
 .nav-links{
 gap:10px;
 font-size:12px;
@@ -527,6 +561,7 @@ padding:5px 12px;
 font-size:12px;
 }
 
+/* POPUP TEXT */
 .finish-box h2{
 font-size:20px;
 }
@@ -543,6 +578,7 @@ font-size:14px;
 <body>
 
 
+<!-- HERO -->
 <div class="hero">
 
 <div class="overlay"></div>
@@ -588,18 +624,19 @@ font-size:14px;
 </section>
 
 
+<!-- FOOTER -->
 <div class="footer">
 
 <div class="footer-overlay"></div>
 
-<div class="navbar">
+<div class="footer-content">
 
 <a href="index.html">
-<div class="logo">GTECH
+<div class="footer-logo">GTECH
 </div>
 </a>
 
-<div class="nav-links">
+<div class="footer-links">
 <a href="index.html">Home</a>
 <a href="aboutus.html">About Us</a>
 <a href="manual.html">Manual</a>
@@ -625,8 +662,8 @@ font-size:14px;
 
   <button class="full-next">&#10095;</button>
 </div>
-
-  <div class="finish-popup" id="finishPopup">
+<!-- FINISH POPUP -->
+<div class="finish-popup" id="finishPopup">
   <div class="finish-box">
     <h2>Congratulations!</h2>
     <p>You finished this topic.</p>
