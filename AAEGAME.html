@@ -20,60 +20,125 @@ body{
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  overflow:hidden;
+  padding:15px;
+  overflow-x:hidden; /* fix horizontal scroll */
 }
 
+/* MAIN CONTAINER */
 .quiz-container{
-  width:90%;
-  max-width:600px;
+  width:100%;
+  max-width:850px; /* balanced size */
   background:rgba(255,255,255,0.05);
-  padding:25px;
+  padding:30px;
   border-radius:15px;
   box-shadow:0 10px 30px rgba(0,0,0,0.5);
   position:relative;
   z-index:2;
 }
 
+/* HEADINGS */
 h1{
   text-align:center;
   margin-bottom:10px;
+  font-size:clamp(20px, 4vw, 28px);
 }
 
+h2{text-align:center;
+  font-size:clamp(18px, 3.5vw, 22px);
+}
+
+/* TIMER */
 .timer{
   text-align:center;
   margin-bottom:10px;
   font-weight:bold;
+  font-size:clamp(14px, 3vw, 18px);
 }
 
+/* QUESTION */
 .question{
-  font-size:18px;
+  font-size:clamp(16px, 4vw, 20px);
   margin-bottom:15px;
+  text-align:center;
 }
 
+/* OPTIONS */
 .options button{
   width:100%;
-  padding:12px;
+  padding:14px;
   margin:8px 0;
   border:none;
   border-radius:10px;
   cursor:pointer;
   background:#2b2f77;
   color:white;
+  font-size:clamp(14px, 3.5vw, 16px);
+  transition:0.2s;
 }
 
-.next-btn, .retry-btn{
+.options button:hover{
+  background:#3a3f9a;
+}
+
+/* BUTTONS */
+.next-btn, .retry-btn, .start-btn{
   margin-top:15px;
   width:100%;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:10px;
   background:#00c3ff;
   color:black;
   cursor:pointer;
+  font-weight:bold;
+  font-size:clamp(14px, 3.5vw, 16px);
+  transition:0.3s;
 }
 
+.start-btn:hover,
+.retry-btn:hover{
+  background:#00a8dd;
+}
+
+/* RESULT */
 .result{
   text-align:center;
+  font-size:clamp(16px, 4vw, 18px);
+}
+
+/* INSTRUCTIONS */
+.instructions{
+  text-align:left;
+  margin:15px 0;
+  padding-left:20px;
+  line-height:1.6;
+  font-size:clamp(13px, 3.2vw, 15px);
+}
+
+.instructions li{
+  margin-bottom:8px;
+}
+
+/* HEADER BUTTON */
+.quiz-header{
+  display:flex;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.back-btn{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+  font-size:clamp(12px, 3vw, 14px);
+  transition:0.3s;
+}
+
+.back-btn:hover{
+  background:#e63956;
 }
 
 /* CONFETTI */
@@ -83,7 +148,8 @@ h1{
   height:8px;
   top:-10px;
   animation:fall linear forwards;
-  z-index:1;
+  z-index:9999; /* 🔥 FIX: make it visible above everything */
+  pointer-events:none; /* prevents blocking clicks */
 }
 
 @keyframes fall{
@@ -91,6 +157,169 @@ h1{
     transform:translateY(100vh) rotate(720deg);
   }
 }
+
+/* ========================= */
+/* 📱 MOBILE OPTIMIZATION */
+/* ========================= */
+
+@media (max-width: 480px){
+
+  body{
+    align-items:flex-start; /* prevent vertical squeeze */
+    padding:10px;
+  }
+
+  .quiz-container{
+  width:100%;
+  max-width:1000px; /* bigger on desktop */
+  min-height:100vh; /* full screen */
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  position:relative;
+  z-index:2;
+  border-radius:0; /* removes gaps on edges */;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center; /* centers content vertically */
+}
+
+  .options button{
+    padding:16px; /* bigger tap targets */
+  }
+
+  .start-btn, .retry-btn{
+    padding:16px;
+  }
+
+}
+
+/* ========================= */
+/* 📱 TABLET OPTIMIZATION */
+/* ========================= */
+
+@media (min-width: 481px) and (max-width: 768px){
+  .quiz-container{
+    max-width:90%;
+    min-height:85vh;
+  }
+}
+/* ========================= */
+/* 💻 DESKTOP ENHANCEMENT */
+/* ========================= */
+
+@media (min-width: 1024px){
+
+  .quiz-container{
+    max-width:1000px;
+    padding:40px;
+  }
+
+  h1{
+    font-size:32px;
+  }
+
+  h2{
+    font-size:24px;
+  }
+
+  .question{
+    font-size:22px;
+  }
+
+  .timer{
+    font-size:18px;
+  }
+
+  .options button{
+    font-size:18px;
+    padding:18px;
+  }
+
+  .start-btn, .retry-btn{
+    font-size:18px;
+    padding:18px;
+  }
+
+}
+
+/* REVIEW CARD */
+.review-card{
+  background: rgba(255,255,255,0.08);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  animation: fadeIn 0.4s ease;
+}
+
+/* QUESTION HEADER */
+.review-question{
+  font-size: clamp(16px,4vw,20px);
+  margin-bottom: 15px;
+}
+
+/* OPTIONS */
+.review-option{
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  transition: 0.2s;
+}
+
+/* CORRECT */
+.correct{
+  background: rgba(0,255,136,0.2);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  font-weight: bold;
+}
+
+/* WRONG */
+.wrong{
+  background: rgba(255,77,109,0.2);
+  border: 1px solid #ff4d6d;
+  color: #ff4d6d;
+  font-weight: bold;
+}
+
+/* EXPLANATION BOX */
+.explanation-box{
+  margin-top: 15px;
+  padding: 15px;
+  border-left: 4px solid #00c3ff;
+  background: rgba(0,195,255,0.1);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* FADE ANIMATION */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+@keyframes fall{
+  0%{
+    transform:translateY(0) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(100vh) translateX(100px) rotate(720deg);
+    opacity:0;
+  }
+}
+.options button,
+.start-btn,
+.retry-btn,
+.next-btn,
+.back-btn {
+  touch-action: manipulation;
+}
+ cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 </style>
 
 </head>
@@ -100,37 +329,136 @@ h1{
   <h1>After Effects Quiz</h1>
   <div class="timer" id="timer">Time: 10</div>
 
-  <div id="quiz">
+<div id="start-screen">
+  <h2>Instructions</h2>
+  <ul class="instructions">
+    <li>You will answer 15 questions about After Effects.</li>
+    <li>Each question has a 10-second time limit.</li>
+    <li>Select the best answer before time runs out.</li>
+    <li>No skipping questions.</li>
+    <li>Try to score at least 12 to pass!</li>
+  </ul>
+
+  <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quiz" style="display:none;">
     <div class="question" id="question"></div>
     <div class="options" id="options"></div>
+	<div class="quiz-header">
+  <button class="back-btn" onclick="backToStart()">Back to Start</button>
+</div>
   </div>
 
   <div class="result" id="result" style="display:none;"></div>
 </div>
 
 <script>
+function startQuiz(){
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+}
+
 let questions = [
-  {question:"What is Adobe After Effects mainly used for?", options:["Photo editing","Video compositing & motion graphics","Audio recording","3D modeling"], answer:1},
-  {question:"Which panel displays layers?", options:["Effects Panel","Timeline Panel","Tools Panel","Preview Panel"], answer:1},
-  {question:"What is a keyframe?", options:["A file format","A change over time marker","A tool","An effect"], answer:1},
-  {question:"Which tool selects objects?", options:["Pen Tool","Selection Tool","Zoom Tool","Text Tool"], answer:1},
-  {question:"Opacity controls?", options:["Speed","Transparency","Size","Rotation"], answer:1},
-  {question:"What does the Timeline control?", options:["Audio only","Layer timing","Colors","Export"], answer:1},
-  {question:"Which file format is common for video output?", options:[".mp4",".jpg",".png",".txt"], answer:0},
-  {question:"What is a composition?", options:["A folder","A project workspace","An effect","A render"], answer:1},
-  {question:"Which tool draws shapes?", options:["Brush Tool","Shape Tool","Move Tool","Cut Tool"], answer:1},
-  {question:"What does RAM preview do?", options:["Exports video","Previews playback","Deletes layers","Adds effects"], answer:1},
-  {question:"Which property rotates an object?", options:["Scale","Rotation","Opacity","Position"], answer:1},
-  {question:"What does Scale change?", options:["Color","Size","Speed","Opacity"], answer:1},
-  {question:"Which panel applies effects?", options:["Timeline","Effects & Presets","Preview","Project"], answer:1},
-  {question:"What does Position control?", options:["Transparency","Location","Rotation","Color"], answer:1},
-  {question:"What is rendering?", options:["Editing","Exporting final video","Drawing shapes","Adding layers"], answer:1}
+  {
+    question:"What is Adobe After Effects mainly used for?",
+    options:["Photo editing","Video compositing & motion graphics","Audio recording","3D modeling"],
+    answer:1,
+    explanation:"After Effects is mainly used for video compositing and motion graphics, not basic editing like Photoshop."
+  },
+  {
+    question:"Which panel displays layers?",
+    options:["Effects Panel","Timeline Panel","Tools Panel","Preview Panel"],
+    answer:1,
+    explanation:"The Timeline Panel is where all layers are displayed and arranged over time."
+  },
+  {
+    question:"What is a keyframe?",
+    options:["A file format","A change over time marker","A tool","An effect"],
+    answer:1,
+    explanation:"Keyframes define changes in properties (like position or opacity) over time."
+  },
+  {
+    question:"Which tool selects objects?",
+    options:["Pen Tool","Selection Tool","Zoom Tool","Text Tool"],
+    answer:1,
+    explanation:"The Selection Tool is used to select and move objects."
+  },
+  {
+    question:"Opacity controls?",
+    options:["Speed","Transparency","Size","Rotation"],
+    answer:1,
+    explanation:"Opacity controls how transparent or visible an object is."
+  },
+  {
+    question:"What does the Timeline control?",
+    options:["Audio only","Layer timing","Colors","Export"],
+    answer:1,
+    explanation:"The Timeline controls when layers appear and how long they last."
+  },
+  {
+    question:"Which file format is common for video output?",
+    options:[".mp4",".jpg",".png",".txt"],
+    answer:0,
+    explanation:".mp4 is a standard format for video export."
+  },
+  {
+    question:"What is a composition?",
+    options:["A folder","A project workspace","An effect","A render"],
+    answer:1,
+    explanation:"A composition is the main workspace where you build your animation."
+  },
+  {
+    question:"Which tool draws shapes?",
+    options:["Brush Tool","Shape Tool","Move Tool","Cut Tool"],
+    answer:1,
+    explanation:"The Shape Tool is used to create vector shapes."
+  },
+  {
+    question:"What does RAM preview do?",
+    options:["Exports video","Previews playback","Deletes layers","Adds effects"],
+    answer:1,
+    explanation:"RAM Preview allows smooth playback of your animation in real time."
+  },
+  {
+    question:"Which property rotates an object?",
+    options:["Scale","Rotation","Opacity","Position"],
+    answer:1,
+    explanation:"Rotation controls how an object spins."
+  },
+  {
+    question:"What does Scale change?",
+    options:["Color","Size","Speed","Opacity"],
+    answer:1,
+    explanation:"Scale changes the size of an object."
+  },
+  {
+    question:"Which panel applies effects?",
+    options:["Timeline","Effects & Presets","Preview","Project"],
+    answer:1,
+    explanation:"Effects & Presets panel is where you apply visual effects."
+  },
+  {
+    question:"What does Position control?",
+    options:["Transparency","Location","Rotation","Color"],
+    answer:1,
+    explanation:"Position controls where an object is placed on screen."
+  },
+  {
+    question:"What is rendering?",
+    options:["Editing","Exporting final video","Drawing shapes","Adding layers"],
+    answer:1,
+    explanation:"Rendering means exporting the finished video."
+  }
 ];
 
 let currentQuestion = 0;
 let score = 0;
 let timeLeft = 10;
 let timer;
+let userAnswers = [];
+let reviewIndex = 0;
+
 
 /* SHUFFLE */
 function shuffle(array){
@@ -175,9 +503,8 @@ function loadQuestion(){
     let btn = document.createElement("button");
     btn.textContent = item.opt;
 
-    btn.onclick = ()=>{
-      nextQuestion(item.i);
-    };
+    btn.addEventListener("click", ()=> nextQuestion(item.i));
+
 
     optionsEl.appendChild(btn);
   });
@@ -185,6 +512,8 @@ function loadQuestion(){
 
 function nextQuestion(selected){
   clearInterval(timer);
+
+  userAnswers[currentQuestion] = selected;
 
   if(selected === questions[currentQuestion].answer){
     score++;
@@ -198,26 +527,105 @@ function nextQuestion(selected){
     showResult();
   }
 }
+function backToStart(){
+  clearInterval(timer);
 
+  currentQuestion = 0;
+  score = 0;
+
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("timer").style.display = "block";
+  document.getElementById("start-screen").style.display = "block";
+}
 function showResult(){
   document.getElementById("quiz").style.display = "none";
   timerEl.style.display = "none";
   resultEl.style.display = "block";
 
+  reviewIndex = 0;
+
   resultEl.innerHTML = `
     <h2>Your Score: ${score}/${questions.length}</h2>
     <p>${score >= 12 ? "Excellent work!" : "Keep practicing!"}</p>
+
+    <div id="review-box" style="margin-top:20px;"></div>
+
+    <div style="margin-top:15px; display:flex; gap:10px;">
+  <button class="next-btn" style="flex:1;" onclick="prevReview()">← Previous</button>
+  <button class="next-btn" style="flex:1;" onclick="nextReview()">Next →</button>
+</div>
+
     <button class="retry-btn" onclick="restartQuiz()">Try Again</button>
   `;
+
+  showReviewQuestion();
 
   if(score >= 12){
     launchConfetti();
   }
 }
 
+function showReviewQuestion(){
+  let q = questions[reviewIndex];
+  let userAns = userAnswers[reviewIndex];
+  let correct = q.answer;
+
+  let html = `
+    <div class="review-card">
+
+      <div class="review-question">
+        <strong>Question ${reviewIndex+1} of ${questions.length}</strong><br>
+        ${q.question}
+      </div>
+  `;
+
+  q.options.forEach((opt, i)=>{
+    let className = "review-option";
+
+    if(i === correct){
+      className += " correct";
+    }
+
+    if(i === userAns && i !== correct){
+      className += " wrong";
+    }
+
+    html += `<div class="${className}">${opt}</div>`;
+  });
+
+  html += `
+      <div class="explanation-box">
+        💡 <strong>Explanation:</strong><br>
+        ${q.explanation}
+      </div>
+
+    </div>
+  `;
+
+  document.getElementById("review-box").innerHTML = html;
+}
+
+function nextReview(){
+  if(reviewIndex < questions.length - 1){
+    reviewIndex++;
+    showReviewQuestion();
+  }
+}
+
+function prevReview(){
+  if(reviewIndex > 0){
+    reviewIndex--;
+    showReviewQuestion();
+  }
+}
+
 function restartQuiz(){
   currentQuestion = 0;
   score = 0;
+  userAnswers = [];
+  reviewIndex = 0;
+
   shuffle(questions);
 
   resultEl.style.display = "none";
@@ -236,7 +644,7 @@ function launchConfetti(){
     confetti.style.left = Math.random()*100 + "vw";
     confetti.style.backgroundColor = getRandomColor();
     confetti.style.animationDuration = (Math.random()*3+2) + "s";
-
+	confetti.style.animationName = "fall";
     document.body.appendChild(confetti);
     setTimeout(()=>confetti.remove(),5000);
   }
