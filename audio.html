@@ -733,34 +733,53 @@ font-size:20px;
 font-size:14px;
 }
 /* KEEP EVERYTHING IN ONE LINE */
+/* FORCE SAME STRUCTURE AS FOOTER */
 .navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0 10px;
-}
-
-/* LOGO SMALLER */
-.logo{
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin-left: 0;
-}
-
-/* LINKS TIGHT + SMALL */
-.nav-links{
   gap: 5px;
 }
 
+/* GROUP CENTER LINKS */
+.nav-links{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* LOGO SAME BEHAVIOR */
+.logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* LINKS SAME AS FOOTER */
 .nav-links a{
   font-size: 11px;
   padding: 4px 5px;
+  white-space: nowrap;
 }
 
-/* BOOK BUTTON SMALL */
+/* BOOK BUTTON SAME POSITION */
+.book-dropdown{
+  flex-shrink: 0;
+}
+
 .nav-book-btn{
   font-size: 11px;
   padding: 5px 10px;
-  margin-right: 0;
+  margin: 0;
+  white-space: nowrap;
 }
-
+.navbar,
+.footer-content{
+  padding: 0 10px;
+}
 /* FOOTER SAME STYLE */
 .footer-content{
   padding: 0 10px;
@@ -814,24 +833,23 @@ font-size:14px;
 
 <div class="overlay"></div>
 
-<a href="index.html">
 <div class="navbar">
-<div class="logo">GTECH</div>
-</a>
 
-<div class="nav-links">
-<a href="index.html">Home</a>
-<a href="aboutus.html">About Us</a>
-<a href="manual.html">Manual</a>
-</div>
+  <a href="index.html" class="logo">GTECH</a>
 
-<div class="book-dropdown">
-  <button class="nav-book-btn">Book</button>
-  <div class="dropdown-content">
-    <a href="lessons.html">Lesson</a>
-    <a href="infog.html">Infographics</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="manual.html">Manual</a>
   </div>
-</div>
+
+  <div class="book-dropdown">
+    <button class="nav-book-btn">Book</button>
+    <div class="dropdown-content">
+      <a href="lessons.html">Lesson</a>
+      <a href="infog.html">Infographics</a>
+    </div>
+  </div>
 
 </div>
 </div>
