@@ -664,22 +664,51 @@ font-size:45px;
 letter-spacing:4px;
 }
 
-/* SLIDER HEIGHT SMALLER */
-.slides{
-height:250px;
+/* SLIDER CONTAINER */
+.lesson-slider{
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: auto;
 }
 
-/* BUTTONS SMALL */
+/* SLIDES PERFECTLY FIT */
+.slides{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+/* MEDIA FIT CLEAN */
+.house-card{
+  width: 100%;
+  height: 100%;
+}
+
+.house-card iframe,
+.house-card video,
+.house-card img{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+
 .prev,
 .next{
-font-size:18px;
-padding:6px 10px;
+  position: absolute;
+  bottom: -50px;
+  top: auto;
+  transform: none;
 }
 
-/* FULLSCREEN NAV */
-.full-prev,
-.full-next{
-font-size:24px;
+.prev{
+  left: 50%;
+  transform: translateX(-60px);
+}
+
+.next{
+  left: 50%;
+  transform: translateX(20px);
 }
 
 /* NAVBAR TIGHT */
@@ -764,31 +793,9 @@ font-size:14px;
   height:100%;
   object-fit: contain;
 }
-.slides{
-  width:100%;
-  aspect-ratio: 16 / 9;
-}
-.lesson-slider{
-  position: relative;
-}
 
-.prev,
-.next{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-}
-
-.prev{
-  left: 10px;
-}
-
-.next{
-  right: 10px;
-}
 .houses{
-  padding:40px 15px;
+  padding: 40px 15px 80px; /* extra bottom space for buttons */
 }
 }
 </style>
