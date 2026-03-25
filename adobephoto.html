@@ -36,25 +36,28 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.85));
+pointer-events: none; /* 🔥 THIS FIXES NAV + BOOK CLICK */
 }
 
 /* NAVBAR */
 
-.navbar{
-position:absolute;
-top:30px;
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:0 80px;
-align-items:center;
-z-index:5;
+.navbar {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  z-index: 1000;
 }
 
 .logo{
-font-weight:bold;
-letter-spacing:2px;
+  font-weight:bold;
+  letter-spacing:8px;
+  margin-left:20px; /* ✅ match visual spacing */
 }
 
 .nav-links{
@@ -63,15 +66,27 @@ gap:30px;
 }
 
 .nav-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
+.nav-links a:hover{
+  opacity:1;
+}
+
+.nav-book-btn{
+  background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
 }
 
 /* HERO CONTENT */
@@ -104,21 +119,6 @@ border-radius:5px;
 font-size:16px;
 cursor:pointer;
 z-index:5;
-}
-
-/* FOOTER */
-
-.footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:30px 80px;
-background:black;
-}
-
-.footer-links{
-display:flex;
-gap:25px;
 }
 
 /* POPULAR HOUSES */
@@ -170,7 +170,7 @@ margin:auto;
 
 .slides{
 width:1000px;
-height:600px;
+height:100%;
 }
 
 .slide{
@@ -182,7 +182,6 @@ display:block;
 }
 
 .house-card{
-background:white;
 border-radius:12px;
 overflow:hidden;
 text-align:center;
@@ -245,19 +244,82 @@ cursor:pointer;
 font-size:13px;
 }
 
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:8px;
+margin-left:20px; /* adjust this value */
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+  opacity:1;
+}
+
+.navbar,
+.footer-content {
+  padding: 0 80px;
+}
+
+
 /* BOOK DROPDOWN */
 
 .book-dropdown{
 position:relative;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
-background:transparent;
-color:white;
-cursor:pointer;
+.nav-book-btn{
+   background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
+
+}
+
+.book-dropdown button:focus{
+  outline:none;
 }
 
 /* Dropdown menu */
@@ -287,62 +349,27 @@ background:rgba(255,255,255,0.15);
 
 /* Show dropdown */
 
-.dropdown-content {
+.dropdown-content{
   display: none;
   position: absolute;
-  top: 35px;
+  top: 100%;         /* always below button */
+  margin-top: 10px;  /* space between button & dropdown */
   right: 0;
   background: rgba(0,0,0,0.9);
   border-radius: 8px;
   min-width: 150px;
   overflow: hidden;
-  z-index: 10; /* ensure it’s on top */
-}
-/* FOOTER SECTION */
-
-.footer{
-background:url("lol.jpg") center/cover no-repeat;
-position:relative;
-padding:50px 0;
-}
-
-.footer-overlay{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
-}
-
-.footer-content{
-position:relative;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 80px;
-z-index:5;
-}
-
-.footer-logo{
-font-weight:bold;
-letter-spacing:2px;
-}
-
-.footer-links{
-display:flex;
-gap:30px;
-}
-
-.footer-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  z-index: 10;
 }
 .footer .dropdown-content{
-top:auto;
-bottom:35px; /* opens upward */
+  top: auto;            /* remove downward behavior */
+  bottom: 100%;         /* 👈 attach to top of button */
+  margin-bottom: 10px;  /* 👈 spacing from button */
 }
+.footer .nav-book-btn{
+  margin-right:20px;
+}
+
 /* FULLSCREEN IMAGE VIEW */
 
 .fullscreen-view{
@@ -431,10 +458,32 @@ text-decoration:none;
 border-radius:25px;
 font-size:14px;
 }
+
 .house-card video{
 width:100%;
-height:100%;
-object-fit:cover;
+height:auto;
+}
+.floating-pdf{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#3f7d54;
+  color:white;
+  padding:12px 22px;
+  border-radius:30px;
+  font-size:14px;
+  text-decoration:none;
+  z-index:999;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
+
+.floating-pdf:hover{
+  background:#2f5e3f;
+  transform:translateY(-2px);
+}
+.floating-pdf{
+  transition: opacity 0.3s ease, transform 0.3s;
 }
 /* ========================= */
 /* 📱 RESPONSIVE FIX (SLIDER PAGE) */
@@ -521,7 +570,88 @@ overflow-x:hidden;
 }
 
 }
+@media (max-width: 900px) {
 
+  /* NAVBAR */
+  .navbar {
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+	margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+  /* dropdown centered */
+  .dropdown-content {
+    right: 0;
+    transform: translateX(-10px);
+  }
+
+  /* FOOTER */
+   .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    font-size: 14px;
+    white-space: nowrap; /* 🔥 prevent breaking */
+    flex-shrink: 0;
+	margin-right: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 5px 6px;
+    white-space: nowrap; /* 🔥 FIX TEXT BREAK */
+  }
+
+  .book-dropdown {
+    flex-shrink: 0; /* 🔥 prevent squish */
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+	flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* DROPDOWN FULL WIDTH STYLE */
+  .dropdown-content {
+    min-width: 120px;
+    font-size: 13px;
+  }
+}
 
 /* MOBILE */
 @media (max-width: 600px){
@@ -571,6 +701,13 @@ font-size:14px;
 }
 
 }
+
+
+.navbar::-webkit-scrollbar,
+.footer-content::-webkit-scrollbar{
+  display:none;
+}
+
 </style>
 </head>
 
@@ -583,8 +720,9 @@ font-size:14px;
 
 <div class="overlay"></div>
 
-<a href="index.html">
 <div class="navbar">
+
+<a href="index.html">
 <div class="logo">GTECH</div>
 </a>
 
@@ -595,7 +733,7 @@ font-size:14px;
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+  <button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
@@ -608,6 +746,9 @@ font-size:14px;
 <div class="hero-title">ADOBE PHOTOSHOP</div>
 </div>
 
+<a href="ADOBE PHOTO.pdf" download class="floating-pdf">
+  DOWNLOAD PDF
+</a>
 
 <section class="houses">
 
@@ -643,7 +784,7 @@ font-size:14px;
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+  <button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
@@ -667,13 +808,13 @@ font-size:14px;
   <div class="finish-box">
     <h2>Congratulations!</h2>
     <p>You finished this topic.</p>
-    <a href="mmquiz.html" class="quiz-btn">Try Your Knowledge</a>
+    <a href="adobephotoquiz.html" class="quiz-btn">Try Your Knowledge</a>
   </div>
 </div>
 </body>
 <script>
 
-const bookButtons = document.querySelectorAll('.book-btn');
+const bookButtons = document.querySelectorAll('.nav-book-btn');
 
 bookButtons.forEach(button => {
 
@@ -682,44 +823,76 @@ bookButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // close all other dropdowns first
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      if(menu !== dropdown){
+        menu.style.display = 'none';
+      }
+    });
+
+    // toggle current
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
 
 });
 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    menu.style.display = 'none';
-  });
+/* CLOSE ONLY WHEN CLICK OUTSIDE */
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.book-dropdown')){
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+
 });
 const slidesContainer = document.querySelector(".slides");
 
-for(let i = 1; i <= 28; i++){
+const media = [
+  "1.png","2.png","3.png","4.png",
+  "vimeo:1176412114",
+  "6.png","7.png","8.png","9.png",
+  "10.png","11.png","12.png","13.png","14.png","15.png",
+  "16.png","17.png","18.png","19.png","20.png",
+  "vimeo:1176412139",
+  "22.png","23.png",
+  "vimeo:1176412071",
+  "25.png",
+  "vimeo:1176412352",
+  "27.png",
+  "vimeo:1176412276",
+];
+
+media.forEach((file, i) => {
 
   const slide = document.createElement("div");
   slide.classList.add("house-card","slide");
 
-  if(i === 1){
-    slide.classList.add("active");
-  }
+  if(i === 0) slide.classList.add("active");
 
-  if(i === 6){
-    slide.innerHTML = `
-      <video controls>
-        <source src="adobephoto/5.mp4" type="video/mp4">
-        <source src="adobephoto/21.mp4" type="video/mp4">
-        <source src="adobephoto/24.mp4" type="video/mp4">
-        <source src="adobephoto/26.mp4" type="video/mp4">
-        <source src="adobephoto/28.mp4" type="video/mp4">
-      </video>
-    `;
-  } else {
-    slide.innerHTML = `<img src="adobephoto/${i}.png">`;
-  }
+ if(file.startsWith("vimeo:")){
+  const videoId = file.split(":")[1];
+
+  slide.innerHTML = `
+  <div style="padding:56.25% 0 0 0;position:relative;">
+    <iframe src="https://player.vimeo.com/video/${videoId}"
+    frameborder="0"
+    allow="autoplay; fullscreen; picture-in-picture"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;">
+    </iframe>
+  </div>`;
+}
+
+else if(file.endsWith(".mp4")){
+  slide.innerHTML = `<video controls src="adobephoto/${file}"></video>`;
+}
+else{
+  slide.innerHTML = `<img src="adobephoto/${file}">`;
+}
 
   slidesContainer.appendChild(slide);
-}
+});
 
 const slides = document.querySelectorAll(".slide");
 const next = document.querySelector(".next");
@@ -812,5 +985,26 @@ fullPrev.addEventListener("click", (e) => {
   showSlide(index);
   updateFullscreen();
 });
+const floatingBtn = document.querySelector(".floating-pdf");
+const footer = document.querySelector(".footer");
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        floatingBtn.style.opacity = "0";
+        floatingBtn.style.pointerEvents = "none"; // allow footer clicks
+      } else {
+        floatingBtn.style.opacity = "1";
+        floatingBtn.style.pointerEvents = "auto";
+      }
+    });
+  },
+  {
+    threshold: 0.1
+  }
+);
+
+observer.observe(footer);
 </script>
 </html>
