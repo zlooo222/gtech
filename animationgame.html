@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Challenge Your Self</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #bfe9ff, #eaf8ff);
+      color: #1e3a5f;
+      overflow-x: hidden;
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .page.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.94);
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      max-width: 860px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #4da6ff;
+      color: white;
+      transition: 0.3s;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+    }
+
+    button:hover {
+      background: #2d8cff;
+      transform: scale(1.05);
+    }
+
+    .choices button {
+      display: block;
+      width: 100%;
+      max-width: 520px;
+      margin: 10px auto;
+      text-align: left;
+      background: #7cc5ff;
+      color: #123;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .choices button:hover {
+      background: #58b3ff;
+      color: white;
+    }
+
+    #progressContainer {
+      width: 100%;
+      max-width: 500px;
+      height: 20px;
+      background: #d9ecff;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #4da6ff, #7c4dff);
+      transition: width 0.3s ease;
+    }
+
+    .home-title {
+      font-size: 3rem;
+      color: #1565c0;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .name-box {
+      margin: 20px auto;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .name-box label {
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .name-box input {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px solid #b9ddff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .name-box input:focus {
+      border-color: #4da6ff;
+      box-shadow: 0 0 0 3px rgba(77,166,255,0.15);
+    }
+
+    ol {
+      text-align: left;
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .result {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1565c0;
+      margin-top: 20px;
+    }
+
+    .player-name-result {
+      font-size: 22px;
+      font-weight: bold;
+      color: #7c4dff;
+      margin-top: 10px;
+    }
+
+    #feedbackBox {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 15px;
+      background: #eef7ff;
+      text-align: left;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+      border-left: 6px solid #4da6ff;
+    }
+
+    #feedbackTitle {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .correct {
+      color: #15803d;
+    }
+
+    .wrong {
+      color: #dc2626;
+    }
+
+    .nav-buttons {
+      margin-top: 15px;
+    }
+
+    #backBtn {
+      display: none;
+      background: #a78bfa;
+    }
+
+    #backBtn:hover {
+      background: #8b5cf6;
+    }
+
+    #nextBtn {
+      display: none;
+      background: #34d399;
+    }
+
+    #nextBtn:hover {
+      background: #10b981;
+    }
+
+    .scoreboard {
+      margin-top: 30px;
+      text-align: left;
+      background: #f4faff;
+      border-radius: 18px;
+      padding: 20px;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: inset 0 0 0 2px #d9ecff;
+    }
+
+    .scoreboard h3 {
+      text-align: center;
+      margin-top: 0;
+      color: #1565c0;
+    }
+
+    .scoreboard-list {
+      padding-left: 20px;
+      line-height: 1.9;
+      margin: 0;
+    }
+
+    .scoreboard-list li {
+      font-weight: bold;
+      color: #234;
+    }
+
+    .empty-scoreboard {
+      text-align: center;
+      color: #4b6584;
+      font-style: italic;
+    }
+
+    .bird {
+      position: absolute;
+      font-size: 38px;
+      animation: flyBird 12s linear infinite;
+      opacity: 0.95;
+      z-index: 1;
+    }
+
+    .bird1 { top: 10%; left: -10%; animation-delay: 0s; }
+    .bird2 { top: 22%; left: -15%; animation-delay: 3s; }
+    .bird3 { top: 35%; left: -20%; animation-delay: 6s; }
+
+    @keyframes flyBird {
+      0% { transform: translateX(0) translateY(0); }
+      25% { transform: translateX(30vw) translateY(-10px); }
+      50% { transform: translateX(60vw) translateY(12px); }
+      75% { transform: translateX(90vw) translateY(-8px); }
+      100% { transform: translateX(120vw) translateY(0); }
+    }
+
+    .cloud {
+      position: absolute;
+      font-size: 42px;
+      opacity: 0.8;
+      animation: floatCloud 18s linear infinite;
+      z-index: 1;
+    }
+
+    .cloud1 { top: 8%; left: -10%; animation-delay: 0s; }
+    .cloud2 { top: 18%; left: -20%; animation-delay: 6s; }
+
+    @keyframes floatCloud {
+      from { transform: translateX(0); }
+      to { transform: translateX(130vw); }
+    }
+
+    .star {
+      position: absolute;
+      font-size: 22px;
+      animation: twinkle 2s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .star1 { top: 14%; left: 20%; }
+    .star2 { top: 20%; left: 75%; animation-delay: 0.5s; }
+    .star3 { top: 72%; left: 16%; animation-delay: 1s; }
+    .star4 { top: 80%; left: 82%; animation-delay: 1.5s; }
+
+    @keyframes twinkle {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    .bubble {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      animation: rise 10s infinite ease-in;
+      z-index: 1;
+    }
+
+    .bubble1 { left: 10%; bottom: -30px; animation-delay: 0s; }
+    .bubble2 { left: 30%; bottom: -40px; animation-delay: 2s; }
+    .bubble3 { left: 65%; bottom: -20px; animation-delay: 4s; }
+    .bubble4 { left: 85%; bottom: -35px; animation-delay: 1s; }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.4; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    .reel {
+      position: absolute;
+      font-size: 54px;
+      right: 30px;
+      bottom: 25px;
+      animation: spinReel 5s linear infinite;
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    @keyframes spinReel {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <div id="homePage" class="page active">
+    <div class="bird bird1">🐦</div>
+    <div class="bird bird2">🐦</div>
+    <div class="bird bird3">🐦</div>
+    <div class="cloud cloud1">☁️</div>
+    <div class="cloud cloud2">☁️</div>
+    <div class="star star1">⭐</div>
+    <div class="star star2">✨</div>
+    <div class="star star3">⭐</div>
+    <div class="star star4">✨</div>
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="reel">🎞️</div>
+
+    <div class="box">
+      <h1 class="home-title">Challenge Your Self</h1>
+      <p class="subtitle">Welcome to an exciting quiz about animation!</p>
+      <p>Answer 20 questions one by one and see your score at the end.</p>
+
+      <div class="name-box">
+        <label for="playerName">Enter Your Name</label>
+        <input type="text" id="playerName" placeholder="Type your name here" />
+      </div>
+
+      <button onclick="goToDirections()">Start Game</button>
+    </div>
+  </div>
+
+  <div id="directionsPage" class="page">
+    <div class="cloud cloud1">☁️</div>
+    <div class="star star1">⭐</div>
+    <div class="star star2">✨</div>
+    <div class="reel">🎞️</div>
+
+    <div class="box">
+      <h2>Directions</h2>
+      <ol>
+        <li>This quiz contains <strong>20 multiple-choice questions</strong> about animation.</li>
+        <li>Each item has <strong>4 choices</strong>: A, B, C, and D.</li>
+        <li>Read the question and choices carefully before answering.</li>
+        <li>Only <strong>one question</strong> will appear at a time.</li>
+        <li>After you answer, the correct answer will be shown.</li>
+        <li>An explanation will appear whether your answer is correct or wrong.</li>
+        <li>You can use the <strong>Back</strong> and <strong>Next</strong> buttons to move between questions.</li>
+        <li>Your <strong>total score</strong> will appear on the last page.</li>
+      </ol>
+      <button onclick="startQuiz()">Proceed to Quiz</button>
+      <button onclick="goHome()">Back to Home</button>
+    </div>
+  </div>
+
+  <div id="quizPage" class="page">
+    <div class="star star1">⭐</div>
+    <div class="star star2">✨</div>
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble3"></div>
+    <div class="reel">🎬</div>
+
+    <div class="box">
+      <h2>Animation Quiz</h2>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="questionNumber"></p>
+      <h3 id="questionText"></h3>
+
+      <div class="choices">
+        <button onclick="checkAnswer(0)" id="choice0"></button>
+        <button onclick="checkAnswer(1)" id="choice1"></button>
+        <button onclick="checkAnswer(2)" id="choice2"></button>
+        <button onclick="checkAnswer(3)" id="choice3"></button>
+      </div>
+
+      <div id="feedbackBox">
+        <div id="feedbackTitle"></div>
+        <p id="correctAnswerText"></p>
+        <p id="explanationText"></p>
+      </div>
+
+      <div class="nav-buttons">
+        <button id="backBtn" onclick="previousQuestion()">Back</button>
+        <button id="nextBtn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultPage" class="page">
+    <div class="cloud cloud1">☁️</div>
+    <div class="star star1">⭐</div>
+    <div class="star star2">✨</div>
+    <div class="star star3">🌟</div>
+    <div class="star star4">✨</div>
+    <div class="reel">🏆</div>
+
+    <div class="box">
+      <h2>Quiz Finished!</h2>
+      <p class="player-name-result" id="playerResultName"></p>
+      <p class="result" id="scoreText"></p>
+      <p id="scoreMessage"></p>
+
+      <div class="scoreboard">
+        <h3>🏅 Scoreboard</h3>
+        <ol id="scoreboardList" class="scoreboard-list"></ol>
+        <p id="emptyScoreboard" class="empty-scoreboard" style="display: none;">No scores yet.</p>
+      </div>
+
+      <button onclick="restartQuiz()">Play Again</button>
+      <button onclick="goHome()">Home</button>
+    </div>
+  </div>
+
+  <script>
+    const homePage = document.getElementById("homePage");
+    const directionsPage = document.getElementById("directionsPage");
+    const quizPage = document.getElementById("quizPage");
+    const resultPage = document.getElementById("resultPage");
+
+    const questionNumber = document.getElementById("questionNumber");
+    const questionText = document.getElementById("questionText");
+    const progressBar = document.getElementById("progressBar");
+    const scoreText = document.getElementById("scoreText");
+    const scoreMessage = document.getElementById("scoreMessage");
+    const playerNameInput = document.getElementById("playerName");
+    const playerResultName = document.getElementById("playerResultName");
+    const scoreboardList = document.getElementById("scoreboardList");
+    const emptyScoreboard = document.getElementById("emptyScoreboard");
+
+    const feedbackBox = document.getElementById("feedbackBox");
+    const feedbackTitle = document.getElementById("feedbackTitle");
+    const correctAnswerText = document.getElementById("correctAnswerText");
+    const explanationText = document.getElementById("explanationText");
+    const nextBtn = document.getElementById("nextBtn");
+    const backBtn = document.getElementById("backBtn");
+
+    const choiceButtons = [
+      document.getElementById("choice0"),
+      document.getElementById("choice1"),
+      document.getElementById("choice2"),
+      document.getElementById("choice3")
+    ];
+
+    const quizData = [
+      {
+        question: "1. What is the main meaning of animation?",
+        choices: [
+          "Making pictures appear to move",
+          "Drawing one still picture",
+          "Recording live music for videos",
+          "Taking photos of real people"
+        ],
+        answer: 0,
+        explanation: "Animation is the process of showing images in sequence so they appear to move."
+      },
+      {
+        question: "2. Which of the following is a common type of animation?",
+        choices: [
+          "Two-dimensional animation",
+          "Pottery making design",
+          "Paper printing process",
+          "Sewing pattern drawing"
+        ],
+        answer: 0,
+        explanation: "Two-dimensional or 2D animation is one of the most common forms of animation."
+      },
+      {
+        question: "3. What makes 3D animation different from 2D animation?",
+        choices: [
+          "It uses only pencil sketches",
+          "It includes depth and volume",
+          "It uses no computer tools",
+          "It has no character movement"
+        ],
+        answer: 1,
+        explanation: "3D animation includes depth, which makes objects look more realistic and solid."
+      },
+      {
+        question: "4. Which type of animation uses real objects moved one frame at a time?",
+        choices: [
+          "Traditional hand drawing",
+          "Motion graphics design",
+          "Stop-motion animation",
+          "Digital painting only"
+        ],
+        answer: 2,
+        explanation: "Stop-motion animation is made by moving real objects slightly and taking pictures of each step."
+      },
+      {
+        question: "5. In animation, what is a frame?",
+        choices: [
+          "One single image in sequence",
+          "A sound used in movies",
+          "A tool for coloring backgrounds",
+          "A program for editing music"
+        ],
+        answer: 0,
+        explanation: "A frame is one single picture in a sequence that helps create the illusion of movement."
+      },
+      {
+        question: "6. Why do animated pictures appear to move?",
+        choices: [
+          "Because the colors are bright",
+          "Because images are shown quickly",
+          "Because the screen is large",
+          "Because sound is added later"
+        ],
+        answer: 1,
+        explanation: "When many images are shown quickly in order, our eyes see them as movement."
+      },
+      {
+        question: "7. What does FPS mean in animation and video?",
+        choices: [
+          "Fast picture speed",
+          "Frames per second",
+          "Full photo setting",
+          "Film production style"
+        ],
+        answer: 1,
+        explanation: "FPS means Frames Per Second, or how many frames are displayed in one second."
+      },
+      {
+        question: "8. Which animation principle makes an object look soft, flexible, or bouncy?",
+        choices: [
+          "Timing and pacing",
+          "Squash and stretch",
+          "Cutting and trimming",
+          "Shadow and texture"
+        ],
+        answer: 1,
+        explanation: "Squash and stretch gives objects life and weight, especially in bouncy movement."
+      },
+      {
+        question: "9. Which principle prepares the audience for an action that is about to happen?",
+        choices: [
+          "Anticipation before action",
+          "Coloring the background",
+          "Repeating the same frame",
+          "Zooming the camera lens"
+        ],
+        answer: 0,
+        explanation: "Anticipation helps the viewer expect what will happen next, like bending before jumping."
+      },
+      {
+        question: "10. In animation, what does timing control?",
+        choices: [
+          "The speed of the movement",
+          "The color of the character",
+          "The size of the background",
+          "The name of the project"
+        ],
+        answer: 0,
+        explanation: "Timing controls how fast or slow an action happens and affects mood and realism."
+      },
+      {
+        question: "11. What is the purpose of a storyboard in animation?",
+        choices: [
+          "To plan scenes in order",
+          "To record background music",
+          "To print the final project",
+          "To remove drawing mistakes"
+        ],
+        answer: 0,
+        explanation: "A storyboard helps plan the sequence of scenes before the animation is created."
+      },
+      {
+        question: "12. Which principle shows that some parts continue moving after the main action stops?",
+        choices: [
+          "Follow through movement",
+          "Fast color transition",
+          "Sharp scene cropping",
+          "Direct frame copying"
+        ],
+        answer: 0,
+        explanation: "Follow through makes animation more natural because parts like hair or clothes keep moving after the body stops."
+      },
+      {
+        question: "13. What material is commonly used in stop-motion animation?",
+        choices: [
+          "Clay and small objects",
+          "Water and food coloring",
+          "Ink and printing paper",
+          "Metal and glass sheets"
+        ],
+        answer: 0,
+        explanation: "Clay, toys, and small objects are often used in stop-motion because they can be moved by hand."
+      },
+      {
+        question: "14. Which of these is a popular animation software program?",
+        choices: [
+          "Blender for animation",
+          "Calendar for schedules",
+          "Calculator for numbers",
+          "Folder for storage"
+        ],
+        answer: 0,
+        explanation: "Blender is a well-known software used for creating 3D models and animation."
+      },
+      {
+        question: "15. What is motion graphics mostly used to animate?",
+        choices: [
+          "Text and design elements",
+          "Real animals in nature",
+          "School uniforms and clothes",
+          "Large buildings and roads"
+        ],
+        answer: 0,
+        explanation: "Motion graphics usually focuses on moving text, icons, and graphic design elements."
+      },
+      {
+        question: "16. Why is spacing important in animated movement?",
+        choices: [
+          "It affects speed and smoothness",
+          "It changes the speaker volume",
+          "It prints the final output",
+          "It replaces missing scenes"
+        ],
+        answer: 0,
+        explanation: "Spacing affects how close or far apart frames are, which changes how smooth or fast motion looks."
+      },
+      {
+        question: "17. What does looping mean in animation?",
+        choices: [
+          "Repeating the same action",
+          "Ending the whole project",
+          "Coloring every frame blue",
+          "Cutting the audio track"
+        ],
+        answer: 0,
+        explanation: "Looping means repeating an action or sequence again and again."
+      },
+      {
+        question: "18. Which is important when designing an animated character?",
+        choices: [
+          "Clear personality and appearance",
+          "Expensive office furniture",
+          "The printer brand name",
+          "The classroom wall color"
+        ],
+        answer: 0,
+        explanation: "A strong animated character should have a clear look and personality so viewers remember it."
+      },
+      {
+        question: "19. What is a keyframe in animation?",
+        choices: [
+          "An important point of movement",
+          "A tool used for printing",
+          "A sound clip in a video",
+          "A title page for a film"
+        ],
+        answer: 0,
+        explanation: "A keyframe marks an important position in motion, such as the start or end of an action."
+      },
+      {
+        question: "20. What is the main goal of animation in storytelling?",
+        choices: [
+          "To show movement and tell stories",
+          "To keep every image still",
+          "To store files in folders",
+          "To print pictures on paper"
+        ],
+        answer: 0,
+        explanation: "Animation is often used to create movement, express ideas, and tell stories in an engaging way."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+    let shuffledQuizData = [];
+    let userAnswers = new Array(quizData.length).fill(null);
+    let playerName = "";
+    let scoreboard = JSON.parse(localStorage.getItem("animationScoreboard")) || [];
+
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+
+    function prepareQuizData() {
+      shuffledQuizData = quizData.map(q => {
+        const originalChoices = q.choices.map((choice, index) => ({
+          text: choice,
+          isCorrect: index === q.answer
+        }));
+
+        const shuffledChoices = shuffleArray(originalChoices);
+        const newAnswerIndex = shuffledChoices.findIndex(choice => choice.isCorrect);
+
+        return {
+          question: q.question,
+          choices: shuffledChoices.map(choice => choice.text),
+          answer: newAnswerIndex,
+          explanation: q.explanation
+        };
+      });
+    }
+
+    function renderScoreboard() {
+      scoreboardList.innerHTML = "";
+
+      if (scoreboard.length === 0) {
+        emptyScoreboard.style.display = "block";
+        return;
+      }
+
+      emptyScoreboard.style.display = "none";
+
+      scoreboard.forEach(player => {
+        const li = document.createElement("li");
+        li.textContent = `${player.name} — ${player.score}/${quizData.length}`;
+        scoreboardList.appendChild(li);
+      });
+    }
+
+    function saveScore() {
+      const newEntry = {
+        name: playerName || "Player",
+        score: score
+      };
+
+      scoreboard.push(newEntry);
+      scoreboard.sort((a, b) => b.score - a.score);
+      localStorage.setItem("animationScoreboard", JSON.stringify(scoreboard));
+      renderScoreboard();
+    }
+
+    function showPage(page) {
+      homePage.classList.remove("active");
+      directionsPage.classList.remove("active");
+      quizPage.classList.remove("active");
+      resultPage.classList.remove("active");
+      page.classList.add("active");
+    }
+
+    function goHome() {
+      showPage(homePage);
+    }
+
+    function goToDirections() {
+      playerName = playerNameInput.value.trim();
+      if (playerName === "") {
+        playerName = "Player";
+      }
+      showPage(directionsPage);
+    }
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answered = false;
+      userAnswers = new Array(quizData.length).fill(null);
+      prepareQuizData();
+      showPage(quizPage);
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = shuffledQuizData[currentQuestion];
+      const savedAnswer = userAnswers[currentQuestion];
+
+      questionNumber.textContent = `Question ${currentQuestion + 1} of ${shuffledQuizData.length}`;
+      questionText.textContent = q.question;
+
+      for (let i = 0; i < 4; i++) {
+        const letter = String.fromCharCode(65 + i);
+        choiceButtons[i].textContent = `${letter}. ${q.choices[i]}`;
+        choiceButtons[i].style.background = "#7cc5ff";
+        choiceButtons[i].style.color = "#123";
+      }
+
+      feedbackBox.style.display = "none";
+      nextBtn.style.display = "inline-block";
+      backBtn.style.display = currentQuestion === 0 ? "none" : "inline-block";
+      nextBtn.textContent = currentQuestion === shuffledQuizData.length - 1 ? "Finish Quiz" : "Next";
+      progressBar.style.width = (currentQuestion / shuffledQuizData.length) * 100 + "%";
+
+      if (savedAnswer !== null) {
+        answered = true;
+        showSavedAnswer(savedAnswer);
+      } else {
+        answered = false;
+      }
+    }
+
+    function checkAnswer(selected) {
+      const q = shuffledQuizData[currentQuestion];
+      const previousAnswer = userAnswers[currentQuestion];
+
+      if (previousAnswer === q.answer && selected !== q.answer) {
+        score--;
+      } else if (previousAnswer !== q.answer && selected === q.answer) {
+        score++;
+      }
+
+      userAnswers[currentQuestion] = selected;
+      answered = true;
+      showSavedAnswer(selected);
+    }
+
+    function showSavedAnswer(selected) {
+      const q = shuffledQuizData[currentQuestion];
+      const correctChoice = q.choices[q.answer];
+
+      for (let i = 0; i < 4; i++) {
+        choiceButtons[i].style.background = "#7cc5ff";
+        choiceButtons[i].style.color = "#123";
+
+        if (i === q.answer) {
+          choiceButtons[i].style.background = "#86efac";
+        }
+
+        if (i === selected && selected !== q.answer) {
+          choiceButtons[i].style.background = "#fca5a5";
+        }
+      }
+
+      if (selected === q.answer) {
+        feedbackTitle.textContent = "✅ Correct!";
+        feedbackTitle.className = "correct";
+      } else {
+        feedbackTitle.textContent = "❌ Wrong!";
+        feedbackTitle.className = "wrong";
+      }
+
+      correctAnswerText.textContent = "Correct Answer: " + correctChoice;
+      explanationText.textContent = "Explanation: " + q.explanation;
+      feedbackBox.style.display = "block";
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < shuffledQuizData.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    function showResult() {
+      showPage(resultPage);
+      playerResultName.textContent = `Player: ${playerName}`;
+      scoreText.textContent = `Your Total Score: ${score} out of ${shuffledQuizData.length}`;
+      progressBar.style.width = "100%";
+      saveScore();
+      launchConfetti();
+
+      if (score >= 18) {
+        scoreMessage.textContent = "Excellent job! You really know animation!";
+      } else if (score >= 14) {
+        scoreMessage.textContent = "Great work! You have a good understanding of animation.";
+      } else if (score >= 10) {
+        scoreMessage.textContent = "Nice try! Keep practicing and you will improve more.";
+      } else {
+        scoreMessage.textContent = "Keep learning and try again!";
+      }
+    }
+
+    function restartQuiz() {
+      startQuiz();
+    }
+
+    const confettiCanvas = document.getElementById("confettiCanvas");
+    const ctx = confettiCanvas.getContext("2d");
+    let confettiPieces = [];
+
+    function resizeCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function launchConfetti() {
+      confettiPieces = [];
+      for (let i = 0; i < 180; i++) {
+        confettiPieces.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+          size: Math.random() * 8 + 4,
+          speed: Math.random() * 3 + 2,
+          angle: Math.random() * Math.PI * 2,
+          color: `hsl(${Math.random() * 360}, 90%, 60%)`
+        });
+      }
+      animateConfetti();
+      setTimeout(() => {
+        confettiPieces = [];
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }, 3500);
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+      confettiPieces.forEach(piece => {
+        ctx.beginPath();
+        ctx.fillStyle = piece.color;
+        ctx.fillRect(piece.x, piece.y, piece.size, piece.size);
+        piece.y += piece.speed;
+        piece.x += Math.sin(piece.angle) * 2;
+        piece.angle += 0.03;
+      });
+
+      if (confettiPieces.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      }
+    }
+
+    renderScoreboard();
+  </script>
+</body>
+</html>

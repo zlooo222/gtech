@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pitch Perfect or Pitch Problem</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    background-image: radial-gradient(circle at top left, #ffe0f0 20%, transparent 20%),
+                      radial-gradient(circle at bottom right, #d0f0ff 20%, transparent 20%);
+    background-size: 250px 250px;
+    color: #222;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(145deg, #ffffff, #fff7fb);
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    font-size: 1.2em;
+    border: 3px solid #ffd6e8;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  input {
+    padding: 12px;
+    font-size: 1.1em;
+    border-radius: 12px;
+    border: 2px solid #ffc1d6;
+    outline: none;
+    width: 250px;
+  }
+
+  input:focus {
+    border-color: #ff8fb1;
+    box-shadow: 0 0 8px rgba(255, 143, 177, 0.4);
+  }
+
+  .directions {
+    background: #f0f8ff;
+    border: 2px solid #8fd3ff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 16px;
+    text-align: left;
+    line-height: 1.7;
+  }
+
+  #options {
+    margin-top: 20px;
+  }
+
+  .choice-btn {
+    background: linear-gradient(135deg, #ffb6c1, #ffd6e8);
+    color: #5a2a3a;
+    border: none;
+    padding: 14px 28px;
+    margin: 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.35);
+    transition: all 0.25s ease;
+  }
+
+  .choice-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: linear-gradient(135deg, #ffa6c1, #ffcce0);
+  }
+
+  .choice-btn.selected {
+    background: linear-gradient(135deg, #ff6f91, #ff8fab);
+    color: white;
+    box-shadow: 0 6px 14px rgba(255, 111, 145, 0.45);
+  }
+
+  .nav-btn {
+    border: none;
+    padding: 14px 28px;
+    margin: 14px 10px 0;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    color: white;
+    transition: all 0.25s ease;
+  }
+
+  .nav-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  .back-btn {
+    background: linear-gradient(135deg, #9b5de5, #b084f5);
+    box-shadow: 0 4px 10px rgba(155, 93, 229, 0.35);
+  }
+
+  .next-btn {
+    background: linear-gradient(135deg, #43aa8b, #70c1a3);
+    box-shadow: 0 4px 10px rgba(67, 170, 139, 0.35);
+  }
+
+  .play-btn {
+    background: linear-gradient(135deg, #ff7b54, #ff9f68);
+    box-shadow: 0 4px 10px rgba(255, 123, 84, 0.35);
+  }
+
+  .feedback {
+    font-weight: bold;
+    margin-top: 15px;
+    min-height: 30px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Name Page -->
+<div class="container" id="nameScreen">
+  <h1>🎶 Pitch Perfect or Pitch Problem 🎶</h1>
+  <p>Welcome to the audio challenge! Enter your name to begin:</p>
+  <input type="text" id="name" placeholder="Your name">
+  <br><br>
+  <button class="nav-btn next-btn" onclick="goToDirections()">Next ➡</button>
+</div>
+
+<!-- Directions Page -->
+<div class="container hidden" id="directionsScreen">
+  <h1>📖 Directions</h1>
+  <div class="directions">
+    <p>Each question presents a situation about sound, audio, or music technology.</p>
+    <ul>
+      <li><b>Pitch Perfect</b> → Choose this if the statement is <u>true</u>.</li>
+      <li><b>Pitch Problem</b> → Choose this if the statement is <u>false</u>.</li>
+    </ul>
+    <p>You must answer every question before moving forward.</p>
+    <p>Use the <b>Back</b> button if you want to review or change your previous answer.</p>
+    <p>At the end, your score and ranking will be revealed with a celebration.</p>
+  </div>
+  <button class="nav-btn back-btn" onclick="backToName()">⬅ Back</button>
+  <button class="nav-btn next-btn" onclick="startGame()">Start Game</button>
+</div>
+
+<!-- Quiz Page -->
+<div class="container hidden" id="quizScreen">
+  <h2 id="question"></h2>
+  <div id="options"></div>
+  <div class="feedback" id="feedback"></div>
+  <button class="nav-btn back-btn" onclick="prevQuestion()">⬅ Back</button>
+  <button class="nav-btn next-btn" onclick="nextQuestion()">Next ➡</button>
+</div>
+
+<!-- Result Page -->
+<div class="container hidden" id="resultScreen">
+  <h2>Game Over!</h2>
+  <p id="finalScore"></p>
+  <p id="ranking"></p>
+  <button class="nav-btn play-btn" onclick="playAgain()">🔄 Play Again</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const questions = [
+  {q:"Spaceship explodes in space with a loud boom. Accurate?",answer:1,explanation:"Sound cannot travel in a vacuum."},
+  {q:"WAV files are smaller than MP3 files.",answer:1,explanation:"WAV is uncompressed and larger; MP3 is compressed."},
+  {q:"You hear a train earlier through steel tracks than through air.",answer:0,explanation:"Steel transmits sound faster than air."},
+  {q:"Dogs can hear ultrasonic whistles humans cannot.",answer:0,explanation:"Dogs detect frequencies above 20,000 Hz."},
+  {q:"Removing hiss from a podcast is pitch correction.",answer:1,explanation:"That’s noise reduction, not pitch correction."},
+  {q:"Sound waves are longitudinal mechanical waves.",answer:0,explanation:"Particles vibrate parallel to wave direction."},
+  {q:"Humans hear between 20 Hz and 20,000 Hz.",answer:0,explanation:"That’s the typical human hearing range."},
+  {q:"Digital audio stores sound as continuous signals.",answer:1,explanation:"Digital audio stores discrete samples as numbers."},
+  {q:"PCM is a standard audio encoding method.",answer:0,explanation:"Pulse-Code Modulation encodes audio samples."},
+  {q:"Compression increases audio quality.",answer:1,explanation:"Compression reduces file size, not quality."},
+  {q:"Mixing means combining vocals and instruments.",answer:0,explanation:"Mixing balances multiple tracks together."},
+  {q:"Auto-Tune is used for noise reduction.",answer:1,explanation:"Auto-Tune corrects pitch, not noise."},
+  {q:"FLAC is a lossless audio format.",answer:0,explanation:"FLAC preserves full quality with compression."},
+  {q:"MP3 is an uncompressed audio format.",answer:1,explanation:"MP3 uses lossy compression."},
+  {q:"AIFF integrates well with Mac workflows.",answer:0,explanation:"AIFF is uncompressed and Mac-compatible."},
+  {q:"OGG is commonly used in Apple Music.",answer:1,explanation:"OGG is open-source, used in games/Spotify."},
+  {q:"Adding reverb is a creative audio effect.",answer:0,explanation:"Reverb enhances artistic expression."},
+  {q:"Sampling rate is measured in MB.",answer:1,explanation:"Sampling rate is measured in kHz."},
+  {q:"Bit depth defines accuracy of samples.",answer:0,explanation:"Higher bit depth means more precise samples."},
+  {q:"Thunder is caused by rapid air expansion.",answer:0,explanation:"Lightning heats air, causing expansion and thunder."}
+];
+
+const choiceLabels = ["Pitch Perfect", "Pitch Problem"];
+let current = 0;
+let score = 0;
+let playerName = "";
+let answers = new Array(questions.length).fill(null);
+
+function goToDirections() {
+  playerName = document.getElementById("name").value || "Player";
+  document.getElementById("nameScreen").classList.add("hidden");
+  document.getElementById("directionsScreen").classList.remove("hidden");
+}
+
+function backToName() {
+  document.getElementById("directionsScreen").classList.add("hidden");
+  document.getElementById("nameScreen").classList.remove("hidden");
+}
+
+function startGame() {
+  current = 0;
+  score = 0;
+  answers = new Array(questions.length).fill(null);
+
+  document.getElementById("directionsScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion() {
+  document.getElementById("feedback").innerHTML = "";
+  const q = questions[current];
+  document.getElementById("question").innerText = (current + 1) + ". " + q.q;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  choiceLabels.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.className = "choice-btn";
+    if (answers[current] === i) btn.classList.add("selected");
+    btn.onclick = () => checkAnswer(i);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected) {
+  answers[current] = selected;
+  const q = questions[current];
+  loadQuestion();
+
+  if (selected === q.answer) {
+    document.getElementById("feedback").innerHTML = "✅ Correct!";
+  } else {
+    document.getElementById("feedback").innerHTML = "❌ Wrong! " + q.explanation;
+  }
+}
+
+function nextQuestion() {
+  if (answers[current] === null) {
+    alert("Please select Pitch Perfect or Pitch Problem before proceeding.");
+    return;
+  }
+
+  current++;
+  if (current < questions.length) {
+    loadQuestion();
+  } else {
+    calculateScore();
+    endGame();
+  }
+}
+
+function prevQuestion() {
+  if (current > 0) {
+    current--;
+    loadQuestion();
+  }
+}
+
+function calculateScore() {
+  score = 0;
+  answers.forEach((ans, idx) => {
+    if (ans === questions[idx].answer) score++;
+  });
+}
+
+function endGame() {
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.remove("hidden");
+  document.getElementById("finalScore").innerText =
+    playerName + ", your score is " + score + " out of " + questions.length + ".";
+
+  let rank = "";
+  if (score === questions.length) {
+    rank = "🏆 Excellent!";
+  } else if (score >= 15) {
+    rank = "🎉 Great job!";
+  } else if (score >= 10) {
+    rank = "👍 Good effort!";
+  } else {
+    rank = "💡 Keep practicing!";
+  }
+
+  document.getElementById("ranking").innerText = "Ranking: " + rank;
+
+  confetti({
+    particleCount: 150,
+    spread: 90,
+    origin: { y: 0.6 }
+  });
+}
+
+function playAgain() {
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("nameScreen").classList.remove("hidden");
+  document.getElementById("name").value = "";
+}
+</script>
+
+</body>
+</html>

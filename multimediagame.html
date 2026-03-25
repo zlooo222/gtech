@@ -12,42 +12,52 @@
       color: #2e004f;
       margin: 0;
       padding: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .container {
-      width: 70%;
-      height: 80%;
-      background: rgba(255,255,255,0.9);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      overflow-y: auto;
+      width: 75%;
+      max-width: 950px;
+      min-height: 80vh;
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
       text-align: center;
+      border: 4px solid #b39ddb;
     }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 15px;
+    h1, h2 {
+      color: #4a148c;
     }
 
     .intro {
       font-size: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .hidden {
+      display: none;
     }
 
     #nicknameInput {
-      margin-bottom: 15px;
-      padding: 10px;
+      margin-bottom: 20px;
+      padding: 12px;
       font-size: 18px;
-      border-radius: 8px;
-      border: 1px solid #7e57c2;
+      border-radius: 12px;
+      border: 2px solid #7e57c2;
+      width: 260px;
+      outline: none;
     }
 
-    #startBtn {
+    #nicknameInput:focus {
+      box-shadow: 0 0 8px rgba(126, 87, 194, 0.4);
+    }
+
+    .cloud-btn {
       background: #9b59b6;
       color: white;
       border: none;
@@ -59,60 +69,141 @@
       border-radius: 40px;
       box-shadow: 0 6px 12px rgba(155, 89, 182, 0.3);
       transition: 0.3s ease;
-      margin-bottom: 20px;
+      margin: 10px;
     }
 
-    #startBtn:hover {
-      background: #884ea0;
+    .cloud-btn::before,
+    .cloud-btn::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .cloud-btn::before {
+      width: 30px;
+      height: 30px;
+      top: -8px;
+      left: 8px;
+    }
+
+    .cloud-btn::after {
+      width: 36px;
+      height: 36px;
+      top: -10px;
+      right: 8px;
+    }
+
+    .cloud-btn:hover {
       transform: scale(1.05);
     }
+.cloud-btn:hover::before,
+.cloud-btn:hover::after {
+  opacity: 0;
+  transform: scale(0);
+}
+    .directions-box {
+      background: linear-gradient(135deg, #fff3e0, #fce4ec);
+      border: 3px solid #ce93d8;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 20px;
+      text-align: left;
+      box-shadow: 0 6px 14px rgba(206, 147, 216, 0.2);
+      line-height: 1.8;
+      font-size: 18px;
+    }
 
-    #startBtn:hover::before,
-    #startBtn:hover::after {
-      background: #884ea0;
+    .question-box {
+      background: linear-gradient(135deg, #f3e5f5, #ede7f6);
+      border: 3px solid #9575cd;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 14px rgba(149, 117, 205, 0.2);
     }
 
     .question {
-      font-size: 22px;
+      font-size: 24px;
       margin-bottom: 20px;
+      color: #4a148c;
     }
 
     .choices button {
       display: block;
       width: 100%;
-      margin: 10px 0;
-      padding: 12px;
+      margin: 12px 0;
+      padding: 14px;
       font-size: 18px;
       border: none;
-      border-radius: 8px;
+      border-radius: 14px;
       cursor: pointer;
-      background: #7e57c2;
+      background: linear-gradient(135deg, #7e57c2, #9575cd);
       color: white;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(126, 87, 194, 0.25);
     }
 
     .choices button:hover {
-      background: #9575cd;
+      background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+      transform: translateY(-2px);
+    }
+
+    .choices button:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
     }
 
     .feedback {
       margin-top: 15px;
       font-size: 18px;
+      min-height: 50px;
+      font-weight: bold;
     }
 
-    #nextBtn {
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
       margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      background: #ff80ab;
+      flex-wrap: wrap;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #42a5f5, #64b5f6);
+      color: white;
       border: none;
-      border-radius: 8px;
+      padding: 12px 28px;
+      font-size: 17px;
+      border-radius: 14px;
       cursor: pointer;
-      display: none;
+      box-shadow: 0 4px 10px rgba(66, 165, 245, 0.3);
+    }
+
+    .next-btn {
+      background: linear-gradient(135deg, #ff80ab, #f06292);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 17px;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+    }
+
+    .back-btn:hover, .next-btn:hover {
+      transform: scale(1.05);
     }
 
     #scoreboard {
       margin-top: 25px;
       font-size: 20px;
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      border: 3px solid #ffb74d;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 6px 14px rgba(255, 183, 77, 0.25);
     }
 
     canvas {
@@ -125,20 +216,47 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎮 Challenge Yourself Quiz</h1>
-    <div class="intro">Push your limits! Test your knowledge of multimedia systems and prove your mastery.</div>
 
-    <input type="text" id="nicknameInput" placeholder="Enter your nickname" />
-    <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
-
-    <div id="quizArea" style="display:none;">
-      <div class="question" id="questionText"></div>
-      <div class="choices" id="choices"></div>
-      <div class="feedback" id="feedback"></div>
-      <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    <div id="startScreen">
+      <h1>🎮 Challenge Yourself Quiz</h1>
+      <div class="intro">Push your limits! Test your knowledge of multimedia systems and prove your mastery.</div>
+      <input type="text" id="nicknameInput" placeholder="Enter your nickname" />
+      <br>
+      <button class="cloud-btn" onclick="goToDirections()">Start Quiz</button>
     </div>
 
-    <div id="scoreboard"></div>
+    <div id="directionsScreen" class="hidden">
+      <h2>📘 Directions</h2>
+      <div class="directions-box">
+        <p>1. Enter your nickname on the start page.</p>
+        <p>2. Read each question carefully before choosing your answer.</p>
+        <p>3. Click only one answer for each question.</p>
+        <p>4. After selecting an answer, feedback will appear.</p>
+        <p>5. Click <b>Next</b> to move forward to the next question.</p>
+        <p>6. Click <b>Back</b> to return to the previous question.</p>
+        <p>7. Each correct answer gives you 1 point.</p>
+        <p>8. Your final score will be shown at the end of the quiz.</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="back-btn" onclick="backToStart()">⬅ Back</button>
+        <button class="next-btn" onclick="startQuiz()">Next ➡</button>
+      </div>
+    </div>
+
+    <div id="quizArea" class="hidden">
+      <div class="question-box">
+        <div class="question" id="questionText"></div>
+        <div class="choices" id="choices"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="back-btn" onclick="prevQuestion()">⬅ Back</button>
+        <button class="next-btn" onclick="nextQuestion()">Next ➡</button>
+      </div>
+    </div>
+
+    <div id="scoreboard" class="hidden"></div>
   </div>
 
   <canvas id="confetti"></canvas>
@@ -321,15 +439,29 @@
     let score = 0;
     let nickname = "";
     let players = [];
+    let selectedAnswers = new Array(quizData.length).fill(null);
+    let confettiAnimationId = null;
+    let confettiActive = false;
+
+    function goToDirections() {
+      nickname = document.getElementById("nicknameInput").value || "Player";
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("directionsScreen").classList.remove("hidden");
+    }
+
+    function backToStart() {
+      document.getElementById("directionsScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+    }
 
     function startQuiz() {
-      nickname = document.getElementById("nicknameInput").value || "Player";
-      document.getElementById("quizArea").style.display = "block";
-      document.getElementById("startBtn").style.display = "none";
-      document.getElementById("nicknameInput").style.display = "none";
-      document.getElementById("scoreboard").innerHTML = "";
+      stopConfetti();
+      document.getElementById("directionsScreen").classList.add("hidden");
+      document.getElementById("quizArea").classList.remove("hidden");
+      document.getElementById("scoreboard").classList.add("hidden");
       currentQuestion = 0;
       score = 0;
+      selectedAnswers = new Array(quizData.length).fill(null);
       showQuestion();
     }
 
@@ -343,19 +475,43 @@
       q.choices.forEach((choice, index) => {
         const btn = document.createElement("button");
         btn.innerText = String.fromCharCode(65 + index) + ". " + choice;
+
+        if (selectedAnswers[currentQuestion] !== null) {
+          btn.disabled = true;
+          if (index === selectedAnswers[currentQuestion]) {
+            btn.style.background = "linear-gradient(135deg, #26a69a, #4db6ac)";
+          }
+        }
+
         btn.onclick = () => checkAnswer(index);
         choicesDiv.appendChild(btn);
       });
 
-      document.getElementById("feedback").innerText = "";
-      document.getElementById("nextBtn").style.display = "none";
+      if (selectedAnswers[currentQuestion] !== null) {
+        const chosen = selectedAnswers[currentQuestion];
+        if (chosen === q.answer) {
+          document.getElementById("feedback").innerText = "✅ Correct! " + q.explanation;
+        } else {
+          document.getElementById("feedback").innerText = "❌ Wrong! " + q.explanation;
+        }
+      } else {
+        document.getElementById("feedback").innerText = "";
+      }
     }
 
     function checkAnswer(selected) {
+      if (selectedAnswers[currentQuestion] !== null) return;
+
       const q = quizData[currentQuestion];
       const buttons = document.querySelectorAll("#choices button");
+      selectedAnswers[currentQuestion] = selected;
 
-      buttons.forEach(btn => btn.disabled = true);
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === selected) {
+          btn.style.background = "linear-gradient(135deg, #26a69a, #4db6ac)";
+        }
+      });
 
       if (selected === q.answer) {
         score++;
@@ -363,11 +519,14 @@
       } else {
         document.getElementById("feedback").innerText = "❌ Wrong! " + q.explanation;
       }
-
-      document.getElementById("nextBtn").style.display = "inline-block";
     }
 
     function nextQuestion() {
+      if (selectedAnswers[currentQuestion] === null) {
+        alert("Please choose an answer first.");
+        return;
+      }
+
       currentQuestion++;
       if (currentQuestion < quizData.length) {
         showQuestion();
@@ -376,28 +535,53 @@
       }
     }
 
-   function endQuiz() {
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    }
+
+    function endQuiz() {
   players.push({ name: nickname, score: score });
   players.sort((a, b) => b.score - a.score);
 
-  document.getElementById("quizArea").style.display = "none";
+  document.getElementById("quizArea").classList.add("hidden");
+  const scoreboard = document.getElementById("scoreboard");
+  scoreboard.classList.remove("hidden");
 
-  let scoreboardHTML = `<h2>🏆 Final Scoreboard</h2>`;
-  scoreboardHTML += `<p><strong>${nickname}</strong>, your score is ${score}/${quizData.length}</p><hr>`;
+  // 🔥 SHOW LEADERBOARD
+  let html = `<h2>🏆 Leaderboard</h2>`;
+  html += `<p>Your Score: <b>${score}</b></p>`;
+  html += `<ol>`;
 
-  players.forEach((p, i) => {
-    scoreboardHTML += `<p>${i + 1}. ${p.name} — ${p.score}/${quizData.length}</p>`;
+  players.forEach(player => {
+    html += `<li>${player.name} - ${player.score}</li>`;
   });
 
-  document.getElementById("scoreboard").innerHTML = scoreboardHTML;
-  launchConfetti();
+  html += `</ol>`;
+  html += `<button class="cloud-btn" onclick="restartQuiz()">Play Again</button>`;
+
+  scoreboard.innerHTML = html;
+
+  launchConfetti(); // optional 🎉
 }
 
+    function restartQuiz() {
+      stopConfetti();
+      document.getElementById("scoreboard").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+      document.getElementById("nicknameInput").value = "";
+    }
+
     function launchConfetti() {
+      stopConfetti();
+
       const canvas = document.getElementById("confetti");
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      confettiActive = true;
 
       const pieces = [];
       for (let i = 0; i < 150; i++) {
@@ -410,19 +594,34 @@
       }
 
       function draw() {
+        if (!confettiActive) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         pieces.forEach(p => {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-ctx.fillStyle = `hsl(${Math.random() * 360},100%,50%)`;
+ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
           ctx.fill();
           p.y += p.speed;
           if (p.y > canvas.height) p.y = 0;
         });
-        requestAnimationFrame(draw);
+
+        confettiAnimationId = requestAnimationFrame(draw);
       }
 
       draw();
+    }
+
+    function stopConfetti() {
+      confettiActive = false;
+      if (confettiAnimationId) {
+        cancelAnimationFrame(confettiAnimationId);
+        confettiAnimationId = null;
+      }
+
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   </script>
 </body>
