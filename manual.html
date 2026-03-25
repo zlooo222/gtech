@@ -20,6 +20,7 @@ font-family:Arial, Helvetica, sans-serif;
 body{
 color:white;
 background:black;
+overflow-x:hidden;
 }
 
 /* HERO */
@@ -28,8 +29,6 @@ background:black;
 height:70vh;
 background:url("lol.jpg") center/cover no-repeat;
 position:relative;
-padding:50px 0; /* controls header height */
-
 }
 
 .overlay{
@@ -39,24 +38,27 @@ left:0;
 width:100%;
 height:100%;
 background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.85));
+pointer-events: none; /* 🔥 THIS FIXES IT */
 }
 
 /* NAVBAR */
 
-.navbar{
-position:absolute;
-top:30px;
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:0 80px;
-align-items:center;
-z-index:5;
+.navbar {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  z-index: 1000;
 }
 
 .logo{
-font-weight:bold;
-letter-spacing:2px;
+  font-weight:bold;
+  letter-spacing:8px;
+  margin-left:20px; /* ✅ match visual spacing */
 }
 
 .nav-links{
@@ -65,16 +67,27 @@ gap:30px;
 }
 
 .nav-links a{
-text-decoration:none;
-color:white;
+font-weight:bold;
 opacity:.8;
+font-size:18px;
+padding:8px 12px;
+transition:.3s;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
+.nav-links a:hover{
+opacity:1;
 }
+
+.nav-book-btn{
+background:white;
+color:black;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+cursor:pointer;
+margin-right:20px;
+}
+
 
 /* HERO TITLE */
 
@@ -88,7 +101,7 @@ text-align:center;
 }
 
 .hero-title{
-font-size:110px;
+font-size:100px;
 letter-spacing:10px;
 opacity:.35;
 }
@@ -236,8 +249,6 @@ background:#555;
 margin:40px 0;
 }
 
-/* FOOTER SECTION */
-
 .footer{
 background:url("lol.jpg") center/cover no-repeat;
 position:relative;
@@ -264,7 +275,8 @@ z-index:5;
 
 .footer-logo{
 font-weight:bold;
-letter-spacing:2px;
+letter-spacing:8px;
+margin-left:20px; /* adjust this value */
 }
 
 .footer-links{
@@ -273,13 +285,26 @@ gap:30px;
 }
 
 .footer-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
+
+.footer-links a:hover{
+  opacity:1;
+}
+
 .footer .dropdown-content{
 top:auto;
 bottom:35px; /* opens upward */
+}
+.navbar,
+.footer-content {
+  padding: 0 80px;
 }
 
 /* BOOK DROPDOWN */
@@ -288,13 +313,19 @@ bottom:35px; /* opens upward */
 position:relative;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
-background:transparent;
-color:white;
-cursor:pointer;
+.nav-book-btn{
+   background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
+
+}
+
+.book-dropdown button:focus{
+  outline:none;
 }
 
 /* Dropdown menu */
@@ -324,25 +355,33 @@ background:rgba(255,255,255,0.15);
 
 /* Show dropdown */
 
-.dropdown-content {
+
+.dropdown-content{
   display: none;
   position: absolute;
-  top: 35px;
+  top: 100%;         /* always below button */
+  margin-top: 10px;  /* space between button & dropdown */
   right: 0;
   background: rgba(0,0,0,0.9);
   border-radius: 8px;
   min-width: 150px;
   overflow: hidden;
-  z-index: 10; /* ensure it’s on top */
+  z-index: 10;
+}
+.footer .dropdown-content{
+  top: auto;            /* remove downward behavior */
+  bottom: 100%;         /* 👈 attach to top of button */
+  margin-bottom: 10px;  /* 👈 spacing from button */
+}
+.footer .nav-book-btn{
+  margin-right:20px;
 }
 
 /* RESPONSIVE */
 
 @media (max-width:768px){
 
-.navbar{
-padding:20px;
-}
+
 
 .hero h1{
 font-size:40px;
@@ -355,47 +394,124 @@ padding:40px 20px;
 }
 
 /* ========================= */
-/* 📱 RESPONSIVE FIX (MANUAL) */
+/* 📱 RESPONSIVE FIX FINAL */
 /* ========================= */
 
 @media (max-width: 900px){
 
-/* NAVBAR stays horizontal */
-.navbar{
-padding:0 20px;
-}
+/* NAVBAR */
+ /* NAVBAR */
+  .navbar {
+    padding: 0 15px;
+    gap: 10px;
+  }
 
-.nav-links{
-gap:15px;
-font-size:14px;
-}
+  .logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
 
-/* HERO HEIGHT FIX */
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+    /* dropdown centered */
+  .dropdown-content {
+    right: 0;
+    transform: translateX(-10px);
+  }
+
+  /* FOOTER */
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 5px 6px;
+    white-space: nowrap;
+  }
+
+  .book-dropdown {
+    flex-shrink: 0;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .dropdown-content {
+    min-width: 120px;
+    font-size: 13px;
+  }
+
+
+
+/* HERO */
 .hero{
-height:60vh;
+height:65vh;
+padding-top:80px;
 }
 
-/* HERO TITLE SCALE DOWN */
+/* HERO TITLE */
 .hero-title{
-font-size:55px;
-letter-spacing:5px;
+font-size:50px;
+letter-spacing:4px;
 }
 
-/* CENTER CONTENT BETTER */
+/* HERO CONTENT */
 .hero-content{
 width:100%;
-padding:0 20px;
+padding:0 15px;
 }
 
-/* SEARCH BAR FIX */
+/* SEARCH */
+.search-bar{
+margin-top:30px;
+}
+
 .search-box{
 width:100%;
-max-width:320px;
+max-width:300px;
 }
 
 .search-box input{
-padding:12px 15px 12px 45px;
-font-size:14px;
+padding:12px 15px 12px 40px;
+font-size:13px;
 }
 
 /* SEARCH RESULTS */
@@ -404,13 +520,13 @@ margin:10px 15px;
 padding:15px;
 }
 
-/* MANUAL CONTENT */
+/* MANUAL */
 .manual{
 padding:40px 20px;
 }
 
 .manual-section h2{
-font-size:22px;
+font-size:20px;
 }
 
 .manual-section p,
@@ -418,42 +534,37 @@ font-size:22px;
 font-size:14px;
 }
 
-/* FOOTER FIX */
-.footer-content{
-padding:0 20px;
-flex-direction:row;
-}
-
 /* PREVENT SIDE SCROLL */
 body, html{
 overflow-x:hidden;
 }
 
-}
 
-
-/* EXTRA SMALL DEVICES */
+/* EXTRA SMALL PHONES */
 @media (max-width: 480px){
 
+/* HERO */
+.hero{
+height:60vh;
+}
+
+/* TITLE */
 .hero-title{
-font-size:40px;
-letter-spacing:3px;
+font-size:32px;
+letter-spacing:2px;
 }
 
+
+
+/* SEARCH */
 .search-box{
-max-width:280px;
+max-width:260px;
 }
 
-.nav-links{
-gap:10px;
-font-size:12px;
-}
 
-.book-btn{
-padding:5px 12px;
-font-size:12px;
-}
-
+.navbar::-webkit-scrollbar,
+.footer-content::-webkit-scrollbar{
+  display:none;
 }
 
 </style>
@@ -468,18 +579,16 @@ font-size:12px;
 <div class="overlay"></div>
 
 <div class="navbar">
-<a href="index.html">
-<div class="logo">GTECH</div>
-</a>
+<a href="index.html" class="logo">GTECH</a>
 
 <div class="nav-links">
 <a href="index.html">Home</a>
-<a href="aboutus.html">About us</a>
+<a href="aboutus.html">About Us</a>
 <a href="manual.html">Manual</a>
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+  <button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
@@ -528,48 +637,83 @@ No results found.
 <div class="manual-section">
 
 <h2>1. Introduction</h2>
-
 <p>
-The GTECH is an educational platform designed to provide
-interactive learning materials related to multimedia and digital design.
-The website allows users to explore lessons and view infographics easily through a simple navigation system.
+The GTECH is an educational platform designed to provide interactive and structured learning materials related to multimedia and digital design. It serves as a digital environment where users can explore various topics through organized lessons and visual presentations. The platform integrates both textual explanations and graphical elements to enhance comprehension and retention of information.
+</p>
+<p>
+This website aims to improve the learning experience by presenting information in a clear, systematic, and user-friendly manner. It encourages students to engage in self-directed learning while also supporting classroom-based instruction. Through the use of modern web technologies, the platform ensures accessibility and convenience for all users.
 </p>
 
 </div>
 
 <div class="divider"></div>
 
+<div class="manual-section">
+
+<h2>2. Purpose of the Website</h2>
+<p>
+The primary purpose of the website is to function as a comprehensive digital learning resource for students who are studying multimedia and related subjects. It provides well-structured lessons, infographics, and interactive features that simplify complex concepts and make them easier to understand.
+</p>
+<p>
+Additionally, the website aims to promote independent learning by allowing users to access educational materials anytime and anywhere. It also supports teachers by providing supplementary resources that can be integrated into classroom discussions and activities.
+</p>
+
+</div>
+
+<div class="divider"></div>
 
 <div class="manual-section">
 
-<h2>2. Website Navigation</h2>
-
+<h2>3. Website Navigation</h2>
 <p>
-The navigation bar located at the top of the website allows users
-to easily move between different pages.
+The navigation bar is positioned at the top of the website and serves as the main guide for accessing different sections. It is carefully designed to ensure clarity, simplicity, and ease of use for users of all levels.
+</p>
+<p>
+Each navigation link is labeled clearly to help users quickly identify the section they want to visit. This reduces confusion and improves overall usability.
 </p>
 
 <ul>
-<li><b>Home</b> – Returns the user to the main page.</li>
-<li><b>About Us</b> – Shows information about the website.</li>
-<li><b>Manual</b> – Displays the user manual page.</li>
-<li><b>Book</b> – Opens a dropdown menu containing lessons and infographics.</li>
+<li><strong>Home</strong> – Redirects users to the main landing page.</li>
+<li><strong>About Us</strong> – Provides background information about the platform.</li>
+<li><strong>Manual</strong> – Displays this user manual.</li>
+<li><strong>Book</strong> – Contains lessons and infographic materials.</li>
 </ul>
 
 </div>
 
 <div class="divider"></div>
 
+<div class="manual-section">
+
+<h2>4. Homepage Overview</h2>
+<p>
+The homepage serves as the main entry point of the website where users are introduced to its features and available content. It includes visual elements such as learning cards, headings, and short descriptions of topics.
+</p>
+<p>
+The layout is designed to be visually appealing while maintaining clarity and organization. This ensures that users can easily locate important sections and begin exploring the website without difficulty.
+</p>
+
+</div>
+
+<div class="divider"></div>
 
 <div class="manual-section">
 
-<h2>3. Learning Cards</h2>
-
+<h2>5. Learning Cards</h2>
 <p>
-The homepage contains interactive cards that represent different
-learning topics available on the website.
+Learning cards are interactive components that represent individual topics or lessons within the website. Each card acts as a gateway to a specific subject area.
+</p>
+<p>
+When a card is selected, the system automatically redirects the user to a detailed lesson page. These pages contain comprehensive explanations, examples, and visual aids to support learning.
 </p>
 
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>6. Available Topics</h2>
 <ul>
 <li>Multimedia</li>
 <li>Audio</li>
@@ -577,40 +721,69 @@ learning topics available on the website.
 <li>Adobe Photoshop</li>
 <li>Animation</li>
 </ul>
-
 <p>
-When a user clicks a card, the system will redirect them to
-the corresponding lesson page.
+These topics are carefully selected to provide foundational knowledge in digital media and design. Each subject contributes to the development of technical and creative skills necessary in multimedia production.
 </p>
 
 </div>
 
 <div class="divider"></div>
 
-
 <div class="manual-section">
 
-<h2>4. Lessons and Infographics</h2>
-
+<h2>7. Lessons and Infographics</h2>
 <p>
-Users can access lessons and infographic materials through the
-Book dropdown menu or by selecting a learning card.
-These materials contain step-by-step explanations
-and visual learning guides.
+The lessons provided in the website are presented in both textual and visual formats. This dual approach helps accommodate different learning styles and improves understanding.
+</p>
+<p>
+Infographics are used to visually summarize information, making it easier for users to grasp key concepts quickly. They are especially useful for simplifying complex topics.
 </p>
 
 </div>
 
 <div class="divider"></div>
 
+<div class="manual-section">
+
+<h2>8. User Interaction</h2>
+<p>
+Users can interact with the website through buttons, links, menus, and other interface elements. These interactions are designed to be intuitive and responsive.
+</p>
+<p>
+The system provides immediate feedback to user actions, ensuring a smooth and efficient browsing experience.
+</p>
+
+</div>
+
+<div class="divider"></div>
 
 <div class="manual-section">
 
-<h2>5. Contact Form</h2>
-
+<h2>9. Search Function</h2>
 <p>
-The website provides a contact form where users can send questions
-or inquiries to the administrator.
+The search feature allows users to quickly find specific topics, lessons, or keywords within the website. This enhances efficiency and reduces the time needed to locate information.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>10. Content Organization</h2>
+<p>
+All materials are systematically categorized and structured to ensure logical progression of topics. This organization helps users follow lessons more effectively.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>11. Contact Form</h2>
+<p>
+The contact form allows users to communicate with the administrator for inquiries, feedback, or concerns.
 </p>
 
 <ul>
@@ -621,41 +794,159 @@ or inquiries to the administrator.
 </ul>
 
 <p>
-The system checks if all fields are filled before sending the message.
-If any field is empty, the form will show a warning message.
+The system verifies that all required fields are completed before submission to ensure proper communication.
 </p>
 
 </div>
 
 <div class="divider"></div>
 
-
 <div class="manual-section">
 
-<h2>6. Responsive Design</h2>
-
+<h2>12. Form Validation</h2>
 <p>
-The website is designed to work on different screen sizes including
-desktop computers, tablets, and mobile phones.
-The layout automatically adjusts to provide a better viewing experience.
+Form validation ensures accuracy and completeness of user input. It prevents errors and improves data reliability.
 </p>
 
 </div>
 
 <div class="divider"></div>
 
-
 <div class="manual-section">
 
-<h2>7. Conclusion</h2>
-
+<h2>13. Responsive Design</h2>
 <p>
-The GTECH is a learning website provides a simple and organized
-platform where users can access multimedia learning materials,
-interactive visuals, and educational resources.
+The website adapts to different screen sizes, ensuring usability across desktops, tablets, and mobile devices.
 </p>
 
 </div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>14. Accessibility</h2>
+<p>
+The platform is designed to be inclusive, ensuring readability and ease of navigation for all users.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>15. System Performance</h2>
+<p>
+The website is optimized for speed and efficiency to provide a seamless user experience.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>16. Advantages of the Website</h2>
+<ul>
+<li>Easy to use interface</li>
+<li>Interactive learning experience</li>
+<li>Accessible anytime and anywhere</li>
+<li>Well-organized content</li>
+<li>Supports self-paced learning</li>
+</ul>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>17. Limitations</h2>
+<p>
+The system requires internet connectivity and may have limitations depending on device performance.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>18. User Guidelines</h2>
+<p>
+Users should follow proper navigation procedures and ensure correct input when using forms.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>19. Maintenance and Updates</h2>
+<p>
+Regular updates are implemented to improve performance and add new features.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>20. Security and Privacy</h2>
+<p>
+User information collected through forms is handled securely and used only for communication purposes.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>21. Error Handling</h2>
+<p>
+The system provides error messages to guide users when issues occur, such as incomplete form submission.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>22. User Support</h2>
+<p>
+Users can seek assistance through the contact form or provided support channels.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>23. Future Improvements</h2>
+<p>
+Future updates may include additional features, improved design, and expanded learning content.
+</p>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="manual-section">
+
+<h2>24. Best Practices</h2>
+<p>
+Users are encouraged to explore all sections, review lessons carefully, and utilize infographics for better understanding.
+</p>
+
+</div>
+
+
 
 </div>
 
@@ -677,7 +968,7 @@ interactive visuals, and educational resources.
     </div>
 
     <div class="book-dropdown">
-      <button class="book-btn">Book</button>
+      <button class="nav-book-btn">Book</button>
       <div class="dropdown-content">
         <a href="lessons.html">Lesson</a>
         <a href="infog.html">Infographics</a>
@@ -691,7 +982,7 @@ interactive visuals, and educational resources.
 
 </body>
 <script>
-const bookButtons = document.querySelectorAll('.book-btn');
+const bookButtons = document.querySelectorAll('.nav-book-btn');
 
 bookButtons.forEach(button => {
 
@@ -700,20 +991,40 @@ bookButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // close all other dropdowns first
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      if(menu !== dropdown){
+        menu.style.display = 'none';
+      }
+    });
+
+    // toggle current
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
 
 });
 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    menu.style.display = 'none';
-  });
+/* CLOSE ONLY WHEN CLICK OUTSIDE */
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.book-dropdown')){
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+
 });
 
 let historyList = [];
 
+/* STORE ORIGINAL CONTENT ONCE */
+const originalSections = [];
+document.querySelectorAll(".manual-section").forEach(section => {
+  originalSections.push(section.innerHTML);
+});
+
+/* MAIN SEARCH */
 function searchManual(){
 
 let input = document.getElementById("manualSearch").value.toLowerCase();
@@ -723,11 +1034,10 @@ let found = false;
 
 sections.forEach((section,index) => {
 
-let originalHTML = section.innerHTML;
 let text = section.innerText.toLowerCase();
 
-/* remove old highlight */
-section.innerHTML = originalHTML.replace(/<span class="highlight">(.*?)<\/span>/g,"$1");
+/* restore original FIRST */
+section.innerHTML = originalSections[index];
 
 if(input === ""){
 section.style.display="block";
@@ -742,12 +1052,9 @@ section.style.display="block";
 if(dividers[index]) dividers[index].style.display="block";
 found=true;
 
+/* highlight */
 let regex = new RegExp("(" + input + ")", "gi");
-
-section.innerHTML = section.innerHTML.replace(regex, function(match){
-if(match.startsWith("<") || match.endsWith(">")) return match;
-return `<span class="highlight">${match}</span>`;
-});
+section.innerHTML = section.innerHTML.replace(regex, '<span class="highlight">$1</span>');
 
 }else{
 
@@ -761,8 +1068,8 @@ if(dividers[index]) dividers[index].style.display="none";
 /* show no results */
 document.getElementById("noResults").style.display = found ? "none" : "block";
 
-/* save history */
-if(input && !historyList.includes(input)){
+if(input){
+historyList = historyList.filter(item => item !== input);
 historyList.unshift(input);
 if(historyList.length > 6) historyList.pop();
 displayHistory();
@@ -770,31 +1077,35 @@ displayHistory();
 
 }
 
-/* display history */
-
 function displayHistory(){
 
 let historyContainer = document.getElementById("searchHistory");
 
+/* CLEAR FIRST */
 historyContainer.innerHTML = "<b>Recent Searches:</b><br>";
 
 historyList.forEach(item => {
 
-historyContainer.innerHTML +=
-`<span class="history-item" onclick="searchFromHistory('${item}')">${item}</span>`;
+let span = document.createElement("span");
+span.className = "history-item";
+span.textContent = item;
+
+/* SAFE CLICK (NO STRING BUG) */
+span.addEventListener("click", () => {
+  searchFromHistory(item);
+});
+
+historyContainer.appendChild(span);
 
 });
 
 }
-
-/* click history */
-
 function searchFromHistory(word){
 
 document.getElementById("manualSearch").value = word;
 searchManual();
 
 }
-
+displayHistory();
 </script>
 </html>
