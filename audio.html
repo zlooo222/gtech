@@ -529,8 +529,8 @@ gap:20px;
 }
 
 .slides{
-width:100%;
-height:400px;
+  width:100%;
+  aspect-ratio: 16 / 9;
 }
 
 /* ARROWS SMALLER */
@@ -652,6 +652,7 @@ overflow-x:hidden;
     min-width: 120px;
     font-size: 13px;
   }
+  
 }
 
 /* MOBILE */
@@ -700,7 +701,95 @@ font-size:20px;
 .finish-box p{
 font-size:14px;
 }
+/* KEEP EVERYTHING IN ONE LINE */
+.navbar{
+  padding: 0 10px;
+}
 
+/* LOGO SMALLER */
+.logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-left: 0;
+}
+
+/* LINKS TIGHT + SMALL */
+.nav-links{
+  gap: 5px;
+}
+
+.nav-links a{
+  font-size: 11px;
+  padding: 4px 5px;
+}
+
+/* BOOK BUTTON SMALL */
+.nav-book-btn{
+  font-size: 11px;
+  padding: 5px 10px;
+  margin-right: 0;
+}
+
+/* FOOTER SAME STYLE */
+.footer-content{
+  padding: 0 10px;
+}
+
+.footer-logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.footer-links{
+  gap: 5px;
+}
+
+.footer-links a{
+  font-size: 11px;
+  padding: 4px 5px;
+}
+
+.footer .nav-book-btn{
+  font-size: 11px;
+  padding: 5px 10px;
+}
+.nav-links a,
+.footer-links a{
+  white-space: nowrap;
+}
+.house-card iframe,
+.house-card video,
+.house-card img{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.slides{
+  width:100%;
+  aspect-ratio: 16 / 9;
+}
+.lesson-slider{
+  position: relative;
+}
+
+.prev,
+.next{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.prev{
+  left: 10px;
+}
+
+.next{
+  right: 10px;
+}
+.houses{
+  padding:40px 15px;
+}
 }
 </style>
 </head>
