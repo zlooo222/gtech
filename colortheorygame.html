@@ -4,232 +4,408 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Color Quest!</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;600&family=Bitter:wght@700&display=swap" rel="stylesheet">
 <style>
-html, body {margin:0; padding:0; height:100%; width:100%; overflow:hidden; font-family:'Helvetica', sans-serif;}
-body {background: linear-gradient(135deg, #f6f8ff, #fff0f5); display:flex; justify-content:center; align-items:center; transition: background 0.2s;}
-#game-container {position:absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background-color: rgba(255,255,255,0.95);}
-
-/* Title */
-h1 {font-family:'Pacifico'; font-size:5rem; color:#ff477e; text-shadow:3px 3px 8px rgba(0,0,0,0.3); animation:titleBounce 1.5s infinite alternate;}
-@keyframes titleBounce {to{transform:translateY(-15px);}}
-#signin-tagline {font-size:2rem; color:#6a1b9a; margin-bottom:30px; font-weight:bold;}
-
-/* Input & Buttons */
-#signin-screen input {padding:15px; margin:15px; border-radius:10px; border:3px solid #6a1b9a; font-size:1.8rem; width:300px; max-width:90%;}
-
-/* Start Button */
-#start-game {padding:18px 45px; font-size:1.8rem; border-radius:50px; border:none; background:linear-gradient(135deg,#ff477e,#ff85a1); color:white; cursor:pointer; font-weight:bold; box-shadow:0 8px 20px rgba(255,71,126,0.4); animation:pulse 1.5s infinite;}
-#start-game:hover {transform:scale(1.05);}
-#start-game:active {transform:scale(0.95);}
-@keyframes pulse {0%{box-shadow:0 0 0 0 rgba(255,71,126,.6);}70%{box-shadow:0 0 0 20px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
-
-/* Quiz */
-.question {font-size:2.5rem; margin:20px;}
-.options button {display:block; width:300px; margin:10px auto; padding:15px; border-radius:12px; border:3px solid #6a1b9a; background:#f3e5f5; font-size:1.8rem; cursor:pointer; transition:.3s;}
-.options button:hover {background:#6a1b9a;color:white;}
-
-/* Dashboard */
-.dashboard {position:absolute; top:20px; display:flex; gap:30px; font-size:1.5rem; color:#6a1b9a; font-weight:bold;}
-
-/* End Screen */
-.end-screen {display:none; text-align:center;}
-.end-screen button {
-margin: 10px; padding: 15px 40px; font-size: 1.8rem; border-radius: 50px;
-border: none; background: linear-gradient(135deg, #ff477e, #ff85a1); color:white; font-weight:bold; cursor:pointer;
-box-shadow: 0 8px 20px rgba(255,71,126,0.4); transition: transform 0.2s, box-shadow 0.2s;
+html, body {
+    margin:0; padding:0;
+    height:100%; width:100%;
+    font-family:'Fredoka', sans-serif;
 }
-.end-screen button:hover {transform:scale(1.05); box-shadow: 0 12px 25px rgba(255,71,126,0.6);}
-.end-screen button:active {transform:scale(0.95);}
+body {
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#333;
+}
 
-/* Level popup & Time up */
-.level-popup, .time-up {position:absolute; top:40%; font-size:3rem; font-weight:bold; animation:pop 2s forwards; z-index: 10;}
-.level-popup {color:#6a1b9a;}
-.time-up {color:red;}
-@keyframes pop {0%{opacity:0; transform:scale(.5);}50%{opacity:1;}100%{opacity:0; transform:scale(1.5);}}
+/* Rainbow Gradient Animation for Home */
+#home.active {
+    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 1400% 1400%;
+    animation: rainbow 15s ease infinite;
+}
+@keyframes rainbow {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 
-canvas {position:fixed; top:0; left:0; pointer-events:none; z-index:5;}
+/* SCREENS */
+.screen {
+    position:absolute;
+    width:100%;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.5s ease;
+    padding:20px;
+    box-sizing:border-box;
+}
+.screen.active {
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* TITLE */
+h1 {
+    font-family:'Pacifico';
+    font-size:4rem;
+    color:#6a1b9a;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input {
+    padding:15px;
+    border-radius:10px;
+    border:3px solid #6a1b9a;
+    margin:10px;
+    font-size:1rem;
+    width:80%;
+    max-width:300px;
+}
+
+/* BUTTON */
+button {
+    padding:12px 30px;
+    border-radius:50px;
+    border:none;
+    background:linear-gradient(135deg,#6a1b9a,#8e44ad);
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    margin:10px;
+}
+
+/* DASHBOARD */
+.dashboard {
+    position:fixed;
+    top:10px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    font-weight:bold;
+    color:#6a1b9a;
+}
+
+/* QUIZ */
+.q-number { font-size:1.2rem; font-weight:bold; color:#6a1b9a; margin-bottom:10px; text-align:center; }
+.question {font-size:1.8rem; margin:10px; text-align:center;}
+.options {display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-top:10px;}
+.options button {flex:1 1 120px; min-width:120px; padding:10px; font-size:1rem; border-radius:10px; border:none; color:white; cursor:pointer; text-align:center;}
+
+/* EXPLANATION */
+.explanation {margin-top:15px; font-size:1.1rem; text-align:center; font-weight:bold; min-height:1.2em;}
+
+/* INSTRUCTIONS CONTAINER */
+.instructions-box {
+    background: rgba(255,255,255,0.95);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    max-width: 700px;
+    width: 90%;
+    text-align: left;
+}
+
+.instructions p {
+    font-size:1.2rem;
+    margin:8px 0;
+    color:#5e4b8b;
+}
+
+/* LEADERBOARD */
+.leaderboard-box {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    z-index:100;
+    width:350px;
+    max-width:90%;
+}
+.leaderboard-box h2 { font-size:2rem; margin-bottom:15px; color:#6a1b9a; }
+.leaderboard-box p { font-family:'Bitter', serif; font-weight:700; font-size:1.2rem; margin:5px 0; color:#4d4d4d; }
+
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+    z-index:5;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width:600px){
+    .question {font-size:1.5rem;}
+    .options button {flex:1 1 100px; font-size:0.9rem;}
+    h1 {font-size:3rem;}
+}
 </style>
 </head>
 <body>
 <canvas id="confetti"></canvas>
 
-<div id="game-container">
-<div id="signin-screen">
+<!-- HOME -->
+<div id="home" class="screen active">
 <h1>🎨 Color Quest!</h1>
-<div id="signin-tagline">Test your knowledge!</div>
 <input type="text" id="player-name" placeholder="Enter your name">
-<button id="start-game">🚀 Start Game</button>
+<button onclick="goInstructions()">Start</button>
 </div>
 
-<div class="dashboard" style="display:none;">
+<!-- INSTRUCTIONS -->
+<div id="instructions" class="screen">
+<h1>📜 Instructions</h1>
+<div class="instructions-box">
+<p>Welcome to <b>Color Quest!</b> 🎨</p>
+<p>This game will test your knowledge in Color Theory.</p>
+<p>Answer all questions correctly to gain points.</p>
+<p>Each correct answer = +10 points.</p>
+<p>You only have 60 seconds to finish.</p>
+<p>Wrong answers will flash red.</p>
+<p>Reach the highest score and enter the leaderboard!</p>
+</div>
+<button onclick="startGame()">Start Game</button>
+<button onclick="backHome()">Back</button>
+</div>
+
+<!-- GAME -->
+<div id="game" class="screen">
+<div class="dashboard">
+<div class="player">👤 Player</div>
 <div class="score">Score: 0</div>
 <div class="timer">Time: 60s</div>
 <div class="level">Level: 1</div>
 </div>
-
-<div class="quiz" style="display:none;">
+<div class="quiz">
+<div class="q-number"></div>
 <div class="question"></div>
 <div class="options"></div>
+<div class="explanation"></div>
+</div>
 </div>
 
-<div class="end-screen">
-<h2>🎉 Game Over!</h2>
+<!-- END -->
+<div id="end" class="screen">
+<h1>🎉 Game Over!</h1>
 <p class="score-summary"></p>
-<button class="restart">Restart</button>
-<button class="quit">Quit</button>
-</div>
+<button onclick="showLeaderboard()">Leaderboard</button>
+<button onclick="location.reload()">Restart</button>
 </div>
 
 <script>
-// ---------- Game Data ----------
+// SCREEN CONTROL
+function showScreen(id){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+function goInstructions(){ showScreen("instructions"); }
+function backHome(){ showScreen("home"); }
+
+// START GAME
+let playerName="";
+function startGame(){
+playerName=document.getElementById("player-name").value || "Player";
+document.querySelector('.player').textContent="👤 "+playerName;
+showScreen("game");
+loadQuestion();
+startTimer();
+}
+
+// GAME DATA
 const levels=[
 {level:1,questions:[
-{question:"Which are primary colors?",options:["Red, Blue, Yellow","Green, Purple, Orange","Red, Green, Blue","Yellow, Purple, Pink"],answer:"Red, Blue, Yellow"},
-{question:"Red + Blue = ?",options:["Purple","Green","Orange","Brown"],answer:"Purple"},
-{question:"Blue + Yellow = ?",options:["Green","Purple","Red","Pink"],answer:"Green"},
-{question:"Warm color example?",options:["Red","Blue","Green","Purple"],answer:"Red"},
-{question:"Cool color example?",options:["Blue","Red","Yellow","Orange"],answer:"Blue"}]},
+{question:"Which are primary colors?",options:["Red, Blue, Yellow","Green, Purple, Orange","Red, Green, Blue","Yellow, Purple, Pink"],answer:"Red, Blue, Yellow",explanation:"Primary colors are Red, Blue, and Yellow."},
+{question:"Red + Blue = ?",options:["Purple","Green","Orange","Brown"],answer:"Purple",explanation:"Mixing Red and Blue gives Purple."},
+{question:"Blue + Yellow = ?",options:["Green","Purple","Red","Pink"],answer:"Green",explanation:"Mixing Blue and Yellow gives Green."},
+{question:"Warm color example?",options:["Red","Blue","Green","Purple"],answer:"Red",explanation:"Red is a warm color."},
+{question:"Cool color example?",options:["Blue","Red","Yellow","Orange"],answer:"Blue",explanation:"Blue is a cool color."}]
+},
 {level:2,questions:[
-{question:"Complementary color of Red?",options:["Green","Blue","Yellow","Purple"],answer:"Green"},
-{question:"Analogous colors example?",options:["Red, Orange, Yellow","Blue, Green, Red","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Red, Orange, Yellow"},
-{question:"Primary + Secondary color?",options:["Tertiary","Primary","Secondary","None"],answer:"Tertiary"},
-{question:"Neutral color example?",options:["Black","Red","Blue","Green"],answer:"Black"},
-{question:"Color scheme for calm effect?",options:["Cool colors","Warm colors","Bright colors","None"],answer:"Cool colors"}]},
+{question:"Complementary color of Red?",options:["Green","Blue","Yellow","Purple"],answer:"Green",explanation:"Green is opposite Red on the color wheel."},
+{question:"Analogous colors example?",options:["Red, Orange, Yellow","Blue, Green, Red","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Red, Orange, Yellow",explanation:"Analogous colors are next to each other."},
+{question:"Primary + Secondary color?",options:["Tertiary","Primary","Secondary","None"],answer:"Tertiary",explanation:"Mixing Primary and Secondary gives a Tertiary color."},
+{question:"Neutral color example?",options:["Black","Red","Blue","Green"],answer:"Black",explanation:"Black is a neutral color."},
+{question:"Color scheme for calm effect?",options:["Cool colors","Warm colors","Bright colors","None"],answer:"Cool colors",explanation:"Cool colors give calm effect."}]
+},
 {level:3,questions:[
-{question:"All primary colors mixed?",options:["Black/Brown","White","Gray","Pink"],answer:"Black/Brown"},
-{question:"Best complementary pair?",options:["Blue & Orange","Red & Yellow","Green & Blue","Purple & Red"],answer:"Blue & Orange"},
-{question:"Tertiary color example?",options:["Red-Orange","Blue","Yellow","Green"],answer:"Red-Orange"},
-{question:"Color scheme for contrast?",options:["Complementary","Analogous","Monochromatic","Neutral"],answer:"Complementary"},
-{question:"Analogous colors example?",options:["Blue, Green, Teal","Red, Green, Blue","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Blue, Green, Teal"}]}
+{question:"All primary colors mixed?",options:["Black/Brown","White","Gray","Pink"],answer:"Black/Brown",explanation:"Mixing Red, Blue, Yellow gives Brown/Black."},
+{question:"Best complementary pair?",options:["Blue & Orange","Red & Yellow","Green & Blue","Purple & Red"],answer:"Blue & Orange",explanation:"Blue and Orange are complementary."},
+{question:"Tertiary color example?",options:["Red-Orange","Blue","Yellow","Green"],answer:"Red-Orange",explanation:"Red-Orange is a tertiary color."},
+{question:"Color scheme for contrast?",options:["Complementary","Analogous","Monochromatic","Neutral"],answer:"Complementary",explanation:"Complementary colors create contrast."},
+{question:"Analogous colors example?",options:["Blue, Green, Teal","Red, Green, Blue","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Blue, Green, Teal",explanation:"Analogous colors sit next to each other."}]
+},
+{level:4,questions:[
+{question:"What color do you get by mixing Red + Yellow?",options:["Orange","Green","Purple","Brown"],answer:"Orange",explanation:"Red + Yellow = Orange."},
+{question:"What is the complementary of Blue?",options:["Orange","Green","Purple","Red"],answer:"Orange",explanation:"Orange is opposite Blue."},
+{question:"Primary colors in RGB?",options:["Red, Green, Blue","Yellow, Red, Blue","Green, Yellow, Purple","Red, Blue, Purple"],answer:"Red, Green, Blue",explanation:"RGB uses Red, Green, Blue."},
+{question:"Secondary colors?",options:["Green, Orange, Purple","Red, Blue, Yellow","Pink, Teal, Gray","Black, White, Brown"],answer:"Green, Orange, Purple",explanation:"Mixing primary colors gives secondary colors."},
+{question:"Monochromatic scheme example?",options:["Light Blue, Blue, Dark Blue","Red, Green, Blue","Yellow, Purple, Pink","Orange, Green, Blue"],answer:"Light Blue, Blue, Dark Blue",explanation:"Monochromatic uses shades of one color."}]
+},
+{level:5,questions:[
+{question:"Mixing Blue + Red gives?",options:["Purple","Green","Orange","Brown"],answer:"Purple",explanation:"Blue + Red = Purple."},
+{question:"Mixing Yellow + Red gives?",options:["Orange","Green","Purple","Brown"],answer:"Orange",explanation:"Yellow + Red = Orange."},
+{question:"Neutral warm color?",options:["Beige","Red","Blue","Green"],answer:"Beige",explanation:"Beige is a neutral warm color."},
+{question:"Color opposite Yellow?",options:["Purple","Green","Red","Blue"],answer:"Purple",explanation:"Purple is complementary to Yellow."},
+{question:"Analogous of Green?",options:["Green, Blue, Yellow","Red, Green, Blue","Yellow, Purple, Pink","Orange, Blue, Green"],answer:"Green, Blue, Yellow",explanation:"Analogous colors sit next to each other."}]
+}
 ];
 
-let currentLevel=0,currentQuestion=0,score=0,time=60,timerInterval;
+let currentLevel=0,currentQuestion=0,score=0,time=60,timer;
 const qEl=document.querySelector('.question');
 const optEl=document.querySelector('.options');
+const qNumberEl=document.querySelector('.q-number');
+const explanationEl=document.querySelector('.explanation');
 const scoreEl=document.querySelector('.score');
 const timerEl=document.querySelector('.timer');
 
-// ---------- Start ----------
-document.getElementById('start-game').onclick=()=>{
-document.getElementById('signin-screen').style.display="none";
-document.querySelector('.quiz').style.display="block";
-document.querySelector('.dashboard').style.display="flex";
-loadQuestion(); startTimer();
-};
+// COLORS HELPER
+function getColorStyle(text){
+    let colors = text.split(',').map(t=>t.trim().toLowerCase());
+    if(colors.length ===1){
+        switch(colors[0]){
+            case 'red': return 'red';
+            case 'blue': return 'blue';
+            case 'green': return 'green';
+            case 'yellow': return 'gold';
+            case 'orange': return 'orange';
+            case 'purple': return 'purple';
+            case 'brown': return 'brown';
+            case 'black': return 'black';
+            case 'pink': return 'pink';
+            case 'teal': return 'teal';
+            case 'beige': return 'beige';
+            case 'indigo': return 'indigo';
+            default: return '#6a1b9a';
+        }
+    } else {
+        return `linear-gradient(to right, ${colors.join(',')})`;
+    }
+}
 
-// ---------- Load ----------
+// LOAD QUESTION
 function loadQuestion(){
-const data=levels[currentLevel].questions[currentQuestion];
-qEl.textContent=data.question;
-optEl.innerHTML="";
-data.options.sort(()=>Math.random()-0.5).forEach(opt=>{
-let btn=document.createElement('button');
-btn.textContent=opt;
-btn.onclick=()=>checkAnswer(opt);
-optEl.appendChild(btn);
-});
+    if(currentLevel >= levels.length){ endGame(); return; }
+    const data = levels[currentLevel].questions[currentQuestion];
+
+    // QUESTION NUMBER
+    let questionIndex = 0;
+    for(let l=0; l<currentLevel; l++){
+        questionIndex += levels[l].questions.length;
+    }
+    questionIndex += currentQuestion + 1;
+    let totalQuestions = levels.flatMap(l=>l.questions).length;
+    qNumberEl.textContent = `Question ${questionIndex} / ${totalQuestions}`;
+
+    qEl.textContent = data.question;
+    explanationEl.textContent = "";
+    optEl.innerHTML = "";
+    data.options.sort(()=>Math.random()-0.5).forEach(opt=>{
+        let btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.style.background = getColorStyle(opt);
+        btn.onclick = ()=>checkAnswer(opt, data);
+        optEl.appendChild(btn);
+    });
 }
 
-// ---------- Check Answer ----------
-function checkAnswer(ans){
-const correct=levels[currentLevel].questions[currentQuestion].answer;
-
-if(ans===correct){
-score+=10;
-launchConfetti(); // Bonggang confetti
-}else{
-flashRed();
-if(navigator.vibrate){navigator.vibrate(150);} // light vibration
+// CHECK ANSWER
+function checkAnswer(ans,data){
+    if(ans===data.answer){ 
+        score+=10; 
+        explanationEl.textContent = "✅ Correct! " + data.explanation;
+        launchConfetti(); 
+    }else{ 
+        explanationEl.textContent = "❌ Wrong! " + data.explanation;
+        flashRed(); 
+    }
+    scoreEl.textContent="Score: "+score;
+    currentQuestion++;
+    if(currentQuestion>=levels[currentLevel].questions.length){
+        currentLevel++; currentQuestion=0;
+        if(currentLevel>=levels.length){ endGame(); return; }
+        document.querySelector('.level').textContent="Level: "+levels[currentLevel].level;
+    }
+    setTimeout(loadQuestion,1000);
 }
 
-scoreEl.textContent="Score: "+score;
-currentQuestion++;
-setTimeout(()=>{
-if(currentQuestion>=levels[currentLevel].questions.length){
-currentLevel++; currentQuestion=0;
-if(currentLevel>=levels.length){endGame(); return;}
-// Level unlock popup
-let pop=document.createElement("div");
-pop.className="level-popup";
-pop.textContent="LEVEL "+levels[currentLevel].level+" UNLOCKED!";
-document.body.appendChild(pop);
-setTimeout(()=>pop.remove(),2000);
-document.querySelector('.level').textContent="Level: "+levels[currentLevel].level;
-}
-loadQuestion();
-},800);
-}
-
-// ---------- Red flash ----------
-function flashRed(){
-let flash=document.createElement("div");
-flash.style.position="fixed";
-flash.style.top=0; flash.style.left=0;
-flash.style.width="100%"; flash.style.height="100%";
-flash.style.background="rgba(255,0,0,0.7)";
-flash.style.zIndex=20;
-document.body.appendChild(flash);
-setTimeout(()=>flash.remove(),300);
-}
-
-// ---------- Timer ----------
+// TIMER
 function startTimer(){
-timerInterval=setInterval(()=>{
+timer=setInterval(()=>{
 time--;
 timerEl.textContent="Time: "+time+"s";
-if(time<=0){clearInterval(timerInterval);
-// Time up popup
-let pop=document.createElement("div");
-pop.className="time-up";
-pop.textContent="⏰ TIME'S UP!";
-document.body.appendChild(pop);
-setTimeout(()=>pop.remove(),2000);
-setTimeout(endGame,1500);
-}
+if(time<=0){clearInterval(timer); endGame();}
 },1000);
 }
 
-// ---------- End Game ----------
+// END GAME
 function endGame(){
-document.querySelector('.quiz').style.display="none";
-document.querySelector('.end-screen').style.display="block";
-document.querySelector('.score-summary').textContent=score/10+" / 15";
+showScreen("end");
+document.querySelector('.score-summary').textContent=playerName+" Total Score: "+score;
+saveScore(playerName,score);
 }
 
-// ---------- Buttons ----------
-document.querySelector('.restart').onclick=()=>location.reload();
-document.querySelector('.quit').onclick=()=>location.reload();
+// LEADERBOARD
+function saveScore(name,score){
+let scores=JSON.parse(localStorage.getItem("scores"))||[];
+scores.push({name,score});
+scores.sort((a,b)=>b.score-a.score);
+scores=scores.slice(0,5);
+localStorage.setItem("scores",JSON.stringify(scores));
+}
+function showLeaderboard(){
+let scores=JSON.parse(localStorage.getItem("scores"))||[];
+let box=document.createElement("div");
+box.className="leaderboard-box";
+box.innerHTML="<h2>🏆 Leaderboard</h2>";
+scores.forEach(s=>{
+box.innerHTML+=`<p>${s.name} - ${s.score}</p>`;
+});
+let btn=document.createElement("button");
+btn.textContent="Close";
+btn.onclick=()=>box.remove();
+box.appendChild(btn);
+document.body.appendChild(box);
+}
 
-// ---------- Confetti ----------
+// EFFECTS
+function flashRed(){
+let f=document.createElement("div");
+f.style.position="fixed";
+f.style.width="100%";
+f.style.height="100%";
+f.style.background="rgba(255,0,0,0.5)";
+f.style.zIndex="10";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),200);
+}
+
+// CONFETTI
 const canvas=document.getElementById('confetti');
 const ctx=canvas.getContext('2d');
 canvas.width=innerWidth; canvas.height=innerHeight;
 let particles=[];
 function launchConfetti(){
-for(let i=0;i<500;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*-50,
-size:5+Math.random()*15,
-color:`hsl(${Math.random()*360},100%,70%)`,
-speed:Math.random()*7+3,
-tilt:Math.random()*15-7
-});
-}
-}
+for(let i=0;i<300;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*-50,size:5,color:`hsl(${Math.random()*360},100%,70%)`,speed:Math.random()*5+2});
+}}
 function draw(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 particles.forEach((p,i)=>{
 ctx.fillStyle=p.color;
-ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.lineTo(p.x+p.tilt+p.size/2,p.y+p.size);
-ctx.lineTo(p.x+p.tilt,p.y+p.size);
-ctx.closePath();
-ctx.fill();
+ctx.fillRect(p.x,p.y,p.size,p.size);
 p.y+=p.speed;
-p.x+=Math.sin(p.y*0.05)*2;
 if(p.y>canvas.height) particles.splice(i,1);
 });
 requestAnimationFrame(draw);
