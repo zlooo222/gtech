@@ -665,26 +665,21 @@ letter-spacing:4px;
 }
 
 /* SLIDER CONTAINER */
+
+/* SLIDER STACK CLEAN */
 .lesson-slider{
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* SLIDES PERFECTLY FIT */
+/* SLIDE SIZE PERFECT */
 .slides{
   width: 100%;
   aspect-ratio: 16 / 9;
-  position: relative;
 }
 
-/* MEDIA FIT CLEAN */
-.house-card{
-  width: 100%;
-  height: 100%;
-}
-
+/* MEDIA FIT */
 .house-card iframe,
 .house-card video,
 .house-card img{
@@ -693,23 +688,29 @@ letter-spacing:4px;
   object-fit: contain;
 }
 
+/* 🔥 BUTTON CONTAINER BELOW */
+.slider-controls{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+/* BUTTON STYLE */
 .prev,
 .next{
-  position: absolute;
-  bottom: -50px;
-  top: auto;
-  transform: none;
+  position: static; /* 🔥 remove absolute */
+  font-size: 18px;
+  padding: 8px 14px;
+  border-radius: 50%;
 }
 
-.prev{
-  left: 50%;
-  transform: translateX(-60px);
+/* CLEAN SPACING */
+.houses{
+  padding: 40px 15px;
 }
 
-.next{
-  left: 50%;
-  transform: translateX(20px);
-}
+
 
 /* NAVBAR TIGHT */
 .nav-links{
@@ -794,9 +795,6 @@ font-size:14px;
   object-fit: contain;
 }
 
-.houses{
-  padding: 40px 15px 80px; /* extra bottom space for buttons */
-}
 }
 </style>
 </head>
@@ -843,11 +841,12 @@ font-size:14px;
 
 <div class="lesson-slider">
 
-<button class="prev">&#10094;</button>
+  <div class="slides"></div>
 
-<div class="slides"></div>
-
-<button class="next">&#10095;</button>
+  <div class="slider-controls">
+    <button class="prev">&#10094;</button>
+    <button class="next">&#10095;</button>
+  </div>
 
 </div>
 
