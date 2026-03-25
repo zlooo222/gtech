@@ -736,46 +736,38 @@ font-size:14px;
 /* FORCE SAME STRUCTURE AS FOOTER */
 .navbar{
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 0 10px;
   gap: 5px;
 }
 
-/* GROUP CENTER LINKS */
-.nav-links{
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* LOGO SAME BEHAVIOR */
+/* LOGO SAME AS FOOTER */
 .logo{
   font-size: 12px;
   letter-spacing: 2px;
-  margin: 0;
-  flex-shrink: 0;
-  white-space: nowrap;
+  transform: translateX(6px);  /* 👉 move right */
 }
 
-/* LINKS SAME AS FOOTER */
+/* LINKS SAME STRUCTURE */
+.nav-links{
+  display: flex;
+  gap: 5px;
+}
+
 .nav-links a{
   font-size: 11px;
   padding: 4px 5px;
   white-space: nowrap;
 }
 
-/* BOOK BUTTON SAME POSITION */
-.book-dropdown{
-  flex-shrink: 0;
-}
-
+/* BOOK BUTTON SAME */
 .nav-book-btn{
   font-size: 11px;
   padding: 5px 10px;
-  margin: 0;
-  white-space: nowrap;
+    transform: translateX(-6px); /* 👉 move left */
 }
+
 .navbar,
 .footer-content{
   padding: 0 10px;
@@ -788,6 +780,7 @@ font-size:14px;
 .footer-logo{
   font-size: 12px;
   letter-spacing: 2px;
+    transform: translateX(6px);  /* 👉 move right */
 }
 
 .footer-links{
@@ -802,11 +795,21 @@ font-size:14px;
 .footer .nav-book-btn{
   font-size: 11px;
   padding: 5px 10px;
+    transform: translateX(-6px); /* 👉 move left */
 }
 .nav-links a,
 .footer-links a{
   white-space: nowrap;
 }
+.logo,
+.footer-logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-left: 0;
+  flex-shrink: 0;       /* 🔥 IMPORTANT */
+  white-space: nowrap;  /* 🔥 PREVENT BREAK */
+}
+
 .house-card iframe,
 .house-card video,
 .house-card img{
@@ -884,24 +887,22 @@ font-size:14px;
 
 <div class="footer-content">
 
-<a href="index.html">
-<div class="footer-logo">GTECH
-</div>
-</a>
+  <a href="index.html" class="footer-logo">GTECH</a>
 
-<div class="footer-links">
-<a href="index.html">Home</a>
-<a href="aboutus.html">About Us</a>
-<a href="manual.html">Manual</a>
-</div>
-
-<div class="book-dropdown">
-  <button class="nav-book-btn">Book</button>
-  <div class="dropdown-content">
-    <a href="lessons.html">Lesson</a>
-    <a href="infog.html">Infographics</a>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="manual.html">Manual</a>
   </div>
-</div>
+
+  <div class="book-dropdown">
+    <button class="nav-book-btn">Book</button>
+    <div class="dropdown-content">
+      <a href="lessons.html">Lesson</a>
+      <a href="infog.html">Infographics</a>
+    </div>
+  </div>
+
 </div>
 
 </div>
