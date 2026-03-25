@@ -596,7 +596,7 @@ background:rgba(255,255,255,0.15);
   .nav-book-btn {
     padding: 8px 16px;
     font-size: 14px;
-	margin-right: 5px;
+	margin-right: 10px;
     flex-shrink: 0;
   }
 
@@ -717,8 +717,8 @@ background:rgba(255,255,255,0.15);
 @media (max-width:600px){
 
 .hero-title{
-font-size:60px;
-letter-spacing:4px;
+  font-size:60px;
+  letter-spacing:4px;
 }
 
 .card-row{
@@ -731,106 +731,68 @@ letter-spacing:4px;
   height:140px;
 }
 
-}
-
+/* ✅ MOVE THESE INSIDE */
 .section{
-padding:80px 20px;
+  padding:80px 20px;
 }
 
 .about-grid{
-grid-template-columns:1fr;
+  grid-template-columns:1fr;
 }
 
 .included{
-grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr 1fr;
 }
 
-/* MOBILE */
-
-/* NAVBAR TIGHT */
-.nav-links{
-gap:10px;
-font-size:12px;
+.navbar,
+.footer-content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  gap:5px;
 }
 
-.book-btn{
-padding:5px 12px;
-font-size:12px;
-}
-/* KEEP EVERYTHING IN ONE LINE */
-/* FORCE SAME STRUCTURE AS FOOTER */
-.navbar{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-  gap: 5px;
+/* LOGO */
+.logo,
+.footer-logo{
+  font-size:12px;
+  letter-spacing:2px;
+  margin:0;
+  white-space:nowrap;
+  flex-shrink:0;
 }
 
-/* GROUP CENTER LINKS */
-.nav-links{
-  display: flex;
-  align-items: center;
-  gap: 5px;
+/* LINKS CONTAINER */
+.nav-links,
+.footer-links{
+  display:flex;
+  gap:5px;
 }
 
-/* LOGO SAME BEHAVIOR */
-.logo{
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin: 0;
-  flex-shrink: 0;
-  white-space: nowrap;
+/* LINKS */
+.nav-links a,
+.footer-links a{
+  font-size:11px;
+  padding:4px 5px;
+  white-space:nowrap;
 }
 
-/* LINKS SAME AS FOOTER */
-.nav-links a{
-  font-size: 11px;
-  padding: 4px 5px;
-  white-space: nowrap;
-}
-
-/* BOOK BUTTON SAME POSITION */
+/* BOOK BUTTON */
 .book-dropdown{
-  flex-shrink: 0;
+  flex-shrink:0;
 }
 
 .nav-book-btn{
-  font-size: 11px;
-  padding: 5px 10px;
-  margin: 0;
-  white-space: nowrap;
-}
-.navbar,
-.footer-content{
-  padding: 0 10px;
-}
-/* FOOTER SAME STYLE */
-.footer-content{
-  padding: 0 10px;
+  font-size:11px;
+  padding:5px 10px;
+  margin:0;
+  white-space:nowrap;
 }
 
-.footer-logo{
-  font-size: 12px;
-  letter-spacing: 2px;
-}
-
-.footer-links{
-  gap: 5px;
-}
-
-.footer-links a{
-  font-size: 11px;
-  padding: 4px 5px;
-}
-
-.footer .nav-book-btn{
-  font-size: 11px;
-  padding: 5px 10px;
-}
-.nav-links a,
-.footer-links a{
-  white-space: nowrap;
+/* DROPDOWN FIX */
+.dropdown-content{
+  right:0;
 }
 
 }
