@@ -692,14 +692,15 @@ letter-spacing:4px;
 .slider-controls{
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-top: 15px;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 /* BUTTON STYLE */
 .prev,
 .next{
-  position: static; /* 🔥 remove absolute */
+  position: static !important;
+  transform: none !important;
   font-size: 18px;
   padding: 8px 14px;
   border-radius: 50%;
@@ -707,7 +708,7 @@ letter-spacing:4px;
 
 /* CLEAN SPACING */
 .houses{
-  padding: 40px 15px;
+  padding: 40px 15px 80px;
 }
 
 
@@ -794,7 +795,12 @@ font-size:14px;
   height:100%;
   object-fit: contain;
 }
-
+.lesson-slider{
+  display: block !important;
+}
+.slides{
+  touch-action: pan-y;
+}
 }
 </style>
 </head>
@@ -1013,7 +1019,7 @@ const fullscreenView = document.getElementById("fullscreenView");
 const fullscreenImg = document.getElementById("fullscreenImg");
 const closeFull = document.querySelector(".close-full");
 
-document.addEventListener("click", function(e){
+slidesContainer.addEventListener("click", function(e){
   if(e.target.closest(".slide img")){
     
     fullscreenImg.src = e.target.src;
@@ -1066,6 +1072,36 @@ fullPrev.addEventListener("click", (e) => {
 
   showSlide(index);
   updateFullscreen();
+});
+// =========================
+// 📱 SWIPE FUNCTION
+// =========================
+
+let startX = 0;
+let endX = 0;
+
+const slider = document.querySelector(".slides");
+
+slider.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+slider.addEventListener("touchmove", (e) => {
+  endX = e.touches[0].clientX;
+});
+
+slider.addEventListener("touchend", () => {
+  let diff = startX - endX;
+
+  // 👉 SWIPE LEFT (NEXT)
+  if(diff > 50){
+    next.click();
+  }
+
+  // 👉 SWIPE RIGHT (PREV)
+  if(diff < -50){
+    prev.click();
+  }
 });
 const floatingBtn = document.querySelector(".floating-pdf");
 const footer = document.querySelector(".footer");
