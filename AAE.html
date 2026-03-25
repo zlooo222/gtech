@@ -667,23 +667,54 @@ font-size:45px;
 letter-spacing:4px;
 }
 
-/* SLIDER HEIGHT SMALLER */
-.slides{
-height:250px;
+/* SLIDER CONTAINER */
+
+/* SLIDER STACK CLEAN */
+.lesson-slider{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* BUTTONS SMALL */
+/* SLIDE SIZE PERFECT */
+.slides{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* MEDIA FIT */
+.house-card iframe,
+.house-card video,
+.house-card img{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+
+/* 🔥 BUTTON CONTAINER BELOW */
+.slider-controls{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* BUTTON STYLE */
 .prev,
 .next{
-font-size:18px;
-padding:6px 10px;
+  position: static !important;
+  transform: none !important;
+  font-size: 18px;
+  padding: 8px 14px;
+  border-radius: 50%;
 }
 
-/* FULLSCREEN NAV */
-.full-prev,
-.full-next{
-font-size:24px;
+/* CLEAN SPACING */
+.houses{
+  padding: 40px 15px 80px;
 }
+
+
 
 /* NAVBAR TIGHT */
 .nav-links{
@@ -704,7 +735,94 @@ font-size:20px;
 .finish-box p{
 font-size:14px;
 }
+/* KEEP EVERYTHING IN ONE LINE */
+/* FORCE SAME STRUCTURE AS FOOTER */
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  gap: 5px;
+}
 
+/* GROUP CENTER LINKS */
+.nav-links{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* LOGO SAME BEHAVIOR */
+.logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* LINKS SAME AS FOOTER */
+.nav-links a{
+  font-size: 11px;
+  padding: 4px 5px;
+  white-space: nowrap;
+}
+
+/* BOOK BUTTON SAME POSITION */
+.book-dropdown{
+  flex-shrink: 0;
+}
+
+.nav-book-btn{
+  font-size: 11px;
+  padding: 5px 10px;
+  margin: 0;
+  white-space: nowrap;
+}
+.navbar,
+.footer-content{
+  padding: 0 10px;
+}
+/* FOOTER SAME STYLE */
+.footer-content{
+  padding: 0 10px;
+}
+
+.footer-logo{
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.footer-links{
+  gap: 5px;
+}
+
+.footer-links a{
+  font-size: 11px;
+  padding: 4px 5px;
+}
+
+.footer .nav-book-btn{
+  font-size: 11px;
+  padding: 5px 10px;
+}
+.nav-links a,
+.footer-links a{
+  white-space: nowrap;
+}
+.house-card iframe,
+.house-card video,
+.house-card img{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.lesson-slider{
+  display: block !important;
+}
+.slides{
+  touch-action: pan-y;
+}
 }
 </style>
 </head>
@@ -718,24 +836,23 @@ font-size:14px;
 
 <div class="overlay"></div>
 
-<a href="index.html">
 <div class="navbar">
-<div class="logo">GTECH</div>
-</a>
 
-<div class="nav-links">
-<a href="index.html">Home</a>
-<a href="aboutus.html">About Us</a>
-<a href="manual.html">Manual</a>
-</div>
+  <a href="index.html" class="logo">GTECH</a>
 
-<div class="book-dropdown">
-  <button class="nav-book-btn">Book</button>
-  <div class="dropdown-content">
-    <a href="lessons.html">Lesson</a>
-    <a href="infog.html">Infographics</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="manual.html">Manual</a>
   </div>
-</div>
+
+  <div class="book-dropdown">
+    <button class="nav-book-btn">Book</button>
+    <div class="dropdown-content">
+      <a href="lessons.html">Lesson</a>
+      <a href="infog.html">Infographics</a>
+    </div>
+  </div>
 
 </div>
 </div>
@@ -930,7 +1047,7 @@ const fullscreenView = document.getElementById("fullscreenView");
 const fullscreenImg = document.getElementById("fullscreenImg");
 const closeFull = document.querySelector(".close-full");
 
-document.addEventListener("click", function(e){
+slidesContainer.addEventListener("click", function(e){
   if(e.target.closest(".slide img")){
     
     fullscreenImg.src = e.target.src;
@@ -983,6 +1100,36 @@ fullPrev.addEventListener("click", (e) => {
 
   showSlide(index);
   updateFullscreen();
+});
+// =========================
+// 📱 SWIPE FUNCTION
+// =========================
+
+let startX = 0;
+let endX = 0;
+
+const slider = document.querySelector(".slides");
+
+slider.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+slider.addEventListener("touchmove", (e) => {
+  endX = e.touches[0].clientX;
+});
+
+slider.addEventListener("touchend", () => {
+  let diff = startX - endX;
+
+  // 👉 SWIPE LEFT (NEXT)
+  if(diff > 50){
+    next.click();
+  }
+
+  // 👉 SWIPE RIGHT (PREV)
+  if(diff < -50){
+    prev.click();
+  }
 });
 const floatingBtn = document.querySelector(".floating-pdf");
 const footer = document.querySelector(".footer");
