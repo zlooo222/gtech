@@ -20,6 +20,7 @@ font-family:Arial, Helvetica, sans-serif;
 body{
 color:white;
 background:black;
+overflow-x:hidden;
 }
 
 /* HERO SECTION */
@@ -37,24 +38,27 @@ left:0;
 width:100%;
 height:100%;
 background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+pointer-events: none;
 }
 
 /* NAVBAR */
 
-.navbar{
-position:absolute;
-top:30px;
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:0 80px;
-align-items:center;
-z-index:5;
+.navbar {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  z-index: 1000;
 }
 
 .logo{
-font-weight:bold;
-letter-spacing:2px;
+  font-weight:bold;
+  letter-spacing:8px;
+  margin-left:20px; /* ✅ match visual spacing */
 }
 
 .nav-links{
@@ -63,15 +67,27 @@ gap:30px;
 }
 
 .nav-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
+.nav-links a:hover{
+  opacity:1;
+}
+
+.nav-book-btn{
+  background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
 }
 
 /* HERO CONTENT */
@@ -338,19 +354,82 @@ cursor:pointer;
 font-size:13px;
 }
 
+/* FOOTER SECTION */
+
+.footer{
+background:url("lol.jpg") center/cover no-repeat;
+position:relative;
+padding:50px 0;
+}
+
+.footer-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+}
+
+.footer-content{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 80px;
+z-index:5;
+}
+
+.footer-logo{
+font-weight:bold;
+letter-spacing:8px;
+margin-left:20px; /* adjust this value */
+}
+
+.footer-links{
+display:flex;
+gap:30px;
+}
+
+.footer-links a{
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+  opacity:1;
+}
+
+.navbar,
+.footer-content {
+  padding: 0 80px;
+}
+
+
 /* BOOK DROPDOWN */
 
 .book-dropdown{
 position:relative;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
-background:transparent;
-color:white;
-cursor:pointer;
+.nav-book-btn{
+   background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
+
+}
+
+.book-dropdown button:focus{
+  outline:none;
 }
 
 /* Dropdown menu */
@@ -380,79 +459,112 @@ background:rgba(255,255,255,0.15);
 
 /* Show dropdown */
 
-.dropdown-content {
+.dropdown-content{
   display: none;
   position: absolute;
-  top: 35px;
+  top: 100%;         /* always below button */
+  margin-top: 10px;  /* space between button & dropdown */
   right: 0;
   background: rgba(0,0,0,0.9);
   border-radius: 8px;
   min-width: 150px;
   overflow: hidden;
-  z-index: 10; /* ensure it’s on top */
-}
-
-/* FOOTER SECTION */
-
-.footer{
-background:url("lol.jpg") center/cover no-repeat;
-position:relative;
-padding:50px 0;
-}
-
-.footer-overlay{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
-}
-
-.footer-content{
-position:relative;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 80px;
-z-index:5;
-}
-
-.footer-logo{
-font-weight:bold;
-letter-spacing:2px;
-}
-
-.footer-links{
-display:flex;
-gap:30px;
-}
-
-.footer-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  z-index: 10;
 }
 .footer .dropdown-content{
-top:auto;
-bottom:35px; /* opens upward */
+  top: auto;            /* remove downward behavior */
+  bottom: 100%;         /* 👈 attach to top of button */
+  margin-bottom: 10px;  /* 👈 spacing from button */
+}
+.footer .nav-book-btn{
+  margin-right:20px;
 }
 
 /* ========================= */
 /* 📱 RESPONSIVE FIX */
 /* ========================= */
 
-@media (max-width: 900px){
+@media (max-width: 900px) {
 
-/* NAVBAR stays horizontal but tighter */
-.navbar{
-padding: 0 20px;
-}
+  /* NAVBAR */
+  .navbar {
+    padding: 0 15px;
+    gap: 10px;
+  }
 
-.nav-links{
-gap:15px;
-font-size:14px;
-}
+  .logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+	margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+  /* dropdown centered */
+  .dropdown-content {
+    right: 0;
+    transform: translateX(-10px);
+  }
+
+  /* FOOTER */
+   .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    font-size: 14px;
+    white-space: nowrap; /* 🔥 prevent breaking */
+    flex-shrink: 0;
+	margin-right: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 5px 6px;
+    white-space: nowrap; /* 🔥 FIX TEXT BREAK */
+  }
+
+  .book-dropdown {
+    flex-shrink: 0; /* 🔥 prevent squish */
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+	flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* DROPDOWN FULL WIDTH STYLE */
+  .dropdown-content {
+    min-width: 120px;
+    font-size: 13px;
+  }
 
 /* HERO adjustments */
 .hero-content{
@@ -516,18 +628,6 @@ height:100%;
 padding:15px;
 }
 
-/* FOOTER FIX */
-.footer-content,
-.footer .navbar{
-flex-direction:row;
-padding:0 20px;
-}
-
-/* PREVENT OVERFLOW (fix black side issue) */
-body, html{
-overflow-x:hidden;
-}
-
 }
 </style>
 </head>
@@ -554,7 +654,7 @@ overflow-x:hidden;
   </div>
 
   <div class="book-dropdown">
-    <button class="book-btn">Book</button>
+    <button class="nav-book-btn">Book</button>
     <div class="dropdown-content">
       <a href="lessons.html">Lesson</a>
       <a href="infog.html">Infographics</a>
@@ -649,7 +749,7 @@ overflow-x:hidden;
 
 <div class="footer-overlay"></div>
 
-<div class="navbar">
+<div class="footer-content">
 
   <a href="index.html">
     <div class="footer-logo">GTECH</div>
@@ -662,7 +762,7 @@ overflow-x:hidden;
   </div>
 
   <div class="book-dropdown">
-    <button class="book-btn">Book</button>
+    <button class="nav-book-btn">Book</button>
     <div class="dropdown-content">
       <a href="lessons.html">Lesson</a>
       <a href="infog.html">Infographics</a>
@@ -676,7 +776,7 @@ overflow-x:hidden;
 
 </body>
 <script>
-const bookButtons = document.querySelectorAll('.book-btn');
+const bookButtons = document.querySelectorAll('.nav-book-btn');
 
 bookButtons.forEach(button => {
 
@@ -685,16 +785,29 @@ bookButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // close all other dropdowns first
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      if(menu !== dropdown){
+        menu.style.display = 'none';
+      }
+    });
+
+    // toggle current
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
 
 });
 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    menu.style.display = 'none';
-  });
+/* CLOSE ONLY WHEN CLICK OUTSIDE */
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.book-dropdown')){
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+
 });
 </script>
 </html>
