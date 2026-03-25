@@ -6,6 +6,7 @@
 <title>HOME</title>
 
 <style>
+
 a {
   text-decoration: none;
   color: inherit;
@@ -21,16 +22,22 @@ font-family:Arial, Helvetica, sans-serif;
 body{
 color:white;
 background:black;
+overflow-x:hidden;
 }
 
 /* HERO SECTION */
 
 .hero{
-height:100vh;
+  min-height:100vh; /* 🔥 FULL SCREEN = stable */
 background:url("lol.jpg") center/cover no-repeat;
 position:relative;
 }
 
+.hero{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
 .hero-book{
   z-index:10000;
 }
@@ -46,24 +53,27 @@ left:0;
 width:100%;
 height:100%;
 background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.85));
+pointer-events: none; /* 🔥 THIS FIXES IT */
 }
 
 /* NAVBAR */
 
-.navbar{
-position:absolute;
-top:30px;
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:0 80px;
-align-items:center;
-z-index:5;
+.navbar {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  z-index: 1000;
 }
 
 .logo{
-font-weight:bold;
-letter-spacing:2px;
+  font-weight:bold;
+  letter-spacing:8px;
+  margin-left:20px; /* ✅ match visual spacing */
 }
 
 .nav-links{
@@ -72,15 +82,27 @@ gap:30px;
 }
 
 .nav-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
+.nav-links a:hover{
+  opacity:1;
+}
+
+.nav-book-btn{
+  background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
 }
 
 /* HERO CONTENT */
@@ -102,39 +124,67 @@ opacity:.35;
 /* CARDS */
 
 .card-row{
-position:absolute;
-bottom:120px;
-left:80px;
-display:flex;
-gap:20px;
-z-index:5;
+  position:absolute;
+  bottom:120px;
+  left:80px;
+
+  display:flex;              /* 🔥 BACK TO FLEX */
+  gap:20px;
+
+  z-index:1;
 }
 
 .info-card{
-width:140px;
-height:170px;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(5px);
-border-radius:12px;
-padding:10px;
-display:flex;
-align-items:flex-end;
-font-size:14px;
-color:white;
-transition:0.3s;
+  width:140px;
+  height:170px;
+
+  background-size:300%;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+
+  display:flex;
+  align-items:flex-end;
+
+  cursor:pointer;
+  transition: transform 0.3s, background-position 0.2s;
 }
 
+/* 🔥 DARK GRADIENT OVERLAY */
+.info-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1));
+  z-index:1;
+}
+
+/* 🔥 TEXT STYLE */
+.info-card span{
+  position:relative;
+  z-index:2;
+
+  color:white;
+  font-weight:600;
+  font-size:15px;
+  letter-spacing:0.5px;
+
+  padding:10px;
+}
+
+/* 🔥 HOVER EFFECT */
 .info-card:hover{
-transform:translateY(-5px);
-background:rgba(255,255,255,0.25);
+  transform:translateY(-6px) scale(1.03);
 }
-
-/* HERO BOOK BUTTON */
 
 .hero-book{
   position:absolute;
-  bottom:140px;
-  right:120px;
+  right:80px;          /* 🔥 move to right side */
+  top:80%;             /* 🔥 vertically centered */
+  transform:translateY(-50%);
   background:#ffffff;
   color:#000000;
   border:none;
@@ -143,99 +193,121 @@ background:rgba(255,255,255,0.25);
   font-size:16px;
   cursor:pointer;
   z-index:5;
-  display:inline-block; /* IMPORTANT */
-  text-align:center;
 }
 
 
 /* SECTION */
 
 .section{
-padding:120px 80px;
-background:black;
+  padding:120px 20px 100px;
+  background:white;
+  color:black;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
 .section-title{
-font-size:36px;
-letter-spacing:2px;
-margin-bottom:50px;
-display:flex;
-align-items:center;
-gap:20px;
+  font-size:34px;
+  letter-spacing:2px;
+  margin-bottom:50px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
 }
 
 .section-title:before,
 .section-title:after{
-content:"";
-flex:1;
-height:1px;
-background:#777;
+  content:"";
+  width:100px;
+  height:1px;
+  background:#aaa;
 }
-
-/* ABOUT GRID */
 
 .about-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:60px;
-align-items:center;
+  width:100%;
+  max-width:1100px;
+
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap:50px;
+
+  /* 🔥 MATCH VMGO STYLE */
+  background:rgba(0,0,0,0.05);
+  border:1px solid #ccc;
+
+  border-radius:20px;
+  padding:60px;
+
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.08),
+    0 30px 80px rgba(0,0,0,0.06);
+
+  position:relative;
 }
 
-.about-text{
-color:#ccc;
-line-height:1.7;
+.about-grid::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:5px;
+
+  background:linear-gradient(to right, #000, #555);
+  border-radius:20px 20px 0 0;
+}
+.about-text h2{
+  font-size:36px;
+  margin-bottom:15px;
 }
 
-/* TIMELINE */
-
-.timeline-header{
-font-size:20px;
-font-weight:bold;
-margin-bottom:30px;
-letter-spacing:1px;
+.about-text p{
+  font-size:16px;
+  line-height:1.9;
+  color:#444;
 }
 
 .timeline{
-position:relative;
-padding-left:40px;
-}
-
-.timeline:before{
-content:"";
-position:absolute;
-left:10px;
-top:0;
-bottom:0;
-width:2px;
-background:#888;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
 .timeline-item{
-margin-bottom:60px;
-position:relative;
+ background:rgba(0,0,0,0.05);
+  border:1px solid #ccc;
+  border-radius:14px;
+  padding:20px;
+
+  border:1px solid #eee;
+
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-.timeline-item:before{
-content:"";
-position:absolute;
-left:-35px;
-top:6px;
-width:14px;
-height:14px;
-background:white;
-border-radius:50%;
+.timeline-item:hover{
+  background:rgba(0,0,0,0.08);
+  box-shadow:none;
 }
 
 .timeline-title{
-font-weight:bold;
-}
+  font-weight:bold;
+  margin-bottom:6px;
 
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 /* INCLUDED */
 
 .included{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  justify-items:center; /* 🔥 keeps cards centered */
+  gap:25px;
 }
 
 .include-card{
@@ -243,6 +315,13 @@ border:1px solid #777;
 border-radius:12px;
 padding:25px;
 background:rgba(255,255,255,0.05);
+}
+
+.include-card:hover{
+  transform:translateY(-2px);
+
+  /* 🔥 FLOATING EFFECT */
+  box-shadow:0 12px 25px rgba(0,0,0,0.15);
 }
 
 .include-card h3{
@@ -348,7 +427,8 @@ z-index:5;
 
 .footer-logo{
 font-weight:bold;
-letter-spacing:2px;
+letter-spacing:8px;
+margin-left:20px; /* adjust this value */
 }
 
 .footer-links{
@@ -357,14 +437,24 @@ gap:30px;
 }
 
 .footer-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
-.footer .dropdown-content{
-top:auto;
-bottom:35px; /* opens upward */
+
+.footer-links a:hover{
+  opacity:1;
 }
+
+.navbar,
+.footer-content {
+  padding: 0 80px;
+}
+
 
 /* BOOK DROPDOWN */
 
@@ -373,13 +463,14 @@ position:relative;
 }
 
 .nav-book-btn{
-  border:1px solid white;
-  padding:6px 18px;
+   background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
   border-radius:20px;
-  background:transparent;
-  background-color: transparent !important;
-  color:white;
   cursor:pointer;
+    margin-right:20px;
+
 }
 
 .book-dropdown button:focus{
@@ -413,18 +504,26 @@ background:rgba(255,255,255,0.15);
 
 /* Show dropdown */
 
-.dropdown-content {
+.dropdown-content{
   display: none;
   position: absolute;
-  top: 35px;
+  top: 100%;         /* always below button */
+  margin-top: 10px;  /* space between button & dropdown */
   right: 0;
   background: rgba(0,0,0,0.9);
   border-radius: 8px;
   min-width: 150px;
   overflow: hidden;
-  z-index: 10; /* ensure it’s on top */
+  z-index: 10;
 }
-
+.footer .dropdown-content{
+  top: auto;            /* remove downward behavior */
+  bottom: 100%;         /* 👈 attach to top of button */
+  margin-bottom: 10px;  /* 👈 spacing from button */
+}
+.footer .nav-book-btn{
+  margin-right:20px;
+}
 /* ========================= */
 /* ✅ TABLET RESPONSIVE */
 /* ========================= */
@@ -432,37 +531,185 @@ background:rgba(255,255,255,0.15);
 @media (max-width:1024px){
 
 .hero{
-height:auto;
-padding-bottom:60px;
+  height:auto;
+  padding-bottom:40px;
+  display:flex;              /* 🔥 NEW */
+  flex-direction:column;     /* 🔥 stack everything */
 }
 
 .hero-content{
-position:static;
-padding:120px 40px 20px;
+  position:static;
+  padding:120px 40px 20px;
 }
 
 .card-row{
-position:static;
-margin-top:40px;
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-padding:0 40px;
+  position:static;           /* 🔥 REMOVE absolute */
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:20px;
+
+  width:100%;
+  padding:0 40px;
+  margin-top:20px;
 }
 
 .info-card{
-width:100%;
-height:150px;
+  width:100%;
+  height:160px;
 }
 
 .hero-book{
-position:static;
-display:block;
-margin:30px 40px 0 auto;
+  position:static;           /* 🔥 IMPORTANT */
+  margin:30px auto 0;
+  display:block;
 }
 
 }
 
+/* ========================= */
+/* MOBILE/TABLET RESPONSIVE */
+/* ========================= */
+@media (max-width: 900px) {
+
+  /* NAVBAR */
+  .navbar {
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+	margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+  /* dropdown centered */
+  .dropdown-content {
+    right: 0;
+    transform: translateX(-10px);
+  }
+
+  /* FOOTER */
+   .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    font-size: 14px;
+    white-space: nowrap; /* 🔥 prevent breaking */
+    flex-shrink: 0;
+	margin-right: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 5px 6px;
+    white-space: nowrap; /* 🔥 FIX TEXT BREAK */
+  }
+
+  .book-dropdown {
+    flex-shrink: 0; /* 🔥 prevent squish */
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+	flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* DROPDOWN FULL WIDTH STYLE */
+  .dropdown-content {
+    min-width: 120px;
+    font-size: 13px;
+  }
+
+  /* ENSURE INVERT-SECTION STAYS WHITE */
+  .invert-section,
+  .invert-section .section,
+  .invert-section .contact {
+    background: white !important;
+    color: black !important;
+  }
+
+  .invert-section .section-title:before,
+  .invert-section .section-title:after {
+    background: #999 !important;
+  }
+
+  .invert-section .about-text {
+    color: #333 !important;
+  }
+
+  .invert-section .timeline:before {
+    background: #aaa !important;
+  }
+
+  .invert-section .timeline-item:before {
+    background: black !important;
+  }
+
+  .invert-section .include-card {
+    background: rgba(0,0,0,0.05) !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+
+  .invert-section .card-title img {
+    filter: none !important;
+  }
+
+  .invert-section .contact-box {
+    background: rgba(0,0,0,0.05) !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .invert-section .contact-box input,
+  .invert-section .contact-box textarea {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+  }
+
+  .invert-section .contact-box button {
+    background: black !important;
+    color: white !important;
+  }
+
+  .invert-section .contact-box button:hover {
+    background: #333 !important;
+  }
+
+}
 /* ========================= */
 /* ✅ MOBILE RESPONSIVE */
 /* ========================= */
@@ -475,16 +722,15 @@ letter-spacing:4px;
 }
 
 .card-row{
-grid-template-columns:repeat(2,1fr);
-padding:0 20px;
+  grid-template-columns:repeat(2, 1fr);
+  gap:15px;
+  padding:0 20px;
 }
 
-.hero-book{
-margin:30px auto 0 auto;
-display:block;
+.info-card{
+  height:140px;
 }
-.navbar{
-padding:0 20px;
+
 }
 
 .section{
@@ -629,6 +875,17 @@ font-size:22px;
 .invert-section .contact-box button:hover{
   background:#333;
 }
+
+
+/* PREVENT OVERFLOW (fix black side issue) */
+body, html{
+overflow-x:hidden;
+}
+
+.navbar::-webkit-scrollbar,
+.footer-content::-webkit-scrollbar{
+  display:none;
+}
 </style>
 </head>
 
@@ -668,24 +925,24 @@ font-size:22px;
 
 <div class="card-row">
 
-<a href="multimedia.html" class="info-card">
-Multimedia
+<a href="multimedia.html" class="info-card" style="background-image:url('lessons/MM.png')">
+  <span>Multimedia</span>
 </a>
 
-<a href="audio.html" class="info-card">
-Audio
+<a href="audio.html" class="info-card" style="background-image:url('lessons/AUD.jpg')">
+  <span>Audio</span>
 </a>
 
-<a href="colortheory.html" class="info-card">
-Color Theory
+<a href="colortheory.html" class="info-card" style="background-image:url('lessons/colorr.png')">
+  <span>Color Theory</span>
 </a>
 
-<a href="AAE.html" class="info-card">
-Adobe Photoshop
+<a href="adobephoto.html" class="info-card" style="background-image:url('lessons/AP.png')">
+  <span>Adobe Photoshop</span>
 </a>
 
-<a href="animation.html" class="info-card">
-Animation
+<a href="animation.html" class="info-card" style="background-image:url('lessons/AM.jpg')">
+  <span>Animation</span>
 </a>
 
 </div>
@@ -708,35 +965,32 @@ INTRODUCTION
 <div class="about-grid">
 
 <div class="about-text">
+  <h2>Learn Creatively</h2>
 
-<p>
-Welcome to our website! Here, you’ll explore a collection of engaging lessons designed to help you understand key concepts in a clear and interactive way. After each lesson, you can test your knowledge through assessments that reinforce what you’ve learned. You’ll also find informative infographics that visually present important ideas, making them easier to grasp and remember.
-</p>
+  <p> Growth Through Education & Technology (GTECH) is a digital platform designed to make learning about illustration, multimedia, and animation simple and engaging.</p>
+<br>
+<p>Our website provides structured lessons, visual guides, and interactive infographic materials that help learners understand complex digital concepts easily. Whether you are a beginner exploring drawing tools or a student learning animation techniques, our goal is to guide you step-by-step in your creative journey.</p>
+<br>
+<p>We believe that creativity and technology should work together. Through this platform, learners can explore multimedia, audio production, color theory, and professional tools like Adobe Photoshop and After Effects. Our mission is to make ICT learning more visual, engaging, and accessible for everyone.
+  </p>
 </div>
 
 <div class="timeline">
 
-<div class="timeline-header">
-What You'll Find Here
-</div>
+  <div class="timeline-item">
+    <div class="timeline-title">📊 Infographic Lessons</div>
+    <p>Step-by-step guides on tools and concepts</p>
+  </div>
 
-<div class="timeline-item">
-<div class="timeline-title">📊 Infographic Lessons</div>
-<br>
-<p>Step-by-step guides on drawing and animation tools</p>
-</div>
+  <div class="timeline-item">
+    <div class="timeline-title">🎨 Interactive Visuals</div>
+    <p>Graphics that simplify complex ideas</p>
+  </div>
 
-<div class="timeline-item">
-<div class="timeline-title">🎨 Interactive Visuals</div>
-<br>
-<p>Engaging graphics to simplify complex concepts</p>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-title"> 🚀 Self-Paced Learning</div>
-<br>
-<p>Learn anytime, anywhere at your own</p>
-</div>
+  <div class="timeline-item">
+    <div class="timeline-title">🚀 Self-Paced Learning</div>
+    <p>Learn anytime at your own pace</p>
+  </div>
 
 </div>
 
@@ -885,6 +1139,7 @@ form.addEventListener("submit", function(e) {
 });
 
 const bookButtons = document.querySelectorAll('.nav-book-btn');
+
 bookButtons.forEach(button => {
 
   const dropdown = button.nextElementSibling;
@@ -892,16 +1147,50 @@ bookButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // close all other dropdowns first
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      if(menu !== dropdown){
+        menu.style.display = 'none';
+      }
+    });
+
+    // toggle current
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
 
 });
 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    menu.style.display = 'none';
+/* CLOSE ONLY WHEN CLICK OUTSIDE */
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.book-dropdown')){
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+
+});
+const cards = document.querySelectorAll('.info-card');
+
+cards.forEach(card => {
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    const moveX = x * 100;
+    const moveY = y * 100;
+
+    card.style.backgroundPosition = `${moveX}% ${moveY}%`;
   });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.backgroundPosition = "center";
+  });
+
 });
 </script>
 </html>
