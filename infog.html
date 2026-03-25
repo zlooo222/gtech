@@ -37,24 +37,27 @@ left:0;
 width:100%;
 height:100%;
 background:linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+pointer-events:none;
 }
 
 /* NAVBAR */
 
-.navbar{
-position:absolute;
-top:30px;
-width:100%;
-display:flex;
-justify-content:space-between;
-padding:0 80px;
-align-items:center;
-z-index:5;
+.navbar {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  z-index: 1000;
 }
 
 .logo{
-font-weight:bold;
-letter-spacing:2px;
+  font-weight:bold;
+  letter-spacing:8px;
+  margin-left:20px; /* ✅ match visual spacing */
 }
 
 .nav-links{
@@ -63,15 +66,27 @@ gap:30px;
 }
 
 .nav-links a{
-text-decoration:none;
-color:white;
-opacity:.8;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
 }
 
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
+.nav-links a:hover{
+  opacity:1;
+}
+
+.nav-book-btn{
+  background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
 }
 
 /* HERO CONTENT */
@@ -162,12 +177,10 @@ padding:100px 80px;
 }
 
 .houses-title{
-font-size:28px;
-letter-spacing:3px;
-margin-bottom:30px;
-font-weight:600;
-position:relative;
-padding-left:15px;
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+  font-weight: 600;
 }
 
 .houses-title:before{
@@ -219,14 +232,20 @@ font-size:18px;
 margin-bottom:4px;
 }
 
-/* SMALL CARDS */
 .house-list{
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.1);
-border-radius:16px;
-padding:40px;
-backdrop-filter:blur(8px);
-width:420px;
+  background: #eaf6ff; /* ✅ VERY LIGHT BLUE */
+
+  border-radius: 16px;
+  padding: 25px 20px;
+  width: 500px;
+
+  border: 1px solid rgba(0,0,255,0.1);
+
+  box-shadow: 
+    0 10px 30px rgba(0, 120, 255, 0.2),
+    0 0 15px rgba(0, 180, 255, 0.15);
+
+  color: #111;
 }
 
 .description{
@@ -254,13 +273,13 @@ transform:scale(1.03);
 /* TOC ITEM */
 
 .toc-item{
-display:flex;
-align-items:center;
-font-size:16px;
-margin-bottom:18px;
-color:#000;
-transition:all .25s ease;
-cursor:pointer;
+  display:flex;
+  align-items:center;
+  padding:8px 0;
+}
+
+.toc-item:first-child .toc-dots{
+  display:none;
 }
 
 /* hover effect */
@@ -280,9 +299,10 @@ font-weight:500;
 /* dotted line */
 
 .toc-dots{
-flex:1;
-border-bottom:1px dotted rgba(255,255,255,0.35);
-margin:0 12px;
+  flex:1;
+  height:0; /* remove thickness */
+  border-bottom:2px dotted #0a2a8a; /* ✅ dotted dark blue */
+  margin:0 12px;
 }
 
 /* page number */
@@ -340,7 +360,13 @@ background:rgba(0,0,0,0.85);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:999;
+z-index:2000;
+}
+
+.hide-navbar .navbar{
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* BOOK CONTAINER */
@@ -416,34 +442,6 @@ transform:rotateY(180deg);
 z-index:10;
 }
 
-
-/* NAV BUTTONS */
-.nav-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-background:#ffffff;
-border:3px solid black;
-font-size:18px;
-font-weight:bold;
-padding:12px 28px;
-cursor:pointer;
-border-radius:14px;
-letter-spacing:2px;
-display:flex;
-align-items:center;
-gap:10px;
-z-index:1000; /* add this */
-}
-
-.nav-btn.left{
-left:-140px;
-}
-
-.nav-btn.right{
-right:-140px;
-}
-
 /* CLOSE BUTTON */
 
 .close-book{
@@ -459,18 +457,15 @@ border-radius:5px;
 }
 /* MAGNIFY BUTTON */
 
-.magnify-btn{
-position:absolute;
-left:-250px;
-top:50%;
-transform:translateY(-50%);
-font-size:26px;
-background:white;
-border:none;
-padding:12px 16px;
-border-radius:10px;
-cursor:pointer;
-z-index:1000;
+.magnify-btn {
+  
+  background: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 2000;
 }
 
 
@@ -487,64 +482,6 @@ pointer-events:none;
 background-repeat:no-repeat;
 background-size:2000px 2000px;
 z-index:999;
-}
-
-/* BOOK DROPDOWN */
-
-.book-dropdown{
-position:relative;
-}
-
-.book-btn{
-border:1px solid white;
-padding:6px 18px;
-border-radius:20px;
-background:transparent;
-color:white;
-cursor:pointer;
-}
-
-/* Dropdown menu */
-
-.dropdown-content a{
-display:block;
-padding:10px 15px;
-text-decoration:none;
-color:white;
-font-size:14px;
-}
-
-.dropdown-content a:hover{
-background:rgba(255,255,255,0.15);
-}
-
-/* Show dropdown */
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: rgba(0,0,0,0.9);
-  border-radius: 8px;
-  min-width: 150px;
-  overflow: hidden;
-  z-index: 10; /* ensure it’s on top */
-}
-
-/* FOOTER */
-
-.footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:30px 80px;
-background:black;
-}
-
-.footer-links{
-display:flex;
-gap:25px;
 }
 
 /* FOOTER SECTION */
@@ -575,7 +512,8 @@ z-index:5;
 
 .footer-logo{
 font-weight:bold;
-letter-spacing:2px;
+letter-spacing:8px;
+margin-left:20px; /* adjust this value */
 }
 
 .footer-links{
@@ -584,13 +522,158 @@ gap:30px;
 }
 
 .footer-links a{
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+  opacity:.8;
+  font-size:18px;
+  padding:8px 12px; /* 👈 adds space around text */
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+  opacity:1;
+}
+
+.navbar,
+.footer-content {
+  padding: 0 80px;
+}
+
+
+/* BOOK DROPDOWN */
+
+.book-dropdown{
+position:relative;
+}
+
+.nav-book-btn{
+   background:white;
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+    margin-right:20px;
+
+}
+
+.book-dropdown button:focus{
+  outline:none;
+}
+
+/* Dropdown menu */
+
+.dropdown-content{
+display:none;
+position:absolute;
+top:35px;
+right:0;
+background:rgba(0,0,0,0.9);
+border-radius:8px;
+min-width:150px;
+overflow:hidden;
+}
+
+.dropdown-content a{
+display:block;
+padding:10px 15px;
 text-decoration:none;
 color:white;
-opacity:.8;
+font-size:14px;
+}
+
+.dropdown-content a:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* Show dropdown */
+
+.dropdown-content{
+  display: none;
+  position: absolute;
+  top: 100%;         /* always below button */
+  margin-top: 10px;  /* space between button & dropdown */
+  right: 0;
+  background: rgba(0,0,0,0.9);
+  border-radius: 8px;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 10;
 }
 .footer .dropdown-content{
-top:auto;
-bottom:35px; /* opens upward */
+  top: auto;            /* remove downward behavior */
+  bottom: 100%;         /* 👈 attach to top of button */
+  margin-bottom: 10px;  /* 👈 spacing from button */
+}
+.footer .nav-book-btn{
+  margin-right:20px;
+}
+
+.nav-btn {
+  background: white;
+  border: none;
+  padding: 12px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: #ddd;
+}
+
+/* ================= CLEAN BOOK CONTROLS ================= */
+
+.nav-btn,
+.magnify-btn {
+  position: fixed;
+  bottom: 15px;
+
+  background: white;
+  border: none;
+
+  padding: 8px 12px;        /* 🔥 smaller */
+  font-size: 12px;          /* 🔥 smaller text */
+  border-radius: 6px;       /* 🔥 tighter */
+
+  cursor: pointer;
+  z-index: 3000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 70px;          /* 🔥 prevents long buttons */
+  height: 36px;             /* 🔥 consistent height */
+}
+
+/* LEFT (PREV) */
+.nav-btn.left {
+  left: 15px;
+}
+
+/* RIGHT (NEXT) */
+.nav-btn.right {
+  right: 15px;
+}
+
+/* CENTER (MAGNIFY) */
+.magnify-btn {
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: auto;          /* 🔥 no stretching */
+  width: 42px;              /* 🔥 square button */
+  height: 36px;
+  font-size: 16px;
+}
+
+/* HOVER */
+.nav-btn:hover,
+.magnify-btn:hover {
+  background: #ddd;
 }
 
 /* ---------------- RESPONSIVE FIX ---------------- */
@@ -653,36 +736,139 @@ width:90vw;
 height:90vw;
 }
 
-.nav-btn.left{
-left:-60px;
-}
+  .nav-btn.left {
+    left: 20px;
+  }
 
-.nav-btn.right{
-right:-60px;
-}
-
-.magnify-btn{
-left:-80px;
-}
+  .nav-btn.right {
+    right: 20px;
+  }
 
 }
 /* ========================= */
 /* 📱 FINAL RESPONSIVE FIX (INFOG) */
 /* ========================= */
 
-@media (max-width: 1000px){
+/* ========================= */
+/* ✅ NAV + FOOTER (MATCH INFOG) */
+/* ========================= */
 
-/* NAVBAR KEEP HORIZONTAL */
-.navbar{
-padding:0 20px;
+@media (max-width: 900px) {
+
+  /* NAVBAR */
+  .navbar {
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+	margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+  /* dropdown centered */
+  .dropdown-content {
+    right: 0;
+    transform: translateX(-10px);
+  }
+
+  /* FOOTER */
+   .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    font-size: 14px;
+    white-space: nowrap; /* 🔥 prevent breaking */
+    flex-shrink: 0;
+	margin-right: 10px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 5px 6px;
+    white-space: nowrap; /* 🔥 FIX TEXT BREAK */
+  }
+
+  .book-dropdown {
+    flex-shrink: 0; /* 🔥 prevent squish */
+  }
+
+  .nav-book-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+	flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* DROPDOWN FULL WIDTH STYLE */
+  .dropdown-content {
+    min-width: 120px;
+    font-size: 13px;
+  }
+  
+ }
+/* ================= DESKTOP BOOK CONTROLS ================= */
+@media (min-width: 901px){
+
+  .book-wrapper {
+    position: relative;
+  }
+
+  /* PREV (left of book) */
+  .nav-btn.left {
+    position: absolute;
+    left: -80px;              /* 👈 beside book */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* MAGNIFY (left of PREV) */
+  .magnify-btn {
+    position: absolute;
+    left: -140px;             /* 👈 further left */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* NEXT (right of book) */
+  .nav-btn.right {
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
 }
-
-.nav-links{
-gap:15px;
-font-size:14px;
-}
-
-/* REMOVE ABSOLUTE CARD OVERFLOW */
+@media (max-width: 900px) {
 .card-row{
 position:static;
 margin-top:20px;
@@ -734,19 +920,7 @@ height:70vw;
 }
 
 /* BUTTONS MOVE INSIDE */
-.nav-btn.left{
-left:10px;
-}
 
-.nav-btn.right{
-right:10px;
-}
-
-.magnify-btn{
-left:10px;
-top:10px;
-transform:none;
-}
 
 /* LENS SMALLER */
 .magnifier-lens{
@@ -806,12 +980,6 @@ right:15px;
 font-size:16px;
 }
 
-/* MAGNIFY BUTTON */
-.magnify-btn{
-font-size:18px;
-padding:8px 10px;
-}
-
 /* LENS SMALL */
 .magnifier-lens{
 width:120px;
@@ -820,36 +988,34 @@ height:120px;
 
 }
 
-@media (max-width:600px){
+@media (max-width: 600px){
 
-.nav-btn{
-position:fixed;
-bottom:20px;
-top:auto;
-transform:none;
-}
+  .nav-btn,
+  .magnify-btn {
+    position: fixed;
 
-.nav-btn.left{
-left:15px;
-}
+    bottom: 15px;              /* ✅ SAME LINE */
+    top: auto;
+    transform: none;
 
-.nav-btn.right{
-right:15px;
-}
+    height: 36px;              /* ✅ SAME SIZE */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-/* make tap easier */
-.nav-btn{
-padding:10px 16px;
-font-size:13px;
-}
+  .nav-btn.left {
+    left: 15px;
+  }
 
-/* magnify top corner */
-.magnify-btn{
-left:15px;
-top:15px;
-transform:none;
-}
+  .nav-btn.right {
+    right: 15px;
+  }
 
+  .magnify-btn {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 </style>
 </head>
@@ -876,7 +1042,7 @@ transform:none;
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+  <button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
@@ -901,7 +1067,6 @@ TABLE OF CONTENTS
 
 <div class="toc-item" data-page="0">
 <span class="toc-text">Title Page</span>
-<span class="toc-dots"></span>
 <span class="toc-page"></span>
 </div>
 
@@ -952,8 +1117,7 @@ TABLE OF CONTENTS
 <!-- IMAGE CARD (OUTSIDE house-list) -->
 <div class="house-feature" id="openBook">
 <div class="house-feature-info">
-<h3>Forest house</h3>
-<p>Japan</p>
+<h3>Infographic</h3>
 </div>
 </div>
 
@@ -979,7 +1143,7 @@ TABLE OF CONTENTS
 </div>
 
 <div class="book-dropdown">
-  <button class="book-btn">Book</button>
+  <button class="nav-book-btn">Book</button>
   <div class="dropdown-content">
     <a href="lessons.html">Lesson</a>
     <a href="infog.html">Infographics</a>
@@ -996,11 +1160,9 @@ TABLE OF CONTENTS
 
   <div class="book-wrapper">
 
+<button class="nav-btn left" id="prevPage">← PREV</button>
 <button class="magnify-btn" id="magnifyBtn">🔍</button>
-
-<button class="nav-btn left" id="prevPage">
-← PREV
-</button>
+<button class="nav-btn right" id="nextPage">NEXT →</button>
 
     <div class="book-spread">
 
@@ -1019,16 +1181,14 @@ TABLE OF CONTENTS
 
 </div>
 
-    <button class="nav-btn right" id="nextPage">
-NEXT →
-</button>
-
   </div>
 
 </div>
 <script>
 
-const bookButtons = document.querySelectorAll('.book-btn');
+/* ================= DROPDOWN ================= */
+
+const bookButtons = document.querySelectorAll('.nav-book-btn');
 
 bookButtons.forEach(button => {
 
@@ -1037,20 +1197,33 @@ bookButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // close all other dropdowns first
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      if(menu !== dropdown){
+        menu.style.display = 'none';
+      }
+    });
+
+    // toggle current
     dropdown.style.display =
       dropdown.style.display === 'block' ? 'none' : 'block';
   });
 
 });
 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    menu.style.display = 'none';
-  });
+/* CLOSE ONLY WHEN CLICK OUTSIDE */
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.book-dropdown')){
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+
 });
 
 
-/* BOOK POPUP */
+/* ================= BOOK ================= */
 
 const openBook = document.getElementById("openBook");
 const popup = document.getElementById("bookPopup");
@@ -1067,6 +1240,11 @@ const rightPage = document.getElementById("rightPage");
 const next = document.getElementById("nextPage");
 const prev = document.getElementById("prevPage");
 
+const bookSpread = document.querySelector(".book-spread"); // ✅ FIX
+const lens = document.getElementById("lens"); // ✅ FIX
+
+let zoomActive = false; // ✅ FIX
+
 const pages = [
 "infog/1.png",
 "infog/2.png",
@@ -1081,226 +1259,184 @@ const pages = [
 let current = 0;
 
 
-/* OPEN BOOK */
+/* OPEN */
 
 openBook.addEventListener("click", function(e){
-e.preventDefault();
-popup.style.display = "flex";
-showPages();
+  e.preventDefault();
+  popup.style.display = "flex";
+
+  document.body.classList.add("hide-navbar"); // ✅ hide navbar
+
+  showPages();
 });
 
-
-/* CLOSE BOOK */
+/* CLOSE */
 
 closeBook.addEventListener("click", ()=>{
-popup.style.display = "none";
+  popup.style.display = "none";
+  document.body.classList.remove("hide-navbar"); // 🔥 important
 });
 
-
-/* SHOW TWO PAGES */
+/* SHOW PAGES */
 
 function showPages(){
 
-leftFront.src = pages[current];
-rightFront.src = pages[current+1] || "";
+  leftFront.src = pages[current];
+  rightFront.src = pages[current+1] || "";
 
-leftBack.src = pages[current-1] || "";
-rightBack.src = pages[current+2] || "";
+  leftBack.src = pages[current-1] || "";
+  rightBack.src = pages[current+2] || "";
 
-/* HIDE / SHOW NEXT BUTTON */
-if(current + 2 >= pages.length){
-next.style.display = "none";
-}else{
-next.style.display = "block";
+  next.style.display = (current + 2 >= pages.length) ? "none" : "block";
+  prev.style.display = (current === 0) ? "none" : "block";
 }
 
-/* HIDE / SHOW PREV BUTTON */
-if(current === 0){
-prev.style.display = "none";
-}else{
-prev.style.display = "block";
-}
 
-}
-
+/* NEXT */
 
 next.addEventListener("click", ()=>{
 
-if(current + 2 >= pages.length) return; // stop if no more pages
+  if(current + 2 >= pages.length) return;
 
-rightPage.classList.add("flip");
+  rightPage.classList.add("flip");
 
-setTimeout(()=>{
+  setTimeout(()=>{
 
-rightPage.style.transition = "none";
-current += 2;
-rightPage.classList.remove("flip");
-showPages();
+    rightPage.style.transition = "none";
+    current += 2;
+    rightPage.classList.remove("flip");
+    showPages();
 
-rightPage.offsetHeight;
+    rightPage.offsetHeight;
 
-rightPage.style.transition = "transform 1s ease";
+    rightPage.style.transition = "transform 1s ease";
 
-},1000);
-
+  },1000);
 });
 
-/* PREVIOUS */
+
+/* PREV */
 
 prev.addEventListener("click", ()=>{
 
-if(current - 2 >= 0){
+  if(current - 2 >= 0){
 
-showPages();
+    leftPage.classList.add("flip-back");
 
-leftPage.classList.add("flip-back");
+    setTimeout(()=>{
 
-setTimeout(()=>{
+      leftPage.style.transition = "none";
+      current -= 2;
+      leftPage.classList.remove("flip-back");
+      showPages();
 
-leftPage.style.transition = "none";
-current -= 2;
-leftPage.classList.remove("flip-back");
-showPages();
+      leftPage.offsetHeight;
 
-leftPage.offsetHeight;
+      leftPage.style.transition = "transform 1s ease";
 
-leftPage.style.transition = "transform 1s ease";
+    },1000);
 
-},1000);
-
-}
+  }
 
 });
 
-/* MAGNIFY SYSTEM */
+
+/* ================= MAGNIFIER ================= */
+
+const magnifyBtn = document.getElementById("magnifyBtn");
+
+magnifyBtn.addEventListener("click", ()=>{
+  zoomActive = !zoomActive;
+  lens.style.display = zoomActive ? "block" : "none";
+});
+
 
 function updateLens(clientX, clientY){
 
-if(!zoomActive) return;
+  if(!zoomActive) return;
 
-const rect = bookSpread.getBoundingClientRect();
+  const rect = bookSpread.getBoundingClientRect();
 
-let x = clientX - rect.left;
-let y = clientY - rect.top;
+  let x = clientX - rect.left;
+  let y = clientY - rect.top;
 
-lens.style.left = (x - lens.offsetWidth/2) + "px";
-lens.style.top = (y - lens.offsetHeight/2) + "px";
+  lens.style.left = (x - lens.offsetWidth/2) + "px";
+  lens.style.top = (y - lens.offsetHeight/2) + "px";
 
-let targetImg = null;
+  let targetImg = null;
 
-const images = [
-leftFront,
-rightFront
-];
+  [leftFront, rightFront].forEach(img=>{
+    const r = img.getBoundingClientRect();
+    if(clientX >= r.left && clientX <= r.right &&
+       clientY >= r.top && clientY <= r.bottom){
+      targetImg = img;
+    }
+  });
 
-images.forEach(img=>{
-const r = img.getBoundingClientRect();
-if(clientX >= r.left && clientX <= r.right &&
-   clientY >= r.top && clientY <= r.bottom){
-targetImg = img;
+  if(targetImg){
+
+    lens.style.backgroundImage = `url(${targetImg.src})`;
+
+    let imgRect = targetImg.getBoundingClientRect();
+
+    let posX = ((clientX - imgRect.left) / imgRect.width) * 100;
+    let posY = ((clientY - imgRect.top) / imgRect.height) * 100;
+
+    lens.style.backgroundPosition = posX + "% " + posY + "%";
+  }
 }
-});
 
-if(targetImg){
-
-lens.style.backgroundImage = `url(${targetImg.src})`;
-
-let imgRect = targetImg.getBoundingClientRect();
-
-let posX = ((clientX - imgRect.left) / imgRect.width) * 100;
-let posY = ((clientY - imgRect.top) / imgRect.height) * 100;
-
-lens.style.backgroundPosition = posX + "% " + posY + "%";
-
-}
-}
 
 /* DESKTOP */
 bookSpread.addEventListener("mousemove", e=>{
-updateLens(e.clientX, e.clientY);
+  updateLens(e.clientX, e.clientY);
 });
 
-/* MOBILE 🔥 */
+/* MOBILE */
 bookSpread.addEventListener("touchmove", e=>{
-const touch = e.touches[0];
-updateLens(touch.clientX, touch.clientY);
+  const touch = e.touches[0];
+  updateLens(touch.clientX, touch.clientY);
 });
 
-let targetImg = null;
 
-const images = [
-document.getElementById("leftFront"),
-document.getElementById("rightFront")
-];
-
-images.forEach(img=>{
-const r = img.getBoundingClientRect();
-if(e.clientX >= r.left && e.clientX <= r.right &&
-   e.clientY >= r.top && e.clientY <= r.bottom){
-targetImg = img;
-}
-});
-
-if(targetImg){
-
-lens.style.backgroundImage = `url(${targetImg.src})`;
-
-let imgRect = targetImg.getBoundingClientRect();
-
-let posX = ((e.clientX - imgRect.left) / imgRect.width) * 100;
-let posY = ((e.clientY - imgRect.top) / imgRect.height) * 100;
-
-lens.style.backgroundPosition = posX + "% " + posY + "%";
-
-}
-
-});
-
-/* TOC CLICK -> OPEN BOOK PAGE */
+/* ================= TOC ================= */
 
 const tocItems = document.querySelectorAll(".toc-item");
 
 tocItems.forEach(item => {
 
-item.addEventListener("click", () => {
+  item.addEventListener("click", () => {
 
-const pageIndex = parseInt(item.dataset.page);
+    let pageIndex = parseInt(item.dataset.page);
 
-popup.style.display = "flex";
+    popup.style.display = "flex";
 
-/* make sure it starts on the correct spread */
-current = pageIndex;
+    // ✅ FIX: align correctly without breaking your numbering
+    current = pageIndex - (pageIndex % 2);
 
-/* adjust so pages open in pairs */
-if(current % 2 !== 0){
-current = current - 1;
-}
+    showPages();
 
-showPages();
+  });
 
 });
 
-});
+
+/* ================= SWIPE ================= */
+
 let startX = 0;
 
 bookSpread.addEventListener("touchstart", (e)=>{
-startX = e.touches[0].clientX;
+  startX = e.touches[0].clientX;
 });
 
 bookSpread.addEventListener("touchend", (e)=>{
-let endX = e.changedTouches[0].clientX;
-let diff = startX - endX;
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
 
-/* swipe left → next */
-if(diff > 50){
-next.click();
-}
-
-/* swipe right → prev */
-if(diff < -50){
-prev.click();
-}
+  if(diff > 50) next.click();
+  if(diff < -50) prev.click();
 });
+
 </script>
 </body>
 </html>
